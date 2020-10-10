@@ -71,16 +71,16 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                     <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?>
                         
                         <?php } else { ?>
-                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#holysmodel" data-whatever="@getbootstrap" class="text-white"><i class="" aria-hidden="true"></i> Add Holiyday </a></button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>leave/Application" class="text-white"><i class="" aria-hidden="true"></i>  Leave Application</a></button>
+                        <!-- <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>leave/Application" class="text-white"><i class="" aria-hidden="true"></i>  Leave Application</a></button> -->
                         <?php } ?>
                     </div>
                 </div>  
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-outline-info">
-                            <div class="card-header">
+                            <div class="card-header d-flex">
                                 <h4 class="m-b-0 text-white"> Holidays List  </h4>
+								<a data-toggle="modal" data-target="#holysmodel" data-whatever="@getbootstrap" class="text-white btn btn-success btn-sm ml-auto"><i class="fa fa-plus" aria-hidden="true"></i> Add Holiday </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -95,16 +95,6 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Start Date </th>
-                                                <th>End Date </th>
-                                                <th>Number of days</th>
-                                                <th>Year</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                            <?php foreach($holidays as $value): ?>
                                             <tr>
@@ -115,7 +105,7 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                                 <td><?php echo $value->year; ?></td>
                                                 <td class="jsgrid-align-center ">
                                                     <a href="" title="Edit" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-info waves-effect waves-light holiday" data-id="<?php echo $value->id; ?>"><i class="fa fa-pencil-square-o"></i></a>
-                                                    <a onclick="confirm('Are you sure want to delet this Value?')" href="#" title="Delete" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-info waves-effect waves-light holidelet" data-id="<?php echo $value->id; ?>"><i class="fa fa-trash-o"></i></a>
+                                                    <a onclick="confirm('Are you sure want to delet this Value?')" href="#" title="Delete" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-danger waves-effect waves-light holidelet" data-id="<?php echo $value->id; ?>"><i class="fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -161,7 +151,7 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                     <div class="modal-footer">
                                     <input type="hidden" name="id" value="" class="form-control" id="recipient-name1">                                       
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-info">Submit</button>
                                     </div>
                                     </form>
                                 </div>

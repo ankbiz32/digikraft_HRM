@@ -43,6 +43,12 @@ date_default_timezone_set('Asia/Kolkata');
 			padding-left:15px !important;
 			padding-right:10px !important;
 		}
+		label.error, span.req{
+			color:#ff7a7a;
+		}
+		.dtBox .dtpicker-button{
+			color:white !important;
+		}
 	</style>
 </head>
 

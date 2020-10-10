@@ -30,31 +30,21 @@
                                         <thead>
                                             <tr>
                                                 <th>Employee Name</th>
-                                                <th>PIN</th>
+                                                <th>Emp. code</th>
                                                 <th>Email </th>
                                                 <th>Contact </th>
                                                 <th>User Type</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                               <tr>
-                                                <th>Employee Name</th>
-                                                <th>PIN</th>
-                                                <th>Email </th>
-                                                <th>Contact </th>
-                                                <th>User Type</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                            <?php foreach($employee as $value): ?>
                                             <tr>
                                                 <td title="<?php echo $value->first_name .' '.$value->last_name; ?>"><?php echo $value->first_name .' '.$value->last_name; ?></td>
-                                                                                <td><?php echo $value->em_code; ?></td>
+                                                <td><?php echo $value->em_code; ?></td>
                                                 <td><?php echo $value->em_email; ?></td>
                                                 <td><?php echo $value->em_phone; ?></td>
-                                                <td><?php echo $value->em_role; ?></td>
+                                                <td><span class="<?= $value->em_role=='ADMIN'?'text-primary':'' ?>"><?php echo $value->em_role; ?></span></td>
                                                 <td class="jsgrid-align-center ">
                                                     <a href="<?php echo base_url(); ?>employee/view?I=<?php echo base64_encode($value->em_id); ?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
                                                 </td>

@@ -67,7 +67,7 @@
     <script src="<?php echo base_url(); ?>assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>                        
     <!-- Date range Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>     
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>  
     <!-- end - This is for export functionality only -->
     <script src="<?php echo base_url(); ?>assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
@@ -211,7 +211,7 @@ $('form').each(function() {
                 console.log(response);            
                 $(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
                 $('form').trigger("reset");
-                window.setTimeout(function(){location.reload()},3000);
+                window.setTimeout(function(){location.reload()},1500);
             },
             error: function (e) {
                 console.log(e);

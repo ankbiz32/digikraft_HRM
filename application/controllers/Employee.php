@@ -38,157 +38,140 @@ class Employee extends CI_Controller {
           $data= array();
         redirect('employee/Employees');
 	}
+
+
     public function Employees(){
         if($this->session->userdata('user_login_access') != False) { 
-        $data['employee'] = $this->employee_model->emselect();
-        $this->load->view('backend/employees',$data);
+			$data['employee'] = $this->employee_model->emselect();
+			$this->load->view('backend/employees',$data);
         }
-    else{
-		redirect(base_url() , 'refresh');
-	}        
-    }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+	
+
     public function Add_employee(){
         if($this->session->userdata('user_login_access') != False) { 
         $this->load->view('backend/add-employee');
         }
-    else{
-		redirect(base_url() , 'refresh');
-	}            
-    }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+	
 	public function Save(){ 
-    if($this->session->userdata('user_login_access') != False) {     
-    $eid = $this->input->post('eid');    
-    $id = $this->input->post('emid');    
-	$fname = $this->input->post('fname');
-	$lname = $this->input->post('lname');
-    $emrand = substr($lname,0,3).rand(1000,2000);    
-	$dept = $this->input->post('dept');
-	$deg = $this->input->post('deg');
-	$role = $this->input->post('role');
-	$gender = $this->input->post('gender');
-	$contact = $this->input->post('contact');
-	$dob = $this->input->post('dob');	
-	$joindate = $this->input->post('joindate');	
-	$leavedate = $this->input->post('leavedate');	
-	$username = $this->input->post('username');	
-	$email = $this->input->post('email');	
-	$password = sha1($contact);	
-	$confirm = $this->input->post('confirm');	
-	$nid = $this->input->post('nid');		
-	$blood = $this->input->post('blood');		
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters();
-        // Validating Name Field
-        $this->form_validation->set_rules('contact', 'contact', 'trim|required|min_length[10]|max_length[15]|xss_clean');
-        /*validating email field*/
-        $this->form_validation->set_rules('email', 'Email','trim|required|min_length[7]|max_length[100]|xss_clean');
+		if($this->session->userdata('user_login_access') != False) {
+			$fname = $this->input->post('fname');
+			$lname = $this->input->post('lname');
+			$gender = $this->input->post('gender');
+			$blood = $this->input->post('blood');	
+			$contact = $this->input->post('contact');
+			$email = $this->input->post('email');
+			$dob = $this->input->post('dob');
+			
+			$eid = $this->input->post('eid');    
+			$dept = $this->input->post('dept');
+			$deg = $this->input->post('deg');
+			$role = $this->input->post('role');
+			$joindate = $this->input->post('joindate');	
+			$leavedate = $this->input->post('leavedate');
+			$emrand = substr($lname,0,3).rand(1000,2000);    
 
-        if ($this->form_validation->run() == FALSE) {
-            echo validation_errors();
-			} else {
-            if($this->employee_model->Does_email_exists($email) && $password != $confirm){
-                $this->session->set_flashdata('formdata','Email is already Exist or Check your password');
-                echo "Email is already Exist or Check your password";
-            } else {
-            if($_FILES['image_url']['name']){
-            $file_name = $_FILES['image_url']['name'];
-			$fileSize = $_FILES["image_url"]["size"]/1024;
-			$fileType = $_FILES["image_url"]["type"];
-			$new_file_name='';
-            $new_file_name .= $emrand;
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters();
+			$this->form_validation->set_rules('contact', 'contact', 'trim|required|min_length[10]|max_length[15]|xss_clean');
+			$this->form_validation->set_rules('email', 'Email','trim|required|min_length[7]|max_length[100]|xss_clean');
 
-            $config = array(
-                'file_name' => $new_file_name,
-                'upload_path' => "./assets/images/users",
-                'allowed_types' => "gif|jpg|png|jpeg",
-                'overwrite' => False,
-                'max_size' => "20240000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-                'max_height' => "800",
-                'max_width' => "800"
-            );
-    
-            $this->load->library('Upload', $config);
-            $this->upload->initialize($config);                
-            if (!$this->upload->do_upload('image_url')) {
-                echo $this->upload->display_errors();
+			if ($this->form_validation->run() == FALSE) {
+				echo validation_errors();
 			}
-   
-			else {
-                $path = $this->upload->data();
-                $img_url = $path['file_name'];
-                $data = array();
-                $data = array(
-                    'em_id' => $emrand,
-                    'em_code' => $eid,
-                    'des_id' => $deg,
-                    'dep_id' => $dept,
-                    'first_name' => $fname,
-                    'last_name' => $lname,
-					'em_email' => $email,
-					'em_password'=>$password,
-					'em_role'=>$role,
-					'em_gender'=>$gender,
-                    'status'=>'ACTIVE',
-                    'em_phone'=>$contact,
-                    'em_birthday'=>$dob,
-                    'em_joining_date'=>$joindate,
-                    'em_contact_end'=>$leavedate,
-                    'em_image'=>$img_url,
-                    'em_nid'=>$nid,
-                    'em_blood_group'=> $blood
-                );
-                if($id){
-            $success = $this->employee_model->Update($data,$id); 
-            #$this->session->set_flashdata('feedback','Successfully Updated');
-            echo "Successfully Updated";
-                } else {
-            $success = $this->employee_model->Add($data);
-            #$this->confirm_mail_send($email,$pass_hash);        
-            #$this->session->set_flashdata('feedback','Successfully Created');
-            echo "Successfully Added";                     
-                }
+			else{
+				if($this->employee_model->Does_email_exists($email)){
+					$this->session->set_flashdata('formdata','Email is already Exist or Check your password');
+					echo "Email already exists";
+				}
+				else {
+					if($_FILES['image_url']['name']){
+						$file_name = $_FILES['image_url']['name'];
+						$fileSize = $_FILES["image_url"]["size"]/1024;
+						$fileType = $_FILES["image_url"]["type"];
+						$new_file_name='';
+						$new_file_name .= $emrand;
+
+						$config = array(
+							'file_name' => $new_file_name,
+							'upload_path' => "./assets/images/users",
+							'allowed_types' => "gif|jpg|png|jpeg",
+							'overwrite' => False,
+							'max_size' => "20240000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+						);
+			
+						$this->load->library('Upload', $config);
+						$this->upload->initialize($config);                
+						if (!$this->upload->do_upload('image_url')) {
+							echo $this->upload->display_errors();
+						}
+						else {
+							$path = $this->upload->data();
+							$img_url = $path['file_name'];
+							$data = array();
+							$data = array(
+								'first_name' => $fname,
+								'last_name' => $lname,
+								'em_gender'=>$gender,
+								'em_blood_group'=> $blood,
+								'em_phone'=>$contact,
+								'em_email' => $email,
+								'em_birthday'=>$dob,
+								'em_image'=>$img_url,
+								'em_code' => $eid,
+								'des_id' => $deg,
+								'dep_id' => $dept,
+								'em_role'=>$role,
+								'em_joining_date'=>$joindate,
+								'em_contact_end'=>$leavedate,
+								'em_id' => $emrand,
+								'status'=>'ACTIVE',
+							);
+							$success = $this->employee_model->Add($data);
+							#$this->confirm_mail_send($email,$pass_hash);        
+							#$this->session->set_flashdata('feedback','Successfully Created');
+							echo "Employee Added";
+						}
+					}
+					else {
+						$data = array();
+						$data = array(
+							'first_name' => $fname,
+							'last_name' => $lname,
+							'em_phone'=>$contact,
+							'em_birthday'=>$dob,
+							'em_blood_group'=> $blood,
+							'em_email' => $email,
+							'em_gender'=>$gender,
+							'em_code' => $eid,
+							'des_id' => $deg,
+							'dep_id' => $dept,
+							'em_role'=>$role,
+							'em_joining_date'=>$joindate,
+							'em_contact_end'=>$leavedate,
+							'em_id' => $emrand,
+							'status'=>'ACTIVE',
+						);
+						$success = $this->employee_model->Add($data);
+						#$this->confirm_mail_send($email,$pass_hash);        
+						echo "Employee Added";
+						#redirect('employee/Add_employee'); 
+					}
+				}
 			}
-        } else {
-                $data = array();
-                $data = array(
-                    'em_id' => $emrand,
-                    'em_code' => $eid,
-                    'des_id' => $deg,
-                    'dep_id' => $dept,
-                    'first_name' => $fname,
-                    'last_name' => $lname,
-					'em_email' => $email,
-					'em_password'=>$password,
-					'em_role'=>$role,
-					'em_gender'=>$gender,
-                    'status'=>'ACTIVE',
-                    'em_phone'=>$contact,
-                    'em_birthday'=>$dob,
-                    'em_joining_date'=>$joindate,
-                    'em_contact_end'=>$leavedate,
-                    'em_address'=>$address,
-                    'em_nid'=>$nid,
-                    'em_blood_group'=> $blood
-                );
-                if($id){
-            $success = $this->employee_model->Update($data,$id); 
-            #$this->session->set_flashdata('feedback','Successfully Updated');
-            echo "Successfully Updated";        
-            #redirect('employee/Add_employee'); 
-                } else {
-            $success = $this->employee_model->Add($data);
-            #$this->confirm_mail_send($email,$pass_hash);        
-            echo "Successfully Added";
-            #redirect('employee/Add_employee');                     
-                }
-            }
-            }
-        }
-        }
-    else{
-		redirect(base_url() , 'refresh');
-	       }        
 		}
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+
 	public function Update(){
     if($this->session->userdata('user_login_access') != False) {    
     $eid = $this->input->post('eid');    
@@ -312,28 +295,31 @@ class Employee extends CI_Controller {
 		redirect(base_url() , 'refresh');
 	       }        
 		}
+
     public function view(){
-        if($this->session->userdata('user_login_access') != False) {
-        $id = base64_decode($this->input->get('I'));
-        $data['basic'] = $this->employee_model->GetBasic($id);
-        $data['permanent'] = $this->employee_model->GetperAddress($id);
-        $data['present'] = $this->employee_model->GetpreAddress($id);
-        $data['education'] = $this->employee_model->GetEducation($id);
-        $data['experience'] = $this->employee_model->GetExperience($id);
-        $data['bankinfo'] = $this->employee_model->GetBankInfo($id);
-        $data['fileinfo'] = $this->employee_model->GetFileInfo($id);
-        $data['typevalue'] = $this->payroll_model->GetsalaryType();
-        $data['leavetypes'] = $this->leave_model->GetleavetypeInfo();    
-        $data['salaryvalue'] = $this->employee_model->GetsalaryValue($id);
-        $data['socialmedia'] = $this->employee_model->GetSocialValue($id);
-            $year = date('Y');
-        $data['Leaveinfo'] = $this->employee_model->GetLeaveiNfo($id,$year);
-        $this->load->view('backend/employee_view',$data);
-        }
-    else{
-		redirect(base_url() , 'refresh');
-	}         
-    }
+		if($this->session->userdata('user_login_access') != False) {
+			$id = base64_decode($this->input->get('I'));
+			$data['basic'] = $this->employee_model->GetBasic($id);
+			$data['permanent'] = $this->employee_model->GetperAddress($id);
+			$data['present'] = $this->employee_model->GetpreAddress($id);
+			$data['education'] = $this->employee_model->GetEducation($id);
+			$data['experience'] = $this->employee_model->GetExperience($id);
+			$data['bankinfo'] = $this->employee_model->GetBankInfo($id);
+			$data['fileinfo'] = $this->employee_model->GetFileInfo($id);
+			$data['typevalue'] = $this->payroll_model->GetsalaryType();
+			$data['leavetypes'] = $this->leave_model->GetleavetypeInfo();    
+			$data['salaryvalue'] = $this->employee_model->GetsalaryValue($id);
+			$data['socialmedia'] = $this->employee_model->GetSocialValue($id);
+			$year = date('Y');
+			$data['Leaveinfo'] = $this->employee_model->GetLeaveiNfo($id,$year);
+			$this->load->view('backend/employee_view',$data);
+		}
+		else{
+			redirect(base_url() , 'refresh');
+		}         
+	}
+	
+
     public function Parmanent_Address(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -372,7 +358,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}             
-    }
+	}
+	
     public function Present_Address(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -411,7 +398,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Add_Education(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -452,44 +440,49 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}            
-    }
+	}
+	
     public function Save_Social(){
         if($this->session->userdata('user_login_access') != False) {
-        $id = $this->input->post('id');
-        $em_id = $this->input->post('emid');
-        $facebook = $this->input->post('facebook');
-        $twitter = $this->input->post('twitter');
-        $google = $this->input->post('google');
-        $skype = $this->input->post('skype');
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters();
-        $this->form_validation->set_rules('facebook', 'company_name', 'trim|xss_clean');
+			$id = $this->input->post('id');
+			$em_id = $this->input->post('emid');
+			$facebook = $this->input->post('facebook');
+			$instagram = $this->input->post('instagram');
+			$linkedin = $this->input->post('linkedin');
+			$skype = $this->input->post('skype');
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters();
+			$this->form_validation->set_rules('facebook', 'company_name', 'trim|xss_clean');
 
-        if ($this->form_validation->run() == FALSE) {
-            echo validation_errors();
-			} else {
-            $data = array();
-                $data = array(
-                    'emp_id' => $em_id,
-                    'facebook' => $facebook,
-                    'twitter' => $twitter,
-                    'google_plus' => $google,
-                    'skype_id' => $skype
-                );
-            if(empty($id)){
-                $success = $this->employee_model->Insert_Media($data);
-                echo "Successfully Added";
-            } else {
-                $success = $this->employee_model->Update_Media($id,$data);
-                echo "Successfully Updated";
-            }
-                       
-        }
-        }
-    else{
-		redirect(base_url() , 'refresh');
-	}        
-    }
+			if ($this->form_validation->run() == FALSE) {
+				echo validation_errors();
+			}
+			else
+			{
+				$data = array();
+				$data = array(
+					'emp_id' => $em_id,
+					'facebook' => $facebook,
+					'instagram' => $instagram,
+					'linkedin' => $linkedin,
+					'skype_id' => $skype
+				);
+				if(empty($id)){
+					$success = $this->employee_model->Insert_Media($data);
+					echo "Successfully Added";
+				} 
+				else {
+					$success = $this->employee_model->Update_Media($id,$data);
+					echo "Successfully Updated";
+				}
+			}
+			}
+			
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+	
     public function Add_Experience(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -530,7 +523,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Disciplinary(){
         if($this->session->userdata('user_login_access') != False) {
         $data['desciplinary'] = $this->employee_model->desciplinaryfetch();
@@ -539,7 +533,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}            
-    }
+	}
+	
     public function add_Desciplinary(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -580,7 +575,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Add_bank_info(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -589,7 +585,7 @@ class Employee extends CI_Controller {
         $bank = $this->input->post('bank_name');
         $branch = $this->input->post('branch_name');
         $number = $this->input->post('account_number');
-        $account = $this->input->post('account_type');
+        $account = $this->input->post('ifsc');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters();
         $this->form_validation->set_rules('holder_name', 'holder name', 'trim|required|min_length[5]|max_length[120]|xss_clean');
@@ -607,7 +603,7 @@ class Employee extends CI_Controller {
                     'bank_name' => $bank,
                     'branch_name' => $branch,
                     'account_number' => $number,
-                    'account_type' => $account
+                    'ifsc' => $account
                 );
             if(empty($id)){
                 $success = $this->employee_model->Add_BankInfo($data);
@@ -626,7 +622,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}            
-    }
+	}
+	
     public function Reset_Password_Hr(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('emid');
@@ -651,7 +648,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Reset_Password(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('emid');
@@ -683,7 +681,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Department(){
         if($this->session->userdata('user_login_access') != False) {
         $data['department'] = $this->employee_model->depselect();
@@ -692,7 +691,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}            
-    }
+	}
+	
     public function Save_dep(){
         if($this->session->userdata('user_login_access') != False) {
        $dep = $this->input->post('department');
@@ -714,7 +714,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function Designation(){
         if($this->session->userdata('user_login_access') != False) {
         $data['designation'] = $this->employee_model->desselect();
@@ -723,7 +724,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}            
-    }
+	}
+	
     public function Des_Save(){
         if($this->session->userdata('user_login_access') != False) {
         $des = $this->input->post('designation');
@@ -745,7 +747,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}
-    }
+	}
+	
     public function Assign_leave(){
         if($this->session->userdata('user_login_access') != False) {
         $emid = $this->input->post('em_id');
@@ -775,14 +778,15 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}
-    }
+	}
+	
     public function Add_File(){
     if($this->session->userdata('user_login_access') != False) { 
     $em_id = $this->input->post('em_id');    		
     $filetitle = $this->input->post('title');    		
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters();
-        $this->form_validation->set_rules('title', 'title', 'trim|required|min_length[10]|max_length[120]|xss_clean');
+        $this->form_validation->set_rules('title', 'title', 'trim|required|min_length[2]|max_length[120]|xss_clean');
 
         if ($this->form_validation->run() == FALSE) {
             echo validation_errors();
@@ -831,7 +835,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
     public function educationbyib(){
         if($this->session->userdata('user_login_access') != False) {  
 		$id= $this->input->get('id');
@@ -842,7 +847,9 @@ class Employee extends CI_Controller {
 		redirect(base_url() , 'refresh');
 	} 
         
-    }
+	}
+	
+
     public function experiencebyib(){
         if($this->session->userdata('user_login_access') != False) {  
 		$id= $this->input->get('id');
@@ -874,7 +881,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	} 
-    }
+	}
+	
     public function EXPvalueDelet(){
         if($this->session->userdata('user_login_access') != False) {  
 		$id= $this->input->get('id');
@@ -884,7 +892,19 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	} 
+	}
+
+	public function Delete_doc($doc_id){
+        if($this->session->userdata('user_login_access') != False) { 
+			$success = $this->employee_model->DeletDOC($doc_id);
+			echo "Successfully Deletd";
+            redirect('employee');
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
     }
+	
     public function DeletDisiplinary(){
         if($this->session->userdata('user_login_access') != False) {  
 		$id= $this->input->get('D');
@@ -988,7 +1008,8 @@ class Employee extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
 	public function confirm_mail_send($email,$pass_hash){
 		$config = Array( 
 		'protocol' => 'smtp', 

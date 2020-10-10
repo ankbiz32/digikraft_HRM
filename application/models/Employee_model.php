@@ -290,9 +290,32 @@
   }
     public function DeletEXP($id){
       $this->db->delete('emp_experience',array('id'=> $id));
-  }
+	}
+	
+    public function DeletDOC($id){
+			$employee = $this->getInfoById($id, 'employee_file');
+			$checkimage = "./assets/images/users/".$employee->file_url; 
+			// var_dump('<pre>',$employee->file_url,$checkimage);exit;
+			$this->db->delete('employee_file',array('id'=> $id));
+			if(file_exists($checkimage)){
+				unlink($checkimage);
+			}      
+	}
+	
     public function DeletDisiplinary($id){
       $this->db->delete('desciplinary',array('id'=> $id));
-  }        
+	}   
+	
+	 public function getInfo($table)
+	 {
+			 return $this->db->get($table)->result();
+	 }
+
+	 public function getInfoById($id, $table)
+	 {
+			 $this->db->where('id', $id);
+			 return $this->db->get($table)->row();
+	 }
+	 
     }
 ?>

@@ -3,21 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payroll extends CI_Controller {
 
-    /**
-     * Index Page for this controller.
-     *$individual_info
-     * Maps to the following URL
-     *      http://example.com/index.php/welcome
-     *  - or -
-     *      http://example.com/index.php/welcome/index
-     *  - or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
-     */
         function __construct() {
         parent::__construct();
         $this->load->database();
@@ -29,7 +14,8 @@ class Payroll extends CI_Controller {
         $this->load->model('settings_model');    
         $this->load->model('organization_model');    
         $this->load->model('loan_model');    
-    }
+	}
+	
     public function index()
     {
         #Redirect to Admin dashboard after authentication
@@ -38,7 +24,8 @@ class Payroll extends CI_Controller {
             $data=array();
             #$data['settingsvalue'] = $this->dashboard_model->GetSettingsValue();
             $this->load->view('login');
-    }
+	}
+	
     public function Salary_Type(){
         if($this->session->userdata('user_login_access') != False) { 
         $data['typevalue'] = $this->payroll_model->GetsalaryType();
@@ -47,7 +34,8 @@ class Payroll extends CI_Controller {
         else{
             redirect(base_url() , 'refresh');
         }        
-    }
+	}
+	
    /* public function Salary_List(){
         if($this->session->userdata('user_login_access') != False) { 
         
@@ -58,7 +46,26 @@ class Payroll extends CI_Controller {
         else{
             redirect(base_url() , 'refresh');
         }        
-    }*/
+	}*/
+	
+	
+    // Original one commented out above
+    public function Salary_List(){
+
+        if($this->session->userdata('user_login_access') != False) { 
+            
+        $data['salary_info'] = $this->payroll_model->getAllSalaryData();
+
+        $this->load->view('backend/salary_list', $data);
+
+        }
+
+        else {
+
+            redirect(base_url() , 'refresh');
+        }        
+	}
+	
     public function Add_Sallary_Type(){
         if($this->session->userdata('user_login_access') != False) {
         $id = $this->input->post('id');
@@ -89,20 +96,22 @@ class Payroll extends CI_Controller {
                        
         }
         }
-    else{
-        redirect(base_url() , 'refresh');
-    }            
-    }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+	
     public function GetSallaryTypeById(){
         if($this->session->userdata('user_login_access') != False) {  
         $id = $this->input->get('id');      
         $data['typevalueid'] = $this->payroll_model->Get_typeValue($id);
         echo json_encode($data);    
         }
-    else{
-        redirect(base_url() , 'refresh');
-    }        
-    }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+	
     public function GetSallaryById(){
         if($this->session->userdata('user_login_access') != False) {  
         $id = $this->input->get('id');
@@ -113,21 +122,22 @@ class Payroll extends CI_Controller {
         $data['loanvaluebyid'] = $this->payroll_model->GetLoanValueByID($id);
         echo json_encode($data);
         }
-    else{
-        redirect(base_url() , 'refresh');
-    }        
-    }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+	
     public function Generate_salary(){
-    if($this->session->userdata('user_login_access') != False) {    
-    $data['typevalue'] = $this->payroll_model->GetsalaryType();   
-    $data['employee'] = $this->employee_model->emselect();    
-    $data['salaryvalue'] = $this->payroll_model->GetAllSalary();
-    $data['department'] = $this->organization_model->depselect();    
-    $this->load->view('backend/salary_view',$data);
-        }
-    else{
-        redirect(base_url() , 'refresh');
-    }  
+    	if($this->session->userdata('user_login_access') != False) {    
+			$data['typevalue'] = $this->payroll_model->GetsalaryType();   
+			$data['employee'] = $this->employee_model->emselect();    
+			$data['salaryvalue'] = $this->payroll_model->GetAllSalary();
+			$data['department'] = $this->organization_model->depselect();    
+			$this->load->view('backend/salary_view',$data);
+		}
+		else{
+			redirect(base_url() , 'refresh');
+		}  
 
     }
 
@@ -306,10 +316,11 @@ class Payroll extends CI_Controller {
             }           
         }
         }
-    else{
-        redirect(base_url() , 'refresh');
-    }        
-    } 
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	} 
+	
     public function Get_PayrollDetails(){
         $depid = $this->input->get('dep_id');
         $dateval = $this->input->get('date_time');
@@ -369,23 +380,6 @@ class Payroll extends CI_Controller {
                 </tr>";
         }
         
-    }
-
-    // Original one commented out above
-    public function Salary_List(){
-
-        if($this->session->userdata('user_login_access') != False) { 
-            
-        $data['salary_info'] = $this->payroll_model->getAllSalaryData();
-
-        $this->load->view('backend/salary_list', $data);
-
-        }
-
-        else {
-
-            redirect(base_url() , 'refresh');
-        }        
     }
 
     // Start Invoice
@@ -599,7 +593,7 @@ class Payroll extends CI_Controller {
         }
          // Sending 
        
-$obj_merged = (object) array_merge((array) $employee_info, (array) $salaryvaluebyid, (array) $salarypaybyid, (array) $salaryvalue, (array) $loanvaluebyid);
+		$obj_merged = (object) array_merge((array) $employee_info, (array) $salaryvaluebyid, (array) $salarypaybyid, (array) $salaryvalue, (array) $loanvaluebyid);
 
         $dd = date('j F Y',strtotime($salary_info->paid_date));
         
@@ -763,7 +757,7 @@ $obj_merged = (object) array_merge((array) $employee_info, (array) $salaryvalueb
             redirect(base_url() , 'refresh');
         }       
     }
-    // End Invoice
+   
 
     private function count_friday($month, $year) {
         $fridays=0;
@@ -1039,10 +1033,10 @@ $obj_merged = (object) array_merge((array) $employee_info, (array) $salaryvalueb
                 }
             }
         }
-    }
-    else {
-            redirect(base_url() , 'refresh');
-        }        
+		}
+		else {
+				redirect(base_url() , 'refresh');
+			}        
     }
 
     // Generate the list of employees by dept. to generate their payments
@@ -1184,16 +1178,17 @@ $obj_merged = (object) array_merge((array) $employee_info, (array) $salaryvalueb
         else{
             redirect(base_url() , 'refresh');
         }      
-    }
+	}
+	
     public function Payslip_Report(){
         if($this->session->userdata('user_login_access') != False) {  
         $data=array();    
         $data['employee'] = $this->employee_model->emselect();
         $this->load->view('backend/salary_report',$data);
         }
-    else{
-        redirect(base_url() , 'refresh');
-    }        
+		else{
+			redirect(base_url() , 'refresh');
+		}        
     }
 
 }

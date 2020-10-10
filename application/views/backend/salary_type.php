@@ -16,16 +16,14 @@
             <div class="container-fluid">
                 <div class="row m-b-10"> 
                     <div class="col-12">
-                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#TypeModal" data-whatever="@getbootstrap" class="text-white TypeModal"><i class="" aria-hidden="true"></i> Add Payroll </a></button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Payroll/Generate_salary" class="text-white"><i class="" aria-hidden="true"></i>  Generate Payroll</a></button>
                     </div>
                 </div> 
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-outline-info">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white"> Payroll List                       
-                                </h4>
+                            <div class="card-header d-flex">
+                                <h4 class="m-b-0 text-white"> Payroll types</h4>
+                        		<a data-toggle="modal" data-target="#TypeModal" data-whatever="@getbootstrap" class="btn btn-sm btn-success ml-auto text-white TypeModal" ><i class="fa fa-plus" aria-hidden="true"></i> Add payroll type </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -38,14 +36,6 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID </th>
-                                                <th>Salary Type</th>
-                                                <th>Create Date </th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                            <?php foreach($typevalue as $value): ?>
                                             <tr>
@@ -87,7 +77,7 @@
                                     <div class="modal-footer">
                                     <input type="hidden" name="id" value="" class="form-control" id="recipient-name1">                                       
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-info">Submit</button>
                                     </div>
                                     </form>
                                 </div>

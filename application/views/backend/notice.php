@@ -14,16 +14,12 @@
                 </div>
             </div>
         <div class="container-fluid">
-                <div class="row m-b-10"> 
-                    <div class="col-12">
-                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#noticemodel" data-whatever="@getbootstrap" class="text-white "><i class="" aria-hidden="true"></i> Add Notice </a></button>
-                    </div>
-                </div> 
-                <div class="row">
+                <div class="row mt-3">
                     <div class="col-12">
                         <div class="card card-outline-info">
-                            <div class="card-header">
+                            <div class="card-header d-flex">
                                     <h4 class="m-b-0 text-white"> Notice</h4>
+									<a data-toggle="modal" data-target="#noticemodel" data-whatever="@getbootstrap" class="text-white btn btn-success ml-auto btn-sm"><i class="fa fa-plus"></i> Add Notice </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -86,7 +82,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-info">Submit</button>
                                     </div>
                                     </form>
                                 </div>

@@ -28,18 +28,17 @@
                         <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?>
                         
                         <?php } else { ?>
-                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" class="text-white"><i class="" aria-hidden="true"></i> Add Project </a></button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Projects/All_Tasks" class="text-white"><i class="" aria-hidden="true"></i>  Task List</a></button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Projects/All_Tasks" class="text-white"><i class="" aria-hidden="true"></i>  Field Visit</a></button>
+                        <!-- <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Projects/All_Tasks" class="text-white"><i class="" aria-hidden="true"></i>  Task List</a></button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Projects/All_Tasks" class="text-white"><i class="" aria-hidden="true"></i>  Field Visit</a></button> -->
                         <?php } ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-outline-info">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white"> Project List                        
-                                </h4>
+                            <div class="card-header d-flex">
+                                <h4 class="m-b-0 text-white"> Project List</h4>
+								<a data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" class="text-white btn btn-success btn-sm ml-auto"><i class="fa fa-plus"></i> Add Project </a></button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -53,15 +52,6 @@
                                                 <th>Action </th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Project Title</th>
-                                                <th>Status </th>
-                                                <th>Start Date </th>
-                                                <th>End Date </th>
-                                                <th>Action </th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                            <?php foreach($projects as $value): ?>
                                             <tr>
@@ -87,7 +77,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content ">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="exampleModalLabel1"><i class="fa fa-braille"></i> Add Project</h4>
+                                        <h4 class="modal-title" id="exampleModalLabel1"> Add Project</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <form method="post" action="Add_Projects" id="btnSubmit" enctype="multipart/form-data">
@@ -100,11 +90,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Project Start Date</label>
-                                                <input type="text" name="startdate" class="form-control datepicker" id="recipient-name1" placeholder="">
+                                                <input type="text" name="startdate" class="form-control mydatetimepickerFull" id="recipient-name1" placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Project End Date</label>
-                                                <input type="text" name="enddate" class="form-control datepicker" id="recipient-name1" required placeholder="">
+                                                <input type="text" name="enddate" class="form-control mydatetimepickerFull" id="recipient-name1" required placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="message-text" class="control-label">Summery</label>
@@ -129,7 +119,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-info">Submit</button>
                                     </div>
                                     </form>
                                 </div>

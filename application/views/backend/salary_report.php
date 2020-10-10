@@ -18,31 +18,17 @@ $this->load->view('backend/sidebar');
           <a href="javascript:void(0)">Home
           </a>
         </li>
-        <li class="breadcrumb-item active">Payroll View
+        <li class="breadcrumb-item active">Payslip report
         </li>
       </ol>
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row m-b-10"> 
-      <div class="col-12">
-        <button type="button" class="btn btn-primary">
-          <i class="fa fa-bars">
-          </i>
-          <a href="<?php
-                   echo base_url();
-                   ?>Payroll/Salary_Type" class="text-white">
-            <i class="" aria-hidden="true">
-            </i>   Payroll List
-          </a>
-        </button>
-      </div>
-    </div> 
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-12">
         <div class="card card-outline-info">
           <div class="card-header">
-            <h4 class="m-b-0 text-white"> Monthly Payroll List
+            <h4 class="m-b-0 text-white"> Monthly Payslip Report
             </h4>
           </div>
           <div class="card-body">

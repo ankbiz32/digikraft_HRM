@@ -4,29 +4,23 @@
             <div class="message"></div>
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor"><i class="fa fa-university" aria-hidden="true"></i> Payroll</h3>
+                    <h3 class="text-themecolor"><i class="fa fa-credit-card" aria-hidden="true"></i> Payroll</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active"><i class="fa fa-university" aria-hidden="true"></i> Payroll</li>
+                        <li class="breadcrumb-item active"> Payroll list</li>
                     </ol>
                 </div>
             </div>
             
             <div class="container-fluid"> 
-                <div class="row m-b-10"> 
-                    <div class="col-12">
-<!--                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#TypeModal" data-whatever="@getbootstrap" class="text-white TypeModal"><i class="" aria-hidden="true"></i> Add Payroll </a></button>-->
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Payroll/Generate_salary" class="text-white"><i class="" aria-hidden="true"></i>  Generate Payroll</a></button>
-                    </div>
-                </div> 
-                <div class="row">
+                <div class="row mt-3">
                     <div class="col-12">
 
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white"><i class="fa fa-hourglass-start" aria-hidden="true"></i> Payroll List                     
+                                <h4 class="m-b-0 text-white"> Payroll List                     
                                 </h4>
                             </div>
                             <div class="card-body">
@@ -35,36 +29,16 @@
                                         <thead>
                                             <tr>
                                                 <th class="hide">SL </th>
-                                                <th>PIN </th>
+                                                <th>Emp. code </th>
                                                 <th>Employee </th>
                                                 <th>Month </th>
                                                 <th>Salary </th>
-                                                <th>Loan </th>
-                                                <th>Total hours </th>
-                                                <th>Deduction</th>
                                                 <th>Total Paid</th>
                                                 <th>Pay Date</th>
                                                 <th>Status</th>
                                                 <th class="jsgrid-align-center">Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th class="hide">SL </th>
-                                                <th>PIN </th>
-                                                <th>Employee </th>
-                                                <th>Month </th>
-                                                <th>Salary </th>
-                                                <th>Loan </th>
-                                                <th>Total hours </th>
-                                                <!--<th>Earning</th>-->
-                                                <th>Deduction</th>
-                                                <th>Total Paid</th>
-                                                <th>Pay Date</th>
-                                                <th>Status</th>
-                                                <th class="jsgrid-align-center">Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
 
                                            <?php $i =0; foreach($salary_info as $individual_info): ?>
@@ -74,10 +48,6 @@
                                                 <td><?php echo $individual_info->first_name.' '.$individual_info->last_name; ?></td>
                                                 <td><?php echo $individual_info->month.' '.$individual_info->year; ?></td>
                                                 <td><?php echo $individual_info->basic; ?></td>
-                                                <td><?php echo $individual_info->loan; ?></td>
-                                                <td><?php echo $individual_info->total_days; ?></td>
-                                                <!--<td><?php echo $individual_info->addition; ?></td>-->
-                                                <td><?php echo $individual_info->diduction; ?></td>
                                                 <td><?php echo $individual_info->total_pay; ?></td>
                                                 <td><?php echo $individual_info->paid_date; ?></td>
                                                 <td><?php echo $individual_info->status; ?></td>
