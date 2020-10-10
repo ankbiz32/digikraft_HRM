@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2020 at 02:50 PM
+-- Generation Time: Oct 10, 2020 at 02:37 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -41,7 +41,9 @@ CREATE TABLE `addition` (
 --
 
 INSERT INTO `addition` (`addi_id`, `salary_id`, `basic`, `medical`, `house_rent`, `conveyance`) VALUES
-(25, 25, '14000', '0', '0', '0');
+(25, 25, '14000', '0', '0', '0'),
+(26, 26, '14000', '', '', ''),
+(27, 27, '14000', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -189,7 +191,7 @@ CREATE TABLE `bank_info` (
   `bank_name` varchar(256) DEFAULT NULL,
   `branch_name` varchar(256) DEFAULT NULL,
   `account_number` varchar(256) DEFAULT NULL,
-  `account_type` varchar(256) DEFAULT NULL
+  `ifsc` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -212,7 +214,9 @@ CREATE TABLE `deduction` (
 --
 
 INSERT INTO `deduction` (`de_id`, `salary_id`, `provident_fund`, `bima`, `tax`, `others`) VALUES
-(25, 25, '', '', '', '');
+(25, 25, '', '', '', ''),
+(26, 26, '', '', '', ''),
+(27, 27, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -354,9 +358,8 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `em_id`, `em_code`, `des_id`, `dep_id`, `first_name`, `last_name`, `em_email`, `em_password`, `em_role`, `em_address`, `status`, `em_gender`, `em_phone`, `em_birthday`, `em_blood_group`, `em_joining_date`, `em_contact_end`, `em_image`, `em_nid`) VALUES
-(10, 'Soy1332', '99', 0, 0, 'Dir', 'Soyeb', 'nawjeshbd@gmail.com', 'cd5ea73cd58f827fa78eef7197b8ee606c99b2e6', 'SUPER ADMIN', NULL, 'ACTIVE', 'Female', '01723177901', '2017-12-26', 'B+', '2018-01-06', '2018-01-06', 'Soy1332.jpg', '132154566556'),
 (36, 'Doe1753', '123456', 2, 2, 'Admin', 'DK HRM', 'admin@gmail.com', 'cd5ea73cd58f827fa78eef7197b8ee606c99b2e6', 'ADMIN', NULL, 'ACTIVE', 'Male', '8888888888', '2019-02-13', 'O+', '2019-02-15', '2019-02-22', 'Doe1753.jpg', '01253568955555'),
-(37, 'Doe1754', '123444', 12, 2, 'Jhon', 'Doe', 'employee@gmail.com', 'cd5ea73cd58f827fa78eef7197b8ee606c99b2e6', 'EMPLOYEE', NULL, 'ACTIVE', 'Male', 'abc123456', '2019-02-13', 'O+', '2019-02-15', '2019-02-22', 'Doe1753.jpg', '01253568955555');
+(38, 'Agr1106', '', 13, 5, 'Ankur', 'Agrawal', 'ankur.agr32@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'EMPLOYEE', NULL, 'ACTIVE', 'Male', '8871192502', '1994-02-18', 'O+', '2019-09-03', '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -450,7 +453,7 @@ CREATE TABLE `emp_salary` (
 --
 
 INSERT INTO `emp_salary` (`id`, `emp_id`, `type_id`, `total`) VALUES
-(25, 'Doe1753', 2, '14000');
+(26, 'Agr1106', 1, '14000');
 
 -- --------------------------------------------------------
 
@@ -680,13 +683,6 @@ CREATE TABLE `pay_salary` (
   `paid_type` enum('Hand Cash','Bank') NOT NULL DEFAULT 'Bank'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `pay_salary`
---
-
-INSERT INTO `pay_salary` (`pay_id`, `emp_id`, `type_id`, `month`, `year`, `paid_date`, `total_days`, `basic`, `medical`, `house_rent`, `bonus`, `bima`, `tax`, `provident_fund`, `loan`, `total_pay`, `addition`, `diduction`, `status`, `paid_type`) VALUES
-(32, 'Doe1753', 0, 'February', '2020', '2020-10-21', '200', '14000', NULL, NULL, NULL, NULL, NULL, NULL, '0', '14000.00', 0, 0, 'Paid', 'Hand Cash');
-
 -- --------------------------------------------------------
 
 --
@@ -715,6 +711,13 @@ CREATE TABLE `project` (
   `pro_status` enum('upcoming','complete','running') NOT NULL DEFAULT 'running',
   `progress` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`id`, `pro_name`, `pro_start_date`, `pro_end_date`, `pro_description`, `pro_summary`, `pro_status`, `progress`) VALUES
+(6, 'Bhukyra Agro', '2020-10-08', '2020-10-30', ' ryggrgregreg', 'grg', 'running', NULL);
 
 -- --------------------------------------------------------
 
@@ -810,10 +813,8 @@ CREATE TABLE `salary_type` (
 --
 
 INSERT INTO `salary_type` (`id`, `salary_type`, `create_date`) VALUES
-(1, 'Hourly', '2017-11-22'),
-(2, 'Monthly', '2017-12-30'),
-(3, 'hhfgf', '2017-12-29'),
-(4, 'Hourly', '2018-03-31');
+(1, 'Monthly', '2020-10-10'),
+(2, 'Hourly', '2020-10-10');
 
 -- --------------------------------------------------------
 
@@ -852,10 +853,18 @@ CREATE TABLE `social_media` (
   `id` int(14) NOT NULL,
   `emp_id` varchar(64) DEFAULT NULL,
   `facebook` varchar(256) DEFAULT NULL,
-  `twitter` varchar(256) DEFAULT NULL,
-  `google_plus` varchar(512) DEFAULT NULL,
+  `linkedin` varchar(256) DEFAULT NULL,
+  `instagram` varchar(512) DEFAULT NULL,
   `skype_id` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `social_media`
+--
+
+INSERT INTO `social_media` (`id`, `emp_id`, `facebook`, `linkedin`, `instagram`, `skype_id`) VALUES
+(5, 'nam1390', '', '', '', ''),
+(6, 'Agr1106', 'https://facebook.com/ankur32', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1130,13 +1139,13 @@ ALTER TABLE `to-do_list`
 -- AUTO_INCREMENT for table `addition`
 --
 ALTER TABLE `addition`
-  MODIFY `addi_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `addi_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `assets`
@@ -1178,7 +1187,7 @@ ALTER TABLE `bank_info`
 -- AUTO_INCREMENT for table `deduction`
 --
 ALTER TABLE `deduction`
-  MODIFY `de_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `de_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -1214,13 +1223,13 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `employee_file`
 --
 ALTER TABLE `employee_file`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `emp_assets`
@@ -1250,7 +1259,7 @@ ALTER TABLE `emp_penalty`
 -- AUTO_INCREMENT for table `emp_salary`
 --
 ALTER TABLE `emp_salary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `field_visit`
@@ -1262,7 +1271,7 @@ ALTER TABLE `field_visit`
 -- AUTO_INCREMENT for table `holiday`
 --
 ALTER TABLE `holiday`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1310,7 +1319,7 @@ ALTER TABLE `pay_salary`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `project_file`
@@ -1358,7 +1367,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `social_media`
 --
 ALTER TABLE `social_media`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `to-do_list`
