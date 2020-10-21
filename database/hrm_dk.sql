@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2020 at 02:37 PM
+-- Generation Time: Oct 14, 2020 at 09:27 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -153,31 +153,6 @@ CREATE TABLE `attendance` (
   `status` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `attendance`
---
-
-INSERT INTO `attendance` (`id`, `emp_id`, `atten_date`, `signin_time`, `signout_time`, `working_hour`, `place`, `absence`, `overtime`, `earnleave`, `status`) VALUES
-(993, '4', '2018-04-09', '11:00:00', '19:29:00', '247 min', 'office', '232 min', '149 min', NULL, 'A'),
-(994, '20', '2018-04-12', '09:00:00', '17:00:00', '480', '', NULL, NULL, NULL, 'E'),
-(995, '20', '2018-04-13', '09:00:00', '17:00:00', '480', '', NULL, NULL, NULL, 'E'),
-(996, '20', '2018-04-14', '09:00:00', '17:00:00', '480', '', NULL, NULL, NULL, 'E'),
-(997, '20', '2018-04-15', '09:00:00', '17:00:00', '480', '', NULL, NULL, NULL, 'E'),
-(998, '2', '2018-02-20', '10:00:00', '17:00:00', '0 min', 'office', '429 min', '0 min', NULL, 'A'),
-(999, '3', '2018-02-21', '09:00:00', '18:00:00', '0 min', 'office', '480 min', '0 min', NULL, 'A'),
-(1000, '4', '2018-02-22', '09:00:00', '19:00:00', '247 min', 'office', '232 min', '149 min', NULL, 'A'),
-(1001, '12', '2018-03-02', '01:00:00', '03:00:00', '396 min', 'office', '83 min', '142 min', NULL, 'A'),
-(1002, '13', '2018-03-03', '02:00:00', '04:00:00', '480 min', 'office', '0 min', '34 min', NULL, 'A'),
-(1003, '14', '2018-03-04', '03:00:00', '05:00:00', '399 min', 'office', '80 min', '152 min', NULL, 'A'),
-(1004, '15', '2018-03-05', '04:00:00', '06:00:00', '480 min', 'office', '0 min', '133 min', NULL, 'A'),
-(1005, '16', '2018-03-06', '05:00:00', '07:00:00', '0 min', 'office', '480 min', '0 min', NULL, 'A'),
-(1006, '17', '2018-03-07', '06:00:00', '08:00:00', '480 min', 'office', '0 min', '286 min', NULL, 'A'),
-(1007, '18', '2018-03-08', '07:00:00', '09:00:00', '431 min', 'office', '0 min', '140 min', NULL, 'A'),
-(1008, '19', '2018-03-09', '08:00:00', '10:00:00', '377 min', 'office', '102 min', '192 min', NULL, 'A'),
-(1009, '24', '2018-03-14', '01:00:00', '15:00:00', '433 min', 'office', '0 min', '140 min', NULL, 'A'),
-(1010, '25', '2018-03-15', '02:00:00', '16:00:00', '480 min', 'office', '0 min', '0 min', NULL, 'A'),
-(1011, '26', '2018-02-20', '03:00:00', '17:00:00', '339 min', 'office', '140 min', '178 min', NULL, 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -215,7 +190,7 @@ CREATE TABLE `deduction` (
 
 INSERT INTO `deduction` (`de_id`, `salary_id`, `provident_fund`, `bima`, `tax`, `others`) VALUES
 (25, 25, '', '', '', ''),
-(26, 26, '', '', '', ''),
+(26, 26, '0', '', '0', '0'),
 (27, 27, '', '', '', '');
 
 -- --------------------------------------------------------
@@ -634,13 +609,6 @@ CREATE TABLE `notice` (
   `date` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `notice`
---
-
-INSERT INTO `notice` (`id`, `title`, `file_url`, `date`) VALUES
-(4, 'Some notice here will be posted ', 'wa.jpg', '2020-10-06');
-
 -- --------------------------------------------------------
 
 --
@@ -814,7 +782,8 @@ CREATE TABLE `salary_type` (
 
 INSERT INTO `salary_type` (`id`, `salary_type`, `create_date`) VALUES
 (1, 'Monthly', '2020-10-10'),
-(2, 'Hourly', '2020-10-10');
+(2, 'Hourly', '2020-10-12'),
+(5, 'Contract basis', '2020-10-12');
 
 -- --------------------------------------------------------
 
@@ -1271,7 +1240,7 @@ ALTER TABLE `field_visit`
 -- AUTO_INCREMENT for table `holiday`
 --
 ALTER TABLE `holiday`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1313,7 +1282,7 @@ ALTER TABLE `notice`
 -- AUTO_INCREMENT for table `pay_salary`
 --
 ALTER TABLE `pay_salary`
-  MODIFY `pay_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `pay_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `project`
@@ -1355,7 +1324,7 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `salary_type`
 --
 ALTER TABLE `salary_type`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `settings`

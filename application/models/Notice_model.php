@@ -21,7 +21,21 @@ class Notice_model extends CI_Model{
 		$query = $this->db->get('notice');
 		$result =$query->result();
         return $result;        
-    }
-          
+	}
+	
+	public function DeletNotice($id){ 
+		$noti = $this->getInfoById($id, 'notice');
+		$checkimage = "./assets/images/notice/".$noti->file_url; 
+		// var_dump('<pre>',$noti->file_url,$checkimage);exit;
+		$this->db->delete('notice',array('id'=> $id));
+		if(file_exists($checkimage)){
+			unlink($checkimage);
+		}      
+	}
+
+	public function getInfoById($id, $table)
+	{
+		return $this->db->where('id', $id)->get($table)->row();
+	}     
 }
 ?>

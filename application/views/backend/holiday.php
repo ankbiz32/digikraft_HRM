@@ -91,7 +91,6 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                                 <th>Start Date </th>
                                                 <th>End Date </th>
                                                 <th>Number of days</th>
-                                                <th>Year</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -102,9 +101,9 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                                 <td><?php echo date('jS \of F Y',strtotime($value->from_date)); ?></td>
                                                 <td><?php if(!empty($value->to_date)){ echo date('jS \of F Y',strtotime($value->to_date)); } ?></td>
                                                 <td><?php echo $value->number_of_days; ?></td>
-                                                <td><?php echo $value->year; ?></td>
                                                 <td class="jsgrid-align-center ">
                                                     <a href="" title="Edit" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-info waves-effect waves-light holiday" data-id="<?php echo $value->id; ?>"><i class="fa fa-pencil-square-o"></i></a>
+
                                                     <a onclick="confirm('Are you sure want to delet this Value?')" href="#" title="Delete" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-danger waves-effect waves-light holidelet" data-id="<?php echo $value->id; ?>"><i class="fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>
@@ -157,65 +156,64 @@ https://www.patchesoft.com/fullcalendar-with-php-and-codeigniter/
                                 </div>
                             </div>
                         </div>
-                <script>
-/*    $('#holidayform').find('[name="enddate"]').on("change", function() {
-      //console.log('Yes');
-      var date1 = new Date($('#holidayform').find('[name="startdate"]').val());
-      var date2 = new Date($('#holidayform').find('[name="enddate"]').val());
-      var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        console.log(date1);
-        if(date1.length > '0'){
-        $('#holidayform').find('[name="nofdate"]').val('1').end();
-        } else if(date2.length > '0') {
-         $('#holidayform').find('[name="nofdate"]').val(diffDays).end();   
-        }
-    });*/
-                
-                </script>                        
-<script type="text/javascript">
-                                        $(document).ready(function () {
-                                            $(".holiday").click(function (e) {
-                                                e.preventDefault(e);
-                                                // Get the record's ID via attribute  
-                                                var iid = $(this).attr('data-id');
-                                                $('#holidayform').trigger("reset");
-                                                $('#holysmodel').modal('show');
-                                                $.ajax({
-                                                    url: 'Holidaybyib?id=' + iid,
-                                                    method: 'GET',
-                                                    data: '',
-                                                    dataType: 'json',
-                                                }).done(function (response) {
-                                                    console.log(response);
-                                                    // Populate the form fields with the data returned from server
-													$('#holidayform').find('[name="id"]').val(response.holidayvalue.id).end();
-                                                    $('#holidayform').find('[name="holiname"]').val(response.holidayvalue.holiday_name).end();
-                                                    $('#holidayform').find('[name="startdate"]').val(response.holidayvalue.from_date).end();
-                                                    $('#holidayform').find('[name="enddate"]').val(response.holidayvalue.to_date).end();
-                                                    $('#holidayform').find('[name="nofdate"]').val(response.holidayvalue.number_of_days).end();
-                                                    $('#holidayform').find('[name="year"]').val(response.holidayvalue.year).end();
-												});
-                                            });
-                                        });
-</script>
-<script type="text/javascript">
-                                        $(document).ready(function () {
-                                            $(".holidelet").click(function (e) {
-                                                e.preventDefault(e);
-                                                // Get the record's ID via attribute  
-                                                var iid = $(this).attr('data-id');
-                                                $.ajax({
-                                                    url: 'HOLIvalueDelet?id=' + iid,
-                                                    method: 'GET',
-                                                    data: 'data',
-                                                }).done(function (response) {
-                                                    console.log(response);
-                                                    $(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
-                                                    window.setTimeout(function(){location.reload()},2000)
-                                                    // Populate the form fields with the data returned from server
-												});
-                                            });
-                                        });
-</script>                              
+
+		<script type="text/javascript">
+
+			/*$('#holidayform').find('[name="enddate"]').on("change", function() {
+				//console.log('Yes');
+				var date1 = new Date($('#holidayform').find('[name="startdate"]').val());
+				var date2 = new Date($('#holidayform').find('[name="enddate"]').val());
+				var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+				console.log(date1);
+				if(date1.length > '0'){
+				$('#holidayform').find('[name="nofdate"]').val('1').end();
+				} else if(date2.length > '0') {
+				$('#holidayform').find('[name="nofdate"]').val(diffDays).end();   
+				}
+			});*/  
+
+			$(document).ready(function () {
+				$(".holiday").click(function (e) {
+					e.preventDefault(e);
+					// Get the record's ID via attribute  
+					var iid = $(this).attr('data-id');
+					$('#holidayform').trigger("reset");
+					$('#holysmodel').modal('show');
+					$.ajax({
+						url: 'Holidaybyib?id=' + iid,
+						method: 'GET',
+						data: '',
+						dataType: 'json',
+					}).done(function (response) {
+						// Populate the form fields with the data returned from server
+						$('#holidayform').find('[name="id"]').val(response.holidayvalue.id).end();
+						$('#holidayform').find('[name="holiname"]').val(response.holidayvalue.holiday_name).end();
+						$('#holidayform').find('[name="startdate"]').val(response.holidayvalue.from_date).end();
+						$('#holidayform').find('[name="enddate"]').val(response.holidayvalue.to_date).end();
+						$('#holidayform').find('[name="nofdate"]').val(response.holidayvalue.number_of_days).end();
+						$('#holidayform').find('[name="year"]').val(response.holidayvalue.year).end();
+					});
+				});
+			});
+
+			$(document).ready(function () {
+				$(".holidelet").click(function (e) {
+					e.preventDefault(e);
+					// Get the record's ID via attribute  
+					var iid = $(this).attr('data-id');
+					$.ajax({
+						url: 'HOLIvalueDelet?id=' + iid,
+						method: 'GET',
+						data: 'data',
+					}).done(function (response) {
+						console.log(response);
+						$(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
+						window.setTimeout(function(){location.reload()},2000)
+						// Populate the form fields with the data returned from server
+					});
+				});
+			});
+		</script>
+                                        
 <?php $this->load->view('backend/footer'); ?>

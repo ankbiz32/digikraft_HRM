@@ -88,6 +88,17 @@ class Notice extends CI_Controller {
     else{
 		redirect(base_url() , 'refresh');
 	}        
-    }
+	}
+	
+	public function noticeDelete($id){
+        if($this->session->userdata('user_login_access') != False) {
+			$success = $this->notice_model->DeletNotice($id);
+			echo "Successfully Deletd";
+			redirect('notice/All_notice');
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		} 
+	}
     
 }

@@ -5,7 +5,7 @@
             <div class="message"></div>
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor"><i class="fa fa-braille" style="color:#1976d2"></i>&nbsp Dashboard</h3>
+                    <h3 class="text-themecolor"><i class="fa fa-braille" style="color:#1976d2"></i>&nbsp; Dashboard</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
@@ -189,6 +189,7 @@
                                             <tr>
                                                 <th>Holiday Name</th>
                                                 <th>Date</th>
+                                                <th>Date</th>
                                             </tr>                                           
                                        </thead>
                                        <tbody>
@@ -196,6 +197,7 @@
                                            <tr style="background-color:#e3f0f7">
                                                <td><?php echo $value->holiday_name ?></td>
                                                <td><?php echo $value->from_date; ?></td>
+                                               <td><?php echo $value->to_date; ?></td>
                                            </tr>
                                            <?php endforeach ?>
                                        </tbody> 

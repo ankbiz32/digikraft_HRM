@@ -286,5 +286,9 @@ public function getPinFromID($employeeID){
       $query=$this->db->query($sql);
       $result = $query->result();
       return $result;
-    }   
+		}   
+		
+		public function DeletPAY($id){
+      $this->db->delete('pay_salary',array('pay_id'=> $id));
+	}
 }

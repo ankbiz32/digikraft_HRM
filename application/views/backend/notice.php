@@ -30,16 +30,9 @@
                                                 <th>Title</th>
                                                 <th>File</th>
                                                 <th>Date</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Sl</th>
-                                                <th>Title</th>
-                                                <th>File</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                            <?php foreach($notice as $value): ?>
                                             <tr>
@@ -47,6 +40,9 @@
                                                 <td><?php echo $value->title; ?></td>
                                                 <td><a href="<?php echo base_url(); ?>assets/images/notice/<?php echo $value->file_url; ?>" target="_blank"><?php echo $value->file_url; ?></a></td>
                                                 <td><?php echo $value->date; ?></td>
+                                                <td>
+													<a onclick="confirm('Are you sure want to delet this Value?')" href="<?=base_url('Notice/noticeDelete/').$value->id?>" title="Delete" <?php if($this->session->userdata('user_type')=='EMPLOYEE'){ ?> hidden <?php } ?> class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash-o"></i></a>
+												</td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>

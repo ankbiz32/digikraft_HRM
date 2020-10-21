@@ -20,15 +20,15 @@
                 }
             </style>
             <div class="container-fluid">
-                <div class="row m-b-10"> 
+                <div class="row m-b-10 mt-3"> 
                     <div class="col-12">
 <!--                        <button type="button" class="btn btn-info"><i class="fa fa-plus"></i><a data-toggle="modal" data-target="#TypeModal" data-whatever="@getbootstrap" class="text-white TypeModal"><i class="" aria-hidden="true"></i> Add Payroll </a></button>-->
-                        <button type="button" class="btn btn-primary"><i class="fa fa-bars"></i><a href="<?php echo base_url(); ?>Payroll/Salary_List" class="text-white"><i class="" aria-hidden="true"></i>  Back</a></button>
-                        <button type="button" class="btn btn-primary print_payslip_btn"><i class="fa fa-print"></i><i class="" aria-hidden="true" onclick="printDiv()"></i>  Print</button>
+                       <a href="<?php echo base_url(); ?>Payroll/Salary_List" class="btn btn-secondary"><i class="fa fa-arrow-left"></i>  Back</a>
+                        <button type="button" class="btn btn-primary print_payslip_btn ml-2"><i class="fa fa-print"></i><i class="" aria-hidden="true" onclick="printDiv()"></i>  Print</button>
                     </div>
                 </div> 
 
-                <div class="row payslip_print" id="payslip_print">
+                <div class="row payslip_print mt-3" id="payslip_print">
                     <div class="col-md-12">
                         <div class="card card-body">
                             <div class="row">
@@ -62,38 +62,43 @@
                                     </div> -->
                                     <table class="table table-condensed borderless payslip_info">
                                         <tr>
-                                            <td>Employee PIN</td>
+                                            <td>Employee Code</td>
                                             <td>: <?php echo $obj_merged->em_code; ?></td>
+                                            <td>Pay Date</td>
+                                            <td>: <?php echo date('j F Y',strtotime($salary_info->paid_date)); ?></td>
+                                        </tr>
+                                        <tr>
                                             <td>Employee Name</td>
                                             <td>: <?php echo $obj_merged->first_name; ?> <?php  echo $obj_merged->last_name; ?></td>
+                                            <td>Pay Type</td>
+                                            <td>: <?php echo $salary_info->paid_type; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Designation</td>
+                                            <td>: <?php echo $otherInfo[0]->name; ?></td>
+											<td></td>
+											<td></td>
                                         </tr>
                                         <tr>
                                             <td>Department</td>
                                             <td>: <?php echo $otherInfo[0]->dep_name; ?></td>
-                                            <td>Designation</td>
-                                            <td>: <?php echo $otherInfo[0]->name; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pay Date</td>
-                                            <td>: <?php echo date('j F Y',strtotime($salary_info->paid_date)); ?></td>
-                                            <td>Date of Joining</td>
-                                            <td>: <?php echo $obj_merged->em_joining_date; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Days Worked</td>
-                                            <td>: 
-                                                <?php
+											<td></td>
+											<td></td>
+
+                                            <!-- <td>Days Worked</td> -->
+                                            <td></td>
+                                            <td>
+                                                <!-- <?php
                                                    $days = ceil($salary_info->total_days / 8);
                                                    echo $days;
-                                                ?>
+                                                ?> -->
                                             </td>
-                                            <?php if(!empty($bankinfo->bank_name)){ ?>
-                                            <td>Bank Name</td>
-                                            <td>: <?php echo $bankinfo->bank_name; ?></td>
-                                            <?php } else { ?>
-                                            <td>Pay Type</td>
-                                            <td>: <?php echo 'Hand Cash'; ?></td>
-                                            <?php } ?>
+                                        </tr>
+                                        <tr>
+                                            <td>Date of Joining</td>
+                                            <td>: <?php echo $obj_merged->em_joining_date; ?></td>
+											<td></td>
+											<td></td>
                                         </tr>
                                         <?php if(!empty($bankinfo->bank_name)){ ?>
                                         <tr>
@@ -122,22 +127,22 @@
                                         <tbody style="border: 1px solid #ececec;">
                                             <tr>
                                                 <td>Basic Salary</td>
-                                                <td class="text-right"><?php echo $addition[0]->basic; ?> BDT</td>
+                                                <td class="text-right">₹ <?php echo $addition[0]->basic; ?> </td>
                                                 <td class="text-right">  </td>
                                             </tr>
                                             <tr>
                                                 <td>Madical Allowance</td>
-                                                <td class="text-right"> <?php echo $addition[0]->medical; ?>  BDT</td>
+                                                <td class="text-right">₹ <?php echo $addition[0]->medical; ?> </td>
                                                 <td class="text-right">  </td>
                                             </tr>
                                             <tr>
                                                 <td>House Rent</td>
-                                                <td class="text-right"><?php echo $addition[0]->house_rent; ?>  BDT</td>
+                                                <td class="text-right">₹ <?php echo $addition[0]->house_rent; ?> </td>
                                                 <td class="text-right">  </td>
                                             </tr>
                                             <tr>
                                                 <td>Conveyance Allowance</td>
-                                                <td class="text-right"><?php echo $addition[0]->conveyance; ?>  BDT</td>
+                                                <td class="text-right">₹ <?php echo $addition[0]->conveyance; ?> </td>
                                                 <td class="text-right">  </td>
                                             </tr>
                                             <tr>
@@ -149,29 +154,29 @@
                                                 <td>Loan</td>
                                                 <td class="text-right"> </td>
                                                 <td class="text-right"><?php if(!empty($salary_info->loan)) {
-                                                    echo $salary_info->loan . " BDT";
+                                                    echo "₹ ".$salary_info->loan . "";
                                                 } ?> </td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>Working Hour (<?php echo $salary_info->total_days; ?> hrs)</td>
                                                 <td class="text-right">
                                                     <?php
-                                                        if($a > 0) { echo round($a,2).' BDT'; }
+                                                        if($a > 0) { echo'₹ ' .round($a,2).''; }
                                                     ?>
                                                 </td>
                                                 <td class="text-right">
                                                     <?php
-                                                        if($d > 0) { echo round($d,2).' BDT'; }
+                                                        if($d > 0) { echo'₹ '. round($d,2).''; }
                                                     ?>        
                                                 </td>
                                                 <td class="text-right"> </td>
-                                            </tr>
+                                            </tr> -->
                                             <!--<tr>
                                                 <td>Without Pay( <?php echo $work_h_diff ?> hrs)</td>
                                                 <td class="text-right"> </td>
                                                 <td class="text-right"> <?php
-                                                        /*if($d > 0) { echo round($d,2).' BDT'; }*/
-                                                        echo $salary_info->diduction .'BDT';
+                                                        /*if($d > 0) { echo '₹ '. round($d,2).''; }*/
+                                                        echo '₹ '.$salary_info->diduction .'';
                                                     ?> </td>
                                                 
                                             </tr>-->
@@ -184,13 +189,16 @@
                                         <tfoot class="tfoot-light">
                                             <tr>
                                                 <th>Total</th>
-                                                <th class="text-right"><?php $total_add = $salary_info->basic + $salary_info->medical + $salary_info->house_rent + $salary_info->bonus+$a; echo round($total_add,2); ?> BDT</th>
-                                                <th class="text-right"><?php $total_did = $salary_info->loan+$salary_info->diduction; echo round($total_did,2); ?> BDT</th>
+                                                <th class="text-right">₹ <?php $total_add = $salary_info->basic + $salary_info->medical + $salary_info->house_rent + $salary_info->bonus+$a; echo round($total_add,2); ?> </th>
+                                                <th class="text-right">₹ <?php $total_did = $salary_info->loan+$salary_info->diduction; echo round($total_did,2); ?></th>
                                             </tr>
                                             <tr>
-                                                <th></th>
-                                                <th class="text-right">Net Pay</th>
-                                                <th class="text-right"><?php echo $salary_info->total_pay/*round($total_add - $total_did,2)*/; ?> BDT</th>
+												<th colspan="3">&nbsp</th>
+                                            </tr>
+                                            <tr class="border-0">
+                                                <th class="h6">Net Pay</th>
+                                                <!-- <th class="text-right"></th> -->
+                                                <th colspan="2" class="text-right h6">₹ <?php echo $salary_info->total_pay/*round($total_add - $total_did,2)*/; ?></th>
                                             </tr>
                                         </tfoot>
                                     </table>

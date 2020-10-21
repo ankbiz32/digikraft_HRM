@@ -482,7 +482,7 @@ class Payroll extends CI_Controller {
         
         $data['a'] = $addition;
         $data['d'] = $data['salary_info']->diduction;
-        
+        // var_dump('<pre>',$data);exit;
         $this->load->view('backend/invoice',$data);
         }
         else {
@@ -499,11 +499,11 @@ class Payroll extends CI_Controller {
         $month = $orderdate[0];
         $year = $orderdate[1];
         $month = $this->month_number_to_name($month);
-        //die($year); 
+        // die($month); 
         $data2                      = array();
         $salary_info = $this->payroll_model->getAllSalaryDataByMonthYearEm($eid,$month,$year);
-            //print_r($salary_info);
-            //die();
+            // print_r($salary_info);
+            // die();
             if(empty($salary_info)){
                 echo "No Data Found";
                 die();
@@ -630,44 +630,36 @@ class Payroll extends CI_Controller {
                                 <div class='col-md-12'>
                                     <table class='table table-condensed borderless payslip_info'>
                                         <tr>
-                                            <td>Employee PIN</td>
+                                            <td>Employee Code</td>
                                             <td>: $obj_merged->em_code</td>
-                                            <td>Employee Name</td>
-                                            <td>: $salary_info->first_name $salary_info->last_name</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Department</td>
-                                            <td>:".$otherInfo[0]->dep_name; echo"</td>
-                                            <td>Designation</td>
-                                            <td>:".$otherInfo[0]->name; echo"</td>
-                                        </tr>
-                                        <tr>
                                             <td>Pay Date</td>
-                                            <td>:". $dd; echo "</td>
-                                            <td>Date of Joining</td>
-                                            <td>:$obj_merged->em_joining_date</td>
+                                            <td>: ". $dd; echo "</td>
                                         </tr>
                                         <tr>
-                                            <td>Days Worked</td>
-                                            <td>:". 
-                                                ceil($salary_info->total_days / 8);
-                                            echo"</td>";
-                                            if(!empty($bankinfo->bank_name)){
-                                            echo "<td>Bank Name</td>
-                                            <td>:$bankinfo->bank_name</td>";
-                                             } else {
-                                            echo "<td>Pay Type</td>
-                                            <td>: Hand Cash</td>";
-                                            }
-                                        echo "</tr>";
-                                         if(!empty($bankinfo->bank_name)){
-                                        echo "<tr>
-                                            <td>Account Name</td>
-                                            <td>: $bankinfo->holder_name </td>
-                                            <td>Account Number</td>
-                                            <td>: $bankinfo->account_number </td>
-                                        </tr>";
-                                         }
+											<td>Employee Name</td>
+											<td>: $salary_info->first_name $salary_info->last_name</td>
+											<td>Pay Type</td>
+                                            <td>: $salary_info->paid_type</td>
+                                        </tr>
+                                        <tr>
+											<td>Designation</td>
+											<td>: ".$otherInfo[0]->name; echo"</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+											<td>Department</td>
+											<td>: ".$otherInfo[0]->dep_name; echo"</td>
+                                            <td></td>
+                                            <td></td>";
+										echo "</tr>
+										<tr>
+											<td>Date of Joining</td>
+											<td>: $obj_merged->em_joining_date</td>
+											<td></td>
+											<td></td>
+										</tr>";
+                                         
                                    echo "</table>
                                 </div>
                             </div>
@@ -687,42 +679,42 @@ class Payroll extends CI_Controller {
                                         <tbody style='border: 1px solid #ececec;'>
                                             <tr>
                                                 <td>Basic Salary</td>
-                                                <td class='text-right'>". $addition[0]->basic; echo"BDT</td>
+                                                <td class='text-right'>₹ ". $addition[0]->basic; echo"</td>
                                                 <td class='text-right'>  </td>
                                             </tr>
                                             <tr>
                                                 <td>Madical Allowance</td>
-                                                <td class='text-right'>". $addition[0]->medical; echo "BDT</td>
+                                                <td class='text-right'>₹ ". $addition[0]->medical; echo "</td>
                                                 <td class='text-right'>  </td>
                                             </tr>
                                             <tr>
                                                 <td>House Rent</td>
-                                                <td class='text-right'>".$addition[0]->house_rent; echo "BDT</td>
+                                                <td class='text-right'>₹ ".$addition[0]->house_rent; echo "</td>
                                                 <td class='text-right'>  </td>
                                             </tr>
                                             <tr>
                                                 <td>Conveyance Allowance</td>
-                                                <td class='text-right'>".$addition[0]->conveyance; echo "BDT</td>
+                                                <td class='text-right'>₹ ".$addition[0]->conveyance; echo "</td>
                                                 <td class='text-right'>  </td>
                                             </tr>
                                             <tr>
                                                 <td>Bonus</td>
-                                                <td class='text-right'>".$salary_info->bonus; echo "</td>
+                                                <td class='text-right'>₹ ".$salary_info->bonus; echo "</td>
                                                 <td class='text-right'></td>
                                             </tr>
                                             <tr>
                                                 <td>Loan</td>
                                                 <td class='text-right'> </td>
                                                 <td class='text-right'>"; if(!empty($salary_info->loan)) {
-                                                    echo $salary_info->loan;
+                                                    echo "₹ ".$salary_info->loan;
                                                 }; echo "</td>
                                             </tr>
                                             <tr>
                                                 <td>Working Hour ($salary_info->total_days hrs)</td>
                                                 <td class='text-right'>
                                                 </td>
-                                                <td class='text-right'>
-                                                         $salary_info->diduction BDT 
+                                                <td class='text-right'>₹ 
+                                                         $salary_info->diduction 
                                                 </td>
                                                 <td class='text-right'> </td>
                                             </tr>
@@ -736,13 +728,15 @@ class Payroll extends CI_Controller {
                                         <tfoot class='tfoot-light'>
                                             <tr>
                                                 <th>Total</th>
-                                                <th class='text-right'>". $total_add = $salary_info->basic + $salary_info->medical + $salary_info->house_rent + $salary_info->bonus;  round($total_add,2); echo "BDT</th>
-                                                <th class='text-right'>".$total_did = $salary_info->loan + $salary_info->diduction;  round($total_did,2); echo"BDT</th>
+                                                <th class='text-right'>₹ ". $total_add = $salary_info->basic + $salary_info->medical + $salary_info->house_rent + $salary_info->bonus;  round($total_add,2); echo "</th>
+                                                <th class='text-right'>₹ ".$total_did = $salary_info->loan + $salary_info->diduction;  round($total_did,2); echo"</th>
                                             </tr>
                                             <tr>
-                                                <th></th>
-                                                <th class='text-right'>Net Pay</th>
-                                                <th class='text-right'>$salary_info->total_pay BDT</th>
+                                                <th colspan='3'>&nbsp;</th>
+                                            </tr>
+                                            <tr>
+                                                <th class='h6' colspan='2'>Net Pay</th>
+                                                <th class='text-right h6'>₹ $salary_info->total_pay </th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -1048,11 +1042,16 @@ class Payroll extends CI_Controller {
         $date_time = $this->input->get('date_time');
         $dep_id = $this->input->get('dep_id');
 
+		$employees = $this->payroll_model->GetDepEmployee($dep_id);
+		
+		if(empty($employees)){
+			echo '<tr><td colspan="4">No data found !</td></tr>';
+			die();
+		}
+		
         $year = explode('-', $date_time);
         $month = $year[0];
         $year = $year[1];
-
-        $employees = $this->payroll_model->GetDepEmployee($dep_id);
 
         foreach($employees as $employee){
 
@@ -1165,13 +1164,16 @@ class Payroll extends CI_Controller {
         $data = array();
         $data['basic_salary'] = $employee_salary;
         $data['total_work_hours'] = $total_work_hours;
-        $data['employee_actually_worked'] = $employee_actually_worked[0]->Hours;
+        // $data['employee_actually_worked'] = $employee_actually_worked[0]->Hours;
+        $data['employee_actually_worked'] = $total_work_hours;
         $data['wpay'] =$total_work_hours - $employee_actually_worked[0]->Hours;
         $data['addition'] = round($addition, 2);
-        $data['diduction'] = round($diduction, 2);
+        // $data['diduction'] = round($diduction, 2);
+        $data['diduction'] = 0;
         $data['loan_amount'] = $loan_amount;
         $data['loan_id'] = $loan_id;
-        $data['final_salary'] = round($final_salary, 2);
+        // $data['final_salary'] = round($final_salary, 2);
+        $data['final_salary'] = $employee_salary;
         $data['rate'] = round($hourly_rate, 2);   
         echo json_encode($data);
         }
@@ -1189,6 +1191,17 @@ class Payroll extends CI_Controller {
 		else{
 			redirect(base_url() , 'refresh');
 		}        
+	}
+	
+	public function Delete_payslip($pay_id){
+        if($this->session->userdata('user_login_access') != False) { 
+			$success = $this->payroll_model->DeletPAY($pay_id);
+			echo "Successfully Deletd";
+            redirect('payroll/Salary_List');
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
     }
 
 }
