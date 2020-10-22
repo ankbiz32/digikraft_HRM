@@ -214,6 +214,7 @@ $('form').each(function() {
                 window.setTimeout(function(){location.reload()},1500);
             },
             error: function (e) {
+				alert('server error');
                 console.log(e);
             }
         });

@@ -55,6 +55,8 @@
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="<?php echo base_url();?>organization/Department">Department </a></li>
                                 <li><a href="<?php echo base_url();?>organization/Designation">Designation</a></li>
+                                <li><a href="<?php echo base_url();?>organization/Services">Services</a></li>
+                                <li><a href="<?php echo base_url();?>organization/Clients">Clients</a></li>
                             </ul>
 						</li>
 					

@@ -159,9 +159,36 @@ class Employee extends CI_Controller {
 							'em_id' => $emrand,
 							'status'=>'ACTIVE',
 						);
-						$success = $this->employee_model->Add($data);
-						#$this->confirm_mail_send($email,$pass_hash);        
-						echo "Employee Added";
+						$insert_id = $this->employee_model->Add($data);
+						if($insert_id){    
+							$data2 = array(
+								'emp_id' => $emrand,
+								'type_id' => 1,
+								'total' => $this->input->post('total_salary')
+							);
+							$insert_id = $this->employee_model->addInfo($data2, 'emp_salary');
+							$data3 = array(
+								'salary_id' => $insert_id,
+								'basic' => $this->input->post('total_salary'),
+								'medical' => 0,
+								'house_rent' => 0,
+								'conveyance' => 0
+							);
+							$flag = $this->employee_model->addInfo($data3, 'addition');
+							$data4 = array(
+								'salary_id' => $insert_id,
+								'provident_fund' => 0,
+								'bima' => 0,
+								'tax' => 0,
+								'others' => 0
+							);
+							$flag = $this->employee_model->addInfo($data4, 'deduction');
+							echo "Employee Added";
+						}
+						else{    
+							echo "Server error";
+						}
+						#$this->confirm_mail_send($email,$pass_hash);    
 						#redirect('employee/Add_employee'); 
 					}
 				}

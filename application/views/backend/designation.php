@@ -85,7 +85,7 @@
                 <div class="card-header">
                     <h4 class="m-b-0 text-white"> Designation List</h4>
                 </div>
-                <div><?php echo $this->session->flashdata('delsuccess');?></div>
+                <!-- <div><?php echo $this->session->flashdata('delsuccess');?></div> -->
                 <div class="card-body">
                     <div class="table-responsive ">
                         <table class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">

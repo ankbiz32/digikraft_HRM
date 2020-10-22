@@ -116,13 +116,18 @@
                                     </div>
                                    
                                     <div class="form-group col-md-3 m-t-20">
-                                        <label>Date Of Joining </label>
+                                        <label>Date Of Joining <small>(optional)</small></label>
                                         <input type="text" name="joindate" id="example-email2" name="example-email" class="form-control mydatetimepickerFull" placeholder="" > 
                                     </div>
 
                                     <div class="form-group col-md-3 m-t-20">
-                                        <label>Date Of Leaving </label>
+                                        <label>Date Of Leaving <small>(optional)</small> </label>
                                         <input type="text" name="leavedate" id="example-email2" name="example-email" class="form-control mydatetimepickerFull" placeholder=""> 
+                                    </div>
+
+                                    <div class="form-group col-md-3 m-t-20">
+                                        <label>Salary <small>(optional)</small></label>
+                                        <input type="text" name="total_salary" class="form-control number" placeholder="Enter the total salary"> 
                                     </div>
 									
                                     <!--<div class="form-group col-md-3 m-t-20">

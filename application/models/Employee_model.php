@@ -57,7 +57,9 @@
         }
     }
     public function Add($data){
-        $this->db->insert('employee',$data);
+
+				$this->db->insert('employee',$data);
+				return $this->db->insert_id();
     }
     public function GetBasic($id){
       $sql = "SELECT `employee`.*,
@@ -316,6 +318,12 @@
 			 $this->db->where('id', $id);
 			 return $this->db->get($table)->row();
 	 }
+
+	 public function addInfo($data , $table){
+
+		$this->db->insert($table,$data);
+		return $this->db->insert_id();
+}
 	 
     }
 ?>
