@@ -208,7 +208,7 @@ $('form').each(function() {
             cache: false,
             timeout: 600000,
             success: function (response) {
-                console.log(response);            
+                // console.log(response);            
                 $(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
                 $('form').trigger("reset");
                 window.setTimeout(function(){location.reload()},1500);

@@ -41,6 +41,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group clearfix">
+                                            <label for="title" class="col-md-3">Company name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="company_name" value="<?php echo $settingsvalue->company_name; ?>" placeholder="Example: Coca cola" required minlength="2" maxlength="120">
+                                            </div>
+                                        </div>                                    
+                                        <div class="form-group clearfix">
                                             <label for="title" class="col-md-3">Site Title</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="title" value="<?php echo $settingsvalue->sitetitle; ?>" id="title" placeholder="Title..." required minlength="7" maxlength="120">
@@ -63,7 +69,13 @@
                                             <div class="col-md-9">
                                                 <input type="number" class="form-control" name="contact" value="<?php echo $settingsvalue->contact; ?>" id="contact" placeholder="contact...">
                                             </div>
-                                        </div>                                    
+                                        </div>                                 
+                                        <div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">System Email</label>
+                                            <div class="col-md-9">
+                                                <input type="email" class="form-control email" name="email" id="email" value="<?php echo $settingsvalue->system_email; ?>" placeholder="email...">
+                                            </div>
+                                        </div>                               
                                         <div class="form-group clearfix">
                                             <label for="currency" class="col-md-3">Currency</label>
                                             <div class="col-md-9">
@@ -75,13 +87,7 @@
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="symbol" value="<?php echo $settingsvalue->symbol; ?>" id="symbol" placeholder="symbol...">
                                             </div>
-                                        </div>                                    
-                                        <div class="form-group clearfix">
-                                            <label for="email" class="col-md-3">System Email</label>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control" name="email" id="email" value="<?php echo $settingsvalue->system_email; ?>" placeholder="email...">
-                                            </div>
-                                        </div>                                    
+                                        </div>                                  
                                         <div class="form-group clearfix">
                                             <label for="address" class="col-md-3">Address</label>
                                             <div class="col-md-9">
@@ -94,6 +100,36 @@
                                                 <input type="text" class="form-control" name="address2" id="address2" value="<?php echo $settingsvalue->address2; ?>" placeholder="address more...">
                                             </div>
                                         </div>
+										<div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">Bank name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="bank_name"  value="<?php echo $settingsvalue->bank_name; ?>" placeholder="Enter bank name">
+                                            </div>
+                                        </div>  
+										<div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">Account name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="bank_acc_name" value="<?php echo $settingsvalue->bank_acc_name; ?>" placeholder="Enter account holder name">
+                                            </div>
+                                        </div>  
+										<div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">Account no.</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="bank_acc_no" value="<?php echo $settingsvalue->bank_acc_no; ?>" placeholder="Enter bank account no.">
+                                            </div>
+                                        </div>  
+										<div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">IFSC</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="bank_ifsc" value="<?php echo $settingsvalue->bank_ifsc; ?>" minlength="11" maxlength="11" placeholder="Enter 11 digit ifsc code of bank">
+                                            </div>
+                                        </div>  
+										<div class="form-group clearfix">
+                                            <label for="email" class="col-md-3">UPI Id</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="bank_upi" value="<?php echo $settingsvalue->bank_upi; ?>" placeholder="UPI Id for the account for receiving payments">
+                                            </div>
+                                        </div>  
                                         <div class="form-group clearfix">
                                             <div class="col-md-9 col-md-offset-3">
                                                 <input type="hidden" name="id" value="<?php echo $settingsvalue->id; ?>"/>

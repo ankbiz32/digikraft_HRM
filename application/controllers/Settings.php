@@ -33,6 +33,7 @@ class Settings extends CI_Controller {
     public function Add_Settings(){ 
         if($this->session->userdata('user_login_access') != False) { 
         $id = $this->input->post('id');
+        $company_name = $this->input->post('company_name');
         $title = $this->input->post('title');
         $description = $this->input->post('description');
         $copyright = $this->input->post('copyright');
@@ -42,6 +43,11 @@ class Settings extends CI_Controller {
         $email = $this->input->post('email');
         $address = $this->input->post('address');
         $address2 = $this->input->post('address2');
+        $bank_name = $this->input->post('bank_name');
+        $bank_acc_name = $this->input->post('bank_acc_name');
+        $bank_acc_no = $this->input->post('bank_acc_no');
+        $bank_ifsc = $this->input->post('bank_ifsc');
+        $bank_upi = $this->input->post('bank_upi');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters();
         // Validating Title Field
@@ -89,6 +95,7 @@ class Settings extends CI_Controller {
                 $data = array();
                 $data = array(
                     'sitelogo' => $img_url,
+                    'company_name' => $company_name,
                     'sitetitle' => $title,
                     'description' => $description,
                     'copyright' => $copyright,
@@ -97,7 +104,12 @@ class Settings extends CI_Controller {
 					'symbol' => $symbol,
 					'system_email'=>$email,
                     'address'=>$address,
-					'address2'=>$address2
+					'address2'=>$address2,
+					'bank_name'=>$bank_name,
+					'bank_acc_name'=>$bank_acc_name,
+					'bank_acc_no'=>$bank_acc_no,
+					'bank_ifsc'=>$bank_ifsc,
+					'bank_upi'=>$bank_upi
                 );
             $success = $this->settings_model->SettingsUpdate($id,$data);
 			echo 'Successfully Updated';
@@ -108,6 +120,7 @@ class Settings extends CI_Controller {
                 $data = array();
                 $data = array(
                     'sitetitle' => $title,
+                    'company_name' => $company_name,
                     'description' => $description,
                     'copyright' => $copyright,
                     'contact' => $contact,
@@ -116,6 +129,11 @@ class Settings extends CI_Controller {
 					'system_email'=>$email,
                     'address'=>$address,
 					'address2'=>$address2,
+					'bank_name'=>$bank_name,
+					'bank_acc_name'=>$bank_acc_name,
+					'bank_acc_no'=>$bank_acc_no,
+					'bank_ifsc'=>$bank_ifsc,
+					'bank_upi'=>$bank_upi
                 );
             $success = $this->settings_model->SettingsUpdate($id,$data);
 			echo 'Successfully Updated';
