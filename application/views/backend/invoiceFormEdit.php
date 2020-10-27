@@ -49,7 +49,6 @@
 															<option value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name; ?></option>
 														<?php endforeach; ?>
 													</select>
-													<small class="text-muted">Client not found? <a href="<?php echo base_url(); ?>organization/addClient">Add client</a></small>
 												</div>
 											</div>
 											<div class="col-md-4">
@@ -74,7 +73,7 @@
 												Add items to invoice:
 											</div>
 											<div class="col-md-12 table-responsive">
-												<table class="table table-bordered table-striped select-invoice">
+												<table class="table table-bordered select-invoice">
 													<thead>
 													<tr class="">
 														<th>Service</th>
@@ -150,7 +149,7 @@
 													<tr class="text-right">
 														<td colspan="4">Amt. Paid :</td>
 														<td>₹ <input style="width: 80px" type="text" class="form-control" name="paid"
-																id="paid" required></td>
+																id="paid" value="<?= $invoice->total_paid ?>" required></td>
 													</tr>
 													<tr class="text-right">
 														<td colspan="4">Amt. Due :</td>
@@ -255,82 +254,24 @@
 			$('.calTotal' + count + '').change(function () {
 				cal_count();
 			});
-		});
-
-		$('#item1').change(function () {
-			var item = $(this).val();
-			var base_url = "<?=base_url()?>";
-			$.ajax({
-				url: base_url + 'invoice/serviceInfo',
-				type: "POST",
-				data: {'svc_id': item},
-				cache: false,
-				success: function (msg) {
-					var data = JSON.parse(msg);
-					$('#price1').val(data.price);
-					$('#description1').val(data.short_descr);
-				},
-				error: function (e) {
-					alert(e);
-				}
-			});
-			
-		});
-
-		$('#qty1').keyup(function () {
-			var result = 0;
-			$('#qty1').each(function () {
-				result = parseFloat($('.price1').val()) * parseFloat($(this).val());
-			});
-			$('#output1').text(result);
-		});
-
-		$('.calTotal').change(function () {
-			cal_count();
-		});
-
-		$('#vat').keyup(function () {
-			var sub_total = $('#subTotal').text();
-			var vat = $('#vat').val();
-			var price = parseFloat(sub_total) * (vat / 100);
-			var amount = parseFloat(sub_total) + price;
-			$('#totalAmount').text(amount);
-		});
-
-		$('#paid').keyup(function () {
-			var total_amount = $('#totalAmount').text();
-			var paid = $('#paid').val();
-			var amount = parseFloat(total_amount) - parseFloat(paid);
-			$('#totalDue').text(amount);
-		});
-
-		function cal_count() {
-			var total_price = 0;
-			for (var i = 1; i <= count; i++) {
-				total_price += (parseFloat($('.price' + i + '').val()) * parseFloat($('#qty' + i + '').val()));
-			}
-			$('#subTotal').text(total_price);
-			$('#totalAmount').text(total_price);
-		}
-
-		$('#evat').change(function () {
-			var sub_total = $('#sub').text();
-			var vat = $('#evat').val();
-			var price = parseFloat(sub_total) * (vat / 100);
-			var amount = parseFloat(sub_total) + price;
-			$('#etotalAmount').text(amount);
-		});
-
-		$('#epaid').change(function () {
-			var total_amount = $('#etotalAmount').text();
-			var paid = $('#epaid').val();
-			var amount = parseFloat(total_amount) - parseFloat(paid);
-			$('#etotalDue').text(amount);
-		});
+		});		
+		calAll();
 	});
 
 	
 	$(document).on('change keyup click', 'body', function () {
+		calAll();
+		// console.log($('#subTotal').text());
+	});
+
+	$(document).on('click', '.btn_remove', function () {
+		var button_id = $(this).attr("id");
+		count--;
+		$('.yTr' + button_id + '').remove();
+		calAll();
+	});
+
+	function calAll(){
 		var stotal=0;
 		var tot=0;
 		var paid = $("#paid").val();
@@ -345,21 +286,7 @@
 		}
 		$('#totalAmount').text(stotal);
 		$('#totalDue').text(stotal - paid);
-		
-		// console.log(stotal);
-		// console.log($('#subTotal').text());
-	});
-
-	$(document).on('click', '.btn_remove', function () {
-		var button_id = $(this).attr("id");
-		var price = parseFloat($('.price' + button_id + '').val()) * parseFloat($('#qty' + button_id + '').val());
-		var final_amount = $('#subTotal').text();
-		var result = parseFloat(final_amount) - price;
-		$('#subTotal').text(result);
-		$('#totalAmount').text(result);
-		count--;
-		$('.yTr' + button_id + '').remove();
-	});
+	} 
 	
 
 </script>

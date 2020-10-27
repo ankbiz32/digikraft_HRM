@@ -35,6 +35,16 @@ class Crud_model extends CI_Model{
 		}
 	}
 
+	public function softDeleteInfo($table,$col,$id){
+		$d=$this->db->where($col,$id)->update($table,['is_deleted'=>1]);
+		if ($d){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 	public function deleteInfo($table,$col,$id){
 		return $this->db->delete($table,array($col => $id ));
 	}

@@ -189,6 +189,7 @@
     $(".select2").select2();
     </script>
 <script type="text/javascript">
+
 $('form').each(function() {
     $(this).validate({
     submitHandler: function(form) {

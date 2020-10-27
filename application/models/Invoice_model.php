@@ -57,55 +57,56 @@ class Invoice_model extends CI_Model
 		}
 	}
 
-	public function update_invoice_record()
+	public function update_invoice_record($id)
 	{
-		$data = array(
-			'invoice_no' => $this->input->post('invoice_no', true),
-			'client_id' => $this->input->post('client_id', true),
-			'date' => $this->input->post('date', true),
-			'vat' => $this->input->post('vat', true),
-			'total_paid' => $this->input->post('paid', true)
-		);
+		// var_dump('<pre>',$_POST);exit;
+		$data = array();
+		$data2 = array();
+
+		$item_id = $this->input->post('item_id[]', true);
+		$item_description = $this->input->post('description[]', true);
 		$item_price = $this->input->post('price[]', true);
 		$item_qty = $this->input->post('qty[]', true);
 		$amount = 0;
-		for ($i = 0; $i < count($item_price); $i++) {
+		
+		$this->db->delete('invoice_item', array('invoice_id' => $id));
+		for ($i = 0; $i < count($item_id); $i++) {
 			$amount += ($item_price[$i] * $item_qty[$i]);
+			
+			$data2[$i] = array(
+				'invoice_id' => $id,
+				'item_id' => $item_id[$i],
+				'descr' => $item_description[$i],
+				'price' => $item_price[$i],
+				'qty' => $item_qty[$i]
+			);
+			$this->db->insert('invoice_item', $data2[$i]);
 		}
 		$vat = $this->input->post('vat', true);
 		$vat_amount = $amount * ($vat / 100);
 		$total_amount = $amount + $vat_amount;
 		$paid = $this->input->post('paid', true);
-		$data['subtotal'] = $amount;
-		$data['total_due'] = $total_amount - $paid;
+		$data['inv_date'] = $this->input->post('date', true);
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['sub_total'] = $amount;
 		$data['total'] = $total_amount;
-		$this->db->where('id', $this->input->post('old_invoice_id', true));
-		$this->db->update('tbl_invoice', $data);
+		$data['total_paid'] = $this->input->post('paid', true);
+		$data['total_due'] = $total_amount - $paid;
+		$data['remarks'] = $this->input->post('remarks', true);
+
+		// var_dump('<pre>',$data, $data2);exit;
+
+		$this->db->where('id', $id)->update('invoice', $data);
 	}
 
 	public function update_invoice_item_record()
 	{
-		$item_id = $this->input->post('item_id[]', true);
-		$item_description = $this->input->post('description[]', true);
-		$item_price = $this->input->post('price[]', true);
-		$item_qty = $this->input->post('qty[]', true);
-		$old_id = $this->input->post('old_item_id[]', true);
-		$data = array();
-		for ($i = 0; $i < count($item_id); $i++) {
-			$data[$i] = array(
-				'item_id' => $item_id[$i],
-				'description' => $item_description[$i],
-				'price' => $item_price[$i],
-				'qty' => $item_qty[$i]
-			);
-			$this->db->where('id', $old_id[$i]);
-			$this->db->update('tbl_invoice_item', $data[$i]);
-		}
+		
 	}
 
 	public function get_all_invoice()
 	{
-		return $this->db->order_by('id','desc')->get('invoice')->result();
+		return $this->db->order_by('id','desc')->where('is_deleted',0)->get('invoice')->result();
 	}
 
 	public function get_invoice_record($invoice_id)

@@ -46,7 +46,6 @@
 															<option value="<?= $client->id; ?>"><?= $client->name; ?></option>
 														<?php endforeach; ?>
 													</select>
-													<small class="text-muted">Client not found? <a href="<?php echo base_url(); ?>organization/addClient">Add client</a></small>
 												</div>
 											</div>
 											<div class="col-md-4">
@@ -71,7 +70,7 @@
 												Add items to invoice:
 											</div>
 											<div class="col-md-12 table-responsive">
-												<table class="table table-bordered table-striped select-invoice">
+												<table class="table table-bordered select-invoice">
 													<thead>
 													<tr class="">
 														<th>Service</th>
@@ -98,15 +97,15 @@
 																	id="description1"></textarea>
 														</td>
 														<td>
-															<input type="text" class="price1 form-control" name="price[]"
+															<input type="text" class="price1 price form-control" name="price[]"
 																id="price1" required>
 														</td>
 														<td>
-															<input type="text" class="calTotal form-control" name="qty[]"
+															<input type="text" class="calTotal qty form-control" name="qty[]"
 																id="qty1" required>
 														</td>
 														<td>
-															<label id="output1">0</label>
+															<label id="output1" class="rowTotal">0</label>
 														</td>
 													</tr>
 													<tr id="addertr" class="bg-white">
@@ -167,68 +166,6 @@
                 </div>
 <?php $this->load->view('backend/footer'); ?>
 
-
-<?php
-	if ($invoice != '') {
-		$invoice_items = $this->MInvoice->get_all_items_by_invoice($invoice->id);
-		$i = 1;
-		echo '<script>';
-		$total_item = count($invoice_items);
-		echo "var total_item = $total_item;";
-		foreach ($invoice_items as $invoice_item):
-			echo '
-					$("#eitem' . $i . '").change(function() {
-						var item = $(this).val();
-						var base_url = location.protocol + \'//\' + location.host + \'/invoiceMaker/\';
-						$.ajax({
-						url: base_url + \'item/get_price_by_item\',
-						type: "POST",
-						data: {\'item\': item},
-						cache: false,
-						success: function (msg) {
-							var data = $.parseJSON(msg);
-							$(".eprice' . $i . '").val(data);
-						},
-						error: function () {
-							alert(\'Error Occur...\');
-						}
-					});
-					});
-						
-					$("#eqty' . $i . '").keyup(function () {
-						var result = 0;
-						$("#eqty' . $i . '").each(function () {
-						result = parseFloat($(".eprice' . $i . '").val()) * parseFloat($(this).val());
-						});
-					$("#eoutput' . $i . '").text(result);
-					});
-				';
-			if ($i != 1) {
-				echo '
-					$(".cal' . $i . '").change(function() {
-						calculate_count();	   
-					});
-				';
-			}
-			$i++;
-		endforeach;
-		echo '
-				$(".cal1").change(function() {
-					calculate_count();	   
-				});
-				
-				function calculate_count() {
-					var total = 0;
-					for(var i = 1; i <= total_item; i++) {
-						total += (parseFloat($(\'.eprice\' + i + \'\').val()) * parseFloat($(\'#eqty\' + i + \'\').val()));
-					}
-					$(\'#sub\').text(total);
-				}
-		';
-		echo '</script>';
-	}
-?>
-
 <script>
 
 	$('#example1').DataTable();
@@ -262,15 +199,15 @@
 					'id="description' + count + '"></textarea>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<input type="text" class="price' + count + ' form-control" name="price[]"\n' +
+					'<input type="text" class="price' + count + ' form-control price" name="price[]"\n' +
 					'id="price' + count + '" required>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<input type="text" class="calTotal' + count + ' form-control" name="qty[]"\n' +
+					'<input type="text" class="calTotal' + count + ' form-control qty" name="qty[]"\n' +
 					'id="qty' + count + '" required>\n' +
 				'</td>\n' +
 				'<td style="position:relative">\n' +
-					'<label id="output' + count + '">0</label>\n' +
+					'<label id="output' + count + '" class="rowTotal">0</label>\n' +
 					'<button type="button" style="position:absolute;top:5px;right:5px" name="add" id="' + count + '"\n' +
 					'class="btn btn-danger btn_remove btn-xs">X\n' +
 					'</button>\n' +
@@ -281,7 +218,6 @@
 
 			$('.select2').select2();
 
-	
 			$('#item' + count + '').change(function () {
 				var item = $(this).val();
 				var base_url = "<?=base_url()?>";
@@ -302,101 +238,63 @@
 				
 			});
 
-			$('#qty' + count + '').keyup(function () {
-				var result = 0;
-				$('#qty' + count + '').each(function () {
-					result = parseFloat($('.price' + count + '').val()) * parseFloat($(this).val());
-				});
-				$('#output' + count + '').text(result);
-			});
-
 			$('.calTotal' + count + '').change(function () {
 				cal_count();
 			});
-		});
+		});		
+		calAll();
+	});
 
-		$('#item1').change(function () {
-			var item = $(this).val();
-			var base_url = "<?=base_url()?>";
-			$.ajax({
-				url: base_url + 'invoice/serviceInfo',
-				type: "POST",
-				data: {'svc_id': item},
-				cache: false,
-				success: function (msg) {
-					var data = JSON.parse(msg);
-					$('#price1').val(data.price);
-					$('#description1').val(data.short_descr);
-				},
-				error: function (e) {
-					alert(e);
-				}
+
+			$('#item1').change(function () {
+				var item = $(this).val();
+				var base_url = "<?=base_url()?>";
+				$.ajax({
+					url: base_url + 'invoice/serviceInfo',
+					type: "POST",
+					data: {'svc_id': item},
+					cache: false,
+					success: function (msg) {
+						var data = JSON.parse(msg);
+						$('#price'+count).val(data.price);
+						$('#description'+count).val(data.short_descr);
+					},
+					error: function (e) {
+						alert(e);
+					}
+				});
+				
 			});
-			
-		});
-
-		$('#qty1').keyup(function () {
-			var result = 0;
-			$('#qty1').each(function () {
-				result = parseFloat($('.price1').val()) * parseFloat($(this).val());
-			});
-			$('#output1').text(result);
-		});
-
-		$('.calTotal').change(function () {
-			cal_count();
-		});
-
-		$('#vat').keyup(function () {
-			var sub_total = $('#subTotal').text();
-			var vat = $('#vat').val();
-			var price = parseFloat(sub_total) * (vat / 100);
-			var amount = parseFloat(sub_total) + price;
-			$('#totalAmount').text(amount);
-		});
-
-		$('#paid').keyup(function () {
-			var total_amount = $('#totalAmount').text();
-			var paid = $('#paid').val();
-			var amount = parseFloat(total_amount) - parseFloat(paid);
-			$('#totalDue').text(amount);
-		});
-
-		function cal_count() {
-			var total_price = 0;
-			for (var i = 1; i <= count; i++) {
-				total_price += (parseFloat($('.price' + i + '').val()) * parseFloat($('#qty' + i + '').val()));
-			}
-			$('#subTotal').text(total_price);
-			$('#totalAmount').text(total_price);
-		}
-
-		$('#evat').change(function () {
-			var sub_total = $('#sub').text();
-			var vat = $('#evat').val();
-			var price = parseFloat(sub_total) * (vat / 100);
-			var amount = parseFloat(sub_total) + price;
-			$('#etotalAmount').text(amount);
-		});
-
-		$('#epaid').change(function () {
-			var total_amount = $('#etotalAmount').text();
-			var paid = $('#epaid').val();
-			var amount = parseFloat(total_amount) - parseFloat(paid);
-			$('#etotalDue').text(amount);
-		});
+	
+	$(document).on('change keyup click', 'body', function () {
+		calAll();
+		// console.log($('#subTotal').text());
 	});
 
 	$(document).on('click', '.btn_remove', function () {
 		var button_id = $(this).attr("id");
-		var price = parseFloat($('.price' + button_id + '').val()) * parseFloat($('#qty' + button_id + '').val());
-		var final_amount = $('#subTotal').text();
-		var result = parseFloat(final_amount) - price;
-		$('#subTotal').text(result);
-		$('#totalAmount').text(result);
 		count--;
 		$('.yTr' + button_id + '').remove();
+		calAll();
 	});
+
+	function calAll(){
+		var stotal=0;
+		var tot=0;
+		var paid = $("#paid").val();
+		var gst = $("#vat");
+		var qtys = $(".qty");
+		var prices = $(".price");
+		var rowTotal = $(".rowTotal");
+		for(var i = 0; i < qtys.length; i++){
+			rt=$(qtys[i]).val() * $(prices[i]).val();
+			$(rowTotal[i]).text(rt);
+			stotal+=parseFloat(rt);
+		}
+		$('#totalAmount').text(stotal);
+		$('#totalDue').text(stotal - paid);
+	} 
+	
 	
 
 </script>

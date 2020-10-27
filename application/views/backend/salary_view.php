@@ -195,7 +195,7 @@ $this->load->view('backend/sidebar');
                 <label class="control-label text-left col-md-3">Salary
                 </label>
                 <div class="col-md-9">
-                <input type="text" name="basic" class="form-control" id="" value="">
+                <input type="text" name="basic" class="form-control" id="" value="" readonly required>
               </div> 
               </div>                                     
               <div class="form-group row" hidden>

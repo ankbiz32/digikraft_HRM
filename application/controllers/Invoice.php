@@ -88,13 +88,13 @@ class Invoice extends CI_Controller {
 	}
 
     public function updateinvoice($id){
-		var_dump('<pre>',$_POST);exit;
+		// var_dump('<pre>',$_POST);exit;
         if($this->session->userdata('user_login_access') != False) {
 
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-			$this->form_validation->set_rules('name','Name','trim|required|xss_clean');
-			$this->form_validation->set_rules('contact_no','Contact No.','trim|required|xss_clean|min_length[10]|max_length[10]');
+			// $this->form_validation->set_rules('item_id','Service','trim|required|xss_clean');
+			$this->form_validation->set_rules('invoice_no','Invoice No.','trim|required|xss_clean');
 
 			if ($this->form_validation->run() == FALSE) {
 				echo validation_errors();
@@ -102,7 +102,7 @@ class Invoice extends CI_Controller {
 			else{
 				$data=$this->input->post();
 				$data['updated_at']=date('Y-m-d H:i:s');
-				$success = $this->crud->updateInfo('invoices',$data,'id',$id);
+				$success = $this->invoice->update_invoice_record($id);
 				$this->session->set_flashdata('feedback','Successfully updated');
 				echo "Successfully Updated";
 			}
@@ -115,8 +115,9 @@ class Invoice extends CI_Controller {
 
     public function deleteInvoice($id){
         if($this->session->userdata('user_login_access') != False) { 
-			$this->crud->deleteInfo('invoice','id',$id);
-			$this->crud->deleteInfo('invoice_item','invoice_id',$id);
+			$this->crud->softDeleteInfo('invoice','id',$id);
+			// $this->crud->deleteInfo('invoice','id',$id);
+			// $this->crud->deleteInfo('invoice_item','invoice_id',$id);
 			$this->session->set_flashdata('delsuccess', 'Successfully Deleted');
 			redirect('invoice');
         }

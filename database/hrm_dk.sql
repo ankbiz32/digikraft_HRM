@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2020 at 02:14 PM
+-- Generation Time: Oct 27, 2020 at 01:40 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -42,7 +42,8 @@ CREATE TABLE `addition` (
 
 INSERT INTO `addition` (`addi_id`, `salary_id`, `basic`, `medical`, `house_rent`, `conveyance`) VALUES
 (1, 1, '25000', '0', '0', '0'),
-(26, 26, '14000', '0', '0', '0');
+(26, 26, '14000', '0', '0', '0'),
+(31, 31, '', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -215,7 +216,8 @@ CREATE TABLE `deduction` (
 
 INSERT INTO `deduction` (`de_id`, `salary_id`, `provident_fund`, `bima`, `tax`, `others`) VALUES
 (1, 1, '0', '0', '0', '0'),
-(26, 26, '0', '0', '0', '0');
+(26, 26, '0', '0', '0', '0'),
+(30, 31, '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -347,7 +349,8 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`id`, `em_id`, `em_code`, `des_id`, `dep_id`, `first_name`, `last_name`, `em_email`, `em_password`, `em_role`, `em_address`, `status`, `em_gender`, `em_phone`, `em_birthday`, `em_blood_group`, `em_joining_date`, `em_contact_end`, `em_image`, `em_nid`) VALUES
 (36, 'Adm1106', '123456', 2, 2, 'Admin', 'DK HRM', 'admin@gmail.com', 'cd5ea73cd58f827fa78eef7197b8ee606c99b2e6', 'ADMIN', NULL, 'ACTIVE', 'Male', '8888888888', '2019-02-13', 'O+', '2019-02-15', '2019-02-22', 'Doe1753.jpg', '01253568955555'),
-(38, 'Agr1106', '', 13, 5, 'Ankur', 'Agrawal', 'ankur.agr32@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'EMPLOYEE', NULL, 'ACTIVE', 'Male', '8871192502', '1994-02-18', 'O+', '2019-09-03', '', NULL, NULL);
+(38, 'Agr1106', '', 13, 5, 'Ankur', 'Agrawal', 'ankur.agr32@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'EMPLOYEE', NULL, 'ACTIVE', 'Male', '8871192502', '1994-02-18', 'O+', '2019-09-03', '', NULL, NULL),
+(43, 'ff1308', '', 13, 9, 'latest', 'ff', 'as@dfsg.sdfds', '', 'EMPLOYEE', NULL, 'ACTIVE', 'Male', '9876546784', '2020-10-16', '', '', '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -442,7 +445,8 @@ CREATE TABLE `emp_salary` (
 
 INSERT INTO `emp_salary` (`id`, `emp_id`, `type_id`, `total`) VALUES
 (1, 'Adm1106', 1, '25000'),
-(26, 'Agr1106', 1, '14000');
+(26, 'Agr1106', 1, '14000'),
+(31, 'ff1308', 1, '');
 
 -- --------------------------------------------------------
 
@@ -508,6 +512,7 @@ CREATE TABLE `invoice` (
   `total_paid` double NOT NULL,
   `total_due` double NOT NULL,
   `remarks` varchar(500) NOT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -516,9 +521,8 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`id`, `inv_no`, `client_id`, `inv_date`, `sub_total`, `gst`, `total`, `total_paid`, `total_due`, `remarks`, `created_at`, `updated_at`) VALUES
-(4, 'DS24102049', 1, '2020-10-23 18:30:00', 3996, 0, 3996, 0, 3996, '', '2020-10-24 06:59:04', '2020-10-24 06:59:04'),
-(6, 'DS24102057', 1, '2020-09-30 18:30:00', 5699, 0, 5699, 0, 5699, 'Kuch bhi', '2020-10-24 07:47:19', '2020-10-24 07:47:19');
+INSERT INTO `invoice` (`id`, `inv_no`, `client_id`, `inv_date`, `sub_total`, `gst`, `total`, `total_paid`, `total_due`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(8, 'DS27102043', 1, '2020-10-26 18:30:00', 499, 0, 499, 0, 499, 'ye hai', 0, '2020-10-27 10:44:30', '2020-10-27 11:34:05');
 
 -- --------------------------------------------------------
 
@@ -542,9 +546,8 @@ CREATE TABLE `invoice_item` (
 --
 
 INSERT INTO `invoice_item` (`id`, `invoice_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
-(4, 4, 2, '- gvgrg\r\n- debnththt\r\n- dhbthth\r\n- eghehgytht', 999, 4, '2020-10-24 06:59:04', '2020-10-24 06:59:04'),
-(6, 6, 1, 'sdrfgrfggrg', 499, 1, '2020-10-24 07:47:19', '2020-10-24 07:47:19'),
-(7, 6, 2, 'df dgervcxvxv', 520, 10, '2020-10-24 07:47:19', '2020-10-24 07:47:19');
+(27, 8, 1, 'sdrfgrfggrg', 499, 1, '2020-10-27 11:04:05', '2020-10-27 11:04:05'),
+(28, 8, 3, '', 639, 0, '2020-10-27 11:04:05', '2020-10-27 11:04:05');
 
 -- --------------------------------------------------------
 
@@ -773,6 +776,23 @@ CREATE TABLE `project_file` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `proposal`
+--
+
+CREATE TABLE `proposal` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `file_src` varchar(1000) NOT NULL,
+  `descr` varchar(500) DEFAULT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'SENT',
+  `follow_up_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pro_expenses`
 --
 
@@ -832,6 +852,45 @@ CREATE TABLE `pro_task_assets` (
   `pro_task_id` int(11) NOT NULL,
   `assign_id` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quotations`
+--
+
+CREATE TABLE `quotations` (
+  `id` int(11) NOT NULL,
+  `quote_no` varchar(500) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `quote_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sub_total` double NOT NULL,
+  `gst` double NOT NULL DEFAULT 0,
+  `discount` double NOT NULL DEFAULT 0,
+  `total` double NOT NULL,
+  `status` varchar(500) DEFAULT NULL,
+  `remarks` varchar(500) DEFAULT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quotation_item`
+--
+
+CREATE TABLE `quotation_item` (
+  `id` int(11) NOT NULL,
+  `quotation_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `descr` varchar(400) DEFAULT NULL,
+  `price` double NOT NULL,
+  `qty` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1172,6 +1231,12 @@ ALTER TABLE `project_file`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `proposal`
+--
+ALTER TABLE `proposal`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pro_expenses`
 --
 ALTER TABLE `pro_expenses`
@@ -1193,6 +1258,18 @@ ALTER TABLE `pro_task`
 -- Indexes for table `pro_task_assets`
 --
 ALTER TABLE `pro_task_assets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quotations`
+--
+ALTER TABLE `quotations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quotation_item`
+--
+ALTER TABLE `quotation_item`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1233,7 +1310,7 @@ ALTER TABLE `to-do_list`
 -- AUTO_INCREMENT for table `addition`
 --
 ALTER TABLE `addition`
-  MODIFY `addi_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `addi_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `address`
@@ -1287,7 +1364,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT for table `deduction`
 --
 ALTER TABLE `deduction`
-  MODIFY `de_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `de_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -1323,7 +1400,7 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `employee_file`
@@ -1359,7 +1436,7 @@ ALTER TABLE `emp_penalty`
 -- AUTO_INCREMENT for table `emp_salary`
 --
 ALTER TABLE `emp_salary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `field_visit`
@@ -1377,13 +1454,13 @@ ALTER TABLE `holiday`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1425,7 +1502,7 @@ ALTER TABLE `notice`
 -- AUTO_INCREMENT for table `pay_salary`
 --
 ALTER TABLE `pay_salary`
-  MODIFY `pay_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `pay_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `project`
@@ -1438,6 +1515,12 @@ ALTER TABLE `project`
 --
 ALTER TABLE `project_file`
   MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `proposal`
+--
+ALTER TABLE `proposal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pro_expenses`
@@ -1461,6 +1544,18 @@ ALTER TABLE `pro_task`
 -- AUTO_INCREMENT for table `pro_task_assets`
 --
 ALTER TABLE `pro_task_assets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `quotations`
+--
+ALTER TABLE `quotations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `quotation_item`
+--
+ALTER TABLE `quotation_item`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
