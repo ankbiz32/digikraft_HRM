@@ -3,10 +3,6 @@ hr-payroll Human resource management system (HRM)
 ###################
 
 ###################
-Summery
-###################
-
-###################
 Features
 ###################
 * Estimate invoice and **biling system**,
