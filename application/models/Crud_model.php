@@ -21,6 +21,7 @@ class Crud_model extends CI_Model{
 		return $this->db->select('p.*, c.name')
 						->from('proposal p')
 						->join('clients c', 'c.id = p.client_id', 'LEFT')
+						->order_by('id','desc')
 						// ->where('invoice_id', $id)
 						->get()->result();
 	}

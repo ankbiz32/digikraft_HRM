@@ -99,25 +99,15 @@ class Quotation_model extends CI_Model
 		$this->db->where('id', $id)->update('quotations', $data);
 	}
 
-	public function update_invoice_item_record()
-	{
-		
-	}
 
 	public function get_all_quotation()
 	{
-		return $this->db->order_by('id','desc')->where('is_deleted',0)->get('quotations')->result();
+		return $this->db->select('q.*, c.name')
+						->from('quotations q')
+						->join('clients c', 'c.id = q.client_id', 'LEFT')
+						->get()->result();
 	}
 
-	public function get_invoice_record($invoice_id)
-	{
-		return $this->db->where('id', $invoice_id)->get('quotations')->row();
-	}
-
-	public function get_all_items_by_invoice($invoice_id)
-	{
-		return $this->db->where('invoice_id', $invoice_id)->get('quotation_item')->result();
-	}
 
 	function get_all_items_by_invoiceJoin($id){
 		return $this->db->select('ii.*, s.name')
@@ -127,10 +117,6 @@ class Quotation_model extends CI_Model
 						->get()->result();
 	}
 
-	public function count_item_record_by_invoice($invoice_id)
-	{
-		return $this->db->where('invoice_id', $invoice_id)->count_all_results('tbl_invoice_item');
-	}
 
 	public function get_settings_record()
 	{
@@ -146,19 +132,4 @@ class Quotation_model extends CI_Model
 		}
 	}
 
-	public function get_for_chart()
-	{
-		$data = $this->db->query('SELECT client_id, SUM(total) as amount FROM `tbl_invoice` GROUP BY client_id')->result_array();
-		if($data) {
-			foreach ($data as $d) {
-				$client = $this->MClient->get_record($d['client_id']);
-				$d['amount'] = (int)$d['amount'];
-				$name = $client->name;
-				$data = array($d['amount']);
-				$series_data[] = array('name' => $name, 'data' => $data);
-
-			}
-			return $series_data = json_encode($series_data);
-		}
-	}
 }

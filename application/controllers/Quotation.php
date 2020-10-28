@@ -20,7 +20,7 @@ class Quotation extends CI_Controller {
 
     public function index(){
         if($this->session->userdata('user_login_access') != False) {
-			$data['invoices'] = $this->quote->get_all_quotation();
+			$data['quotations'] = $this->quote->get_all_quotation();
 			$this->load->view('backend/quotations',$data);
         }
 		else{
@@ -44,13 +44,12 @@ class Quotation extends CI_Controller {
 		} 
 	}
 		
-    public function addInvoice(){
+    public function addQuotation(){
         if($this->session->userdata('user_login_access') != False) {
-			$data['invoice'] = '';
 			$data['clients'] = $this->crud->getInfo('clients');
 			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'invoice/saveInvoice/';
-			$this->load->view('backend/invoiceForm', $data);
+			$data['path'] = base_url().'quotation/saveQuotation/';
+			$this->load->view('backend/quotationForm', $data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -58,36 +57,36 @@ class Quotation extends CI_Controller {
 	}
 		
 	
-	public function saveInvoice()
+	public function saveQuotation()
 	{
-		$insert_id = $this->quote->store_invoice_record();
+		$insert_id = $this->quote->store_quotation_record();
 		
-		if($this->invoice->store_invoice_item_record($insert_id)){
-			$this->session->set_flashdata('feedback','Invoice generated');
-			echo "Invoice generated";
+		if($this->invoice->store_quotation_item_record($insert_id)){
+			$this->session->set_flashdata('feedback','Quotation created');
+			echo "Quotation created";
 		}
 		else{
 			echo "Server error !";
 		}
 	}
 
-    public function editinvoice($id){
+    public function editQuotation($id){
         if($this->session->userdata('user_login_access') != False) { 
 			$data= array();
-			$data['invoice'] = $this->crud->getInfoId('invoice','id',$id);
-			$data['inv_items'] = $this->quote->get_all_items_by_invoiceJoin($data['invoice']->id);
+			$data['quotation'] = $this->crud->getInfoId('quotation','id',$id);
+			$data['quotation_items'] = $this->quote->get_all_items_by_quotationJoin($data['quotation']->id);
 			$data['clients'] = $this->crud->getInfo('clients');
 			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'invoice/updateInvoice/'.$id;
+			$data['path'] = base_url().'quotation/updateQuotation/'.$id;
 			// var_dump('<pre>',$data);exit;
-			$this->load->view('backend/invoiceFormEdit', $data);
+			$this->load->view('backend/quotationFormEdit', $data);
         }
 		else{
 			redirect(base_url() , 'refresh');
 		}        
 	}
 
-    public function updateinvoice($id){
+    public function updateQuotation($id){
 		// var_dump('<pre>',$_POST);exit;
         if($this->session->userdata('user_login_access') != False) {
 
@@ -113,9 +112,9 @@ class Quotation extends CI_Controller {
 		}        
 	}
 
-    public function deleteInvoice($id){
+    public function deleteQuotation($id){
         if($this->session->userdata('user_login_access') != False) { 
-			$this->crud->softDeleteInfo('invoice','id',$id);
+			$this->crud->softDeleteInfo('quotation','id',$id);
 			// $this->crud->deleteInfo('invoice','id',$id);
 			// $this->crud->deleteInfo('invoice_item','invoice_id',$id);
 			$this->session->set_flashdata('delsuccess', 'Successfully Deleted');
