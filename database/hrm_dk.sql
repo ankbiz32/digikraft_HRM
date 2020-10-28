@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2020 at 01:40 PM
+-- Generation Time: Oct 28, 2020 at 12:28 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -193,7 +193,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `name`, `address`, `contact_no`, `email`, `gst_no`, `remarks`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'The Digital Ox', '', '9879878978', 'dssv@tdo.com', '', '', '2020-10-22 12:03:15', '2020-10-22 12:03:15', NULL);
+(1, 'The Digital Ox', 'Budhapara,Raipur', '9879878978', 'dssv@tdo.com', '', '', '2020-10-22 12:03:15', '2020-10-28 05:56:50', NULL),
+(2, 'Cluebix', '', '7899879877', 'sdad@sfs.xd', '', '', '2020-10-28 05:26:34', '2020-10-28 05:26:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -790,6 +791,14 @@ CREATE TABLE `proposal` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `proposal`
+--
+
+INSERT INTO `proposal` (`id`, `client_id`, `file_src`, `descr`, `status`, `follow_up_date`, `created_at`, `updated_at`) VALUES
+(1, 2, 'facebook.webp', 'ter', 'SENT', '2020-10-30 18:30:00', '2020-10-28 07:18:31', '2020-10-28 07:18:31'),
+(3, 1, 'whatsapp-updates.webp', '', 'SENT', '2020-10-27 18:30:00', '2020-10-28 09:05:53', '2020-10-28 09:05:53');
+
 -- --------------------------------------------------------
 
 --
@@ -864,6 +873,7 @@ CREATE TABLE `quotations` (
   `quote_no` varchar(500) NOT NULL,
   `client_id` int(11) NOT NULL,
   `quote_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `valid_till` timestamp NULL DEFAULT NULL,
   `sub_total` double NOT NULL,
   `gst` double NOT NULL DEFAULT 0,
   `discount` double NOT NULL DEFAULT 0,
@@ -874,6 +884,13 @@ CREATE TABLE `quotations` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quotations`
+--
+
+INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'QDS28102001', 1, '2020-10-28 10:34:07', '2020-10-31 10:32:28', 500, 0, 0, 500, NULL, NULL, 0, '2020-10-28 10:34:07', '2020-10-28 10:34:07');
 
 -- --------------------------------------------------------
 
@@ -891,6 +908,13 @@ CREATE TABLE `quotation_item` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quotation_item`
+--
+
+INSERT INTO `quotation_item` (`id`, `quotation_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Something', 500, 1, '2020-10-28 10:34:52', '2020-10-28 10:34:52');
 
 -- --------------------------------------------------------
 
@@ -1358,7 +1382,7 @@ ALTER TABLE `bank_info`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `deduction`
@@ -1520,7 +1544,7 @@ ALTER TABLE `project_file`
 -- AUTO_INCREMENT for table `proposal`
 --
 ALTER TABLE `proposal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pro_expenses`
@@ -1550,13 +1574,13 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `quotations`
 --
 ALTER TABLE `quotations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `quotation_item`
 --
 ALTER TABLE `quotation_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `salary_type`

@@ -17,6 +17,15 @@ class Crud_model extends CI_Model{
 		return $result;
 	}
 
+	function getProposals(){
+		return $this->db->select('p.*, c.name')
+						->from('proposal p')
+						->join('clients c', 'c.id = p.client_id', 'LEFT')
+						// ->where('invoice_id', $id)
+						->get()->result();
+	}
+
+
 	public function getInfoId($table,$col,$id,$conds=null){
 		$query = $this->db->where($col,$id);
 		if($conds){
