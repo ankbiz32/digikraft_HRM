@@ -70,7 +70,7 @@
 
 										<div class="row">
 											<div class="col-md-12 mb-3 text-uppercase">
-												Add items to invoice:
+												Add Services to invoice:
 											</div>
 											<div class="col-md-12 table-responsive">
 												<table class="table table-bordered select-invoice">
@@ -87,7 +87,7 @@
 													<?php foreach($inv_items as $itm){?>
 														<tr>
 															<td>
-																<select class="select2 item form-control" name="item_id[]" id="item1" required>
+																<select class="select2 item form-control" name="item_id[]" required>
 																	<option value="admin">--Select--</option>
 																	<?php foreach ($items as $item): ?>
 																		<option value="<?= $item->id; ?>" <?=$itm->item_id==$item->id?' selected':''?>><?= $item->name; ?></option>
@@ -95,17 +95,16 @@
 																</select>
 															</td>
 															<td>
-																<textarea type="text" class="form-control"
-																		name="description[]"
-																		id="description1"><?=$itm->descr?></textarea>
+																<textarea type="text" class="form-control description"
+																		name="description[]"><?=$itm->descr?></textarea>
 															</td>
 															<td>
 																<input type="text" class="price1 price form-control digits" name="price[]"
-																	id="price1" value="<?=$itm->price?>" required>
+																	 value="<?=$itm->price?>" required>
 															</td>
 															<td>
 																<input type="text" class="calTotal qty form-control" name="qty[]"
-																	id="qty1" value="<?=$itm->qty?>" required>
+																	 value="<?=$itm->qty?>" required>
 															</td>
 															<td>
 																<label id="output1" class="rowTotal"><?=$itm->price * $itm->qty?></label>
@@ -198,7 +197,7 @@
 					'</select>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<textarea type="text"  class="form-control"\n' +
+					'<textarea type="text"  class="form-control description"\n' +
 					'name="description[]"\n' +
 					'id="description' + count + '"></textarea>\n' +
 				'</td>\n' +
@@ -208,7 +207,7 @@
 				'</td>\n' +
 				'<td>\n' +
 					'<input type="text" class="calTotal' + count + ' form-control qty" name="qty[]"\n' +
-					'id="qty' + count + '" required>\n' +
+					'id="qty' + count + '" value="1" required>\n' +
 				'</td>\n' +
 				'<td style="position:relative">\n' +
 					'<label id="output' + count + '" class="rowTotal">0</label>\n' +
@@ -223,7 +222,8 @@
 			$('.select2').select2();
 
 	
-			$('#item' + count + '').change(function () {
+			$('.item').change(function () {
+				var y = $(this);
 				var item = $(this).val();
 				var base_url = "<?=base_url()?>";
 				$.ajax({
@@ -233,26 +233,15 @@
 					cache: false,
 					success: function (msg) {
 						var data = JSON.parse(msg);
-						$('#price'+count).val(data.price);
-						$('#description'+count).val(data.short_descr);
+						y.parent().siblings().find(".description").val(data.short_descr);
+						y.parent().siblings().find(".price").val(data.price);
+						calAll();
 					},
 					error: function (e) {
 						alert(e);
 					}
 				});
 				
-			});
-
-			$('#qty' + count + '').keyup(function () {
-				var result = 0;
-				$('#qty' + count + '').each(function () {
-					result = parseFloat($('.price' + count + '').val()) * parseFloat($(this).val());
-				});
-				$('#output' + count + '').text(result);
-			});
-
-			$('.calTotal' + count + '').change(function () {
-				cal_count();
 			});
 		});		
 		calAll();
@@ -269,6 +258,29 @@
 		count--;
 		$('.yTr' + button_id + '').remove();
 		calAll();
+	});
+
+	
+	$('.item').change(function () {
+		var y = $(this);
+		var item = $(this).val();
+		var base_url = "<?=base_url()?>";
+		$.ajax({
+			url: base_url + 'invoice/serviceInfo',
+			type: "POST",
+			data: {'svc_id': item},
+			cache: false,
+			success: function (msg) {
+				var data = JSON.parse(msg);
+				y.parent().siblings().find(".description").val(data.short_descr);
+				y.parent().siblings().find(".price").val(data.price);
+				calAll();
+			},
+			error: function (e) {
+				alert(e);
+			}
+		});
+		
 	});
 
 	function calAll(){

@@ -67,7 +67,7 @@
 
 										<div class="row">
 											<div class="col-md-12 mb-3 text-uppercase">
-												Add items to invoice:
+												Add Services to invoice:
 											</div>
 											<div class="col-md-12 table-responsive">
 												<table class="table table-bordered select-invoice">
@@ -92,7 +92,7 @@
 															</select>
 														</td>
 														<td>
-															<textarea type="text" class="form-control"
+															<textarea type="text" class="form-control description"
 																	name="description[]"
 																	id="description1"></textarea>
 														</td>
@@ -102,7 +102,7 @@
 														</td>
 														<td>
 															<input type="text" class="calTotal qty form-control" name="qty[]"
-																id="qty1" required>
+																id="qty1" value="1" required>
 														</td>
 														<td>
 															<label id="output1" class="rowTotal">0</label>
@@ -194,7 +194,7 @@
 					'</select>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<textarea type="text"  class="form-control"\n' +
+					'<textarea type="text"  class="form-control description"\n' +
 					'name="description[]"\n' +
 					'id="description' + count + '"></textarea>\n' +
 				'</td>\n' +
@@ -204,7 +204,7 @@
 				'</td>\n' +
 				'<td>\n' +
 					'<input type="text" class="calTotal' + count + ' form-control qty" name="qty[]"\n' +
-					'id="qty' + count + '" required>\n' +
+					'id="qty' + count + '" value="1" required>\n' +
 				'</td>\n' +
 				'<td style="position:relative">\n' +
 					'<label id="output' + count + '" class="rowTotal">0</label>\n' +
@@ -219,6 +219,7 @@
 			$('.select2').select2();
 
 			$('#item' + count + '').change(function () {
+				var y = $(this);
 				var item = $(this).val();
 				var base_url = "<?=base_url()?>";
 				$.ajax({
@@ -228,8 +229,9 @@
 					cache: false,
 					success: function (msg) {
 						var data = JSON.parse(msg);
-						$('#price'+count).val(data.price);
-						$('#description'+count).val(data.short_descr);
+						y.parent().siblings().find(".description").val(data.short_descr);
+						y.parent().siblings().find(".price").val(data.price);
+						calAll();
 					},
 					error: function (e) {
 						alert(e);
@@ -247,6 +249,7 @@
 
 
 			$('#item1').change(function () {
+				var y = $(this);
 				var item = $(this).val();
 				var base_url = "<?=base_url()?>";
 				$.ajax({
@@ -256,8 +259,9 @@
 					cache: false,
 					success: function (msg) {
 						var data = JSON.parse(msg);
-						$('#price'+count).val(data.price);
-						$('#description'+count).val(data.short_descr);
+						y.parent().siblings().find(".description").val(data.short_descr);
+						y.parent().siblings().find(".price").val(data.price);
+						calAll();
 					},
 					error: function (e) {
 						alert(e);

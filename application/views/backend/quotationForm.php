@@ -37,7 +37,7 @@
 									enctype="multipart/form-data">
 
 										<div class="row">
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label>Select Client <span class="req">*</span></label>
 													<select class="form-control select2" name="client_id" data-placeholder="Select a client" required>
@@ -48,17 +48,23 @@
 													</select>
 												</div>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label for="exampleInputPassword1"># Quotation Ref No. <span class="req">*</span></label>
-													<input type="text" class="form-control" name="invoice_no" value="<?= 'QDS'.date('dmy').rand(01,99) ?>"
+													<input type="text" class="form-control" name="quote_no" value="<?= 'QDS'.date('dmy').rand(01,99) ?>"
 														placeholder="Enter quotation no" required>
 												</div>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label for="exampleInputPassword1">Quotation date <span class="req">*</span></label>
-													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="date" placeholder="Enter Invoice Date" required>
+													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="quote_date" placeholder="Enter quotation date" required>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group">
+													<label for="exampleInputPassword1">Validi till <span class="req">*</span></label>
+													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="valid_till" placeholder="Enter validity date" required>
 												</div>
 											</div>
 										</div>
@@ -67,7 +73,7 @@
 
 										<div class="row">
 											<div class="col-md-12 mb-3 text-uppercase">
-												Add items to invoice:
+												Add services to quotation:
 											</div>
 											<div class="col-md-12 table-responsive">
 												<table class="table table-bordered select-invoice">
@@ -92,7 +98,7 @@
 															</select>
 														</td>
 														<td>
-															<textarea type="text" class="form-control"
+															<textarea type="text" class="form-control description"
 																	name="description[]"
 																	id="description1"></textarea>
 														</td>
@@ -102,7 +108,7 @@
 														</td>
 														<td>
 															<input type="text" class="calTotal qty form-control" name="qty[]"
-																id="qty1" required>
+																id="qty1" value="1" required>
 														</td>
 														<td>
 															<label id="output1" class="rowTotal">0</label>
@@ -143,12 +149,12 @@
 														<td>₹ <label id="totalAmount">0.00</label></td>
 													</tr>
 													<tr class="text-right">
-														<td colspan="4">Amt. Paid :</td>
-														<td>₹ <input style="width: 80px" type="text" class="form-control" name="paid"
-																id="paid" required></td>
+														<td colspan="4">Discount :</td>
+														<td>₹ <input style="width: 80px" type="text" value="0" class="form-control" name="discount"
+																id="discount" required></td>
 													</tr>
 													<tr class="text-right">
-														<td colspan="4">Amt. Due :</td>
+														<td colspan="4">Estimated Amt. :</td>
 														<td>₹ <label id="totalDue">0.00</label></td>
 													</tr>
 												</table>
@@ -156,8 +162,8 @@
 										</div>
 
 										<div class="box-footer mt-4">
-											<button type="submit" class="btn btn-info mr-2">+ Generate Invoice</button>
-											<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
+											<button type="submit" class="btn btn-info mr-2">+ Save quotation</button>
+											<a href="<?=base_url('quotation')?>" class="btn btn-secondary">Cancel</a>
 										</div>
 								</form>
                             </div>
@@ -194,7 +200,7 @@
 					'</select>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<textarea type="text"  class="form-control"\n' +
+					'<textarea type="text"  class="form-control description"\n' +
 					'name="description[]"\n' +
 					'id="description' + count + '"></textarea>\n' +
 				'</td>\n' +
@@ -203,7 +209,7 @@
 					'id="price' + count + '" required>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<input type="text" class="calTotal' + count + ' form-control qty" name="qty[]"\n' +
+					'<input type="text" class="calTotal' + count + ' form-control qty" value="1" name="qty[]"\n' +
 					'id="qty' + count + '" required>\n' +
 				'</td>\n' +
 				'<td style="position:relative">\n' +
@@ -218,7 +224,8 @@
 
 			$('.select2').select2();
 
-			$('#item' + count + '').change(function () {
+			$('.item').change(function () {
+				var y = $(this);
 				var item = $(this).val();
 				var base_url = "<?=base_url()?>";
 				$.ajax({
@@ -228,8 +235,9 @@
 					cache: false,
 					success: function (msg) {
 						var data = JSON.parse(msg);
-						$('#price'+count).val(data.price);
-						$('#description'+count).val(data.short_descr);
+						y.parent().siblings().find(".description").val(data.short_descr);
+						y.parent().siblings().find(".price").val(data.price);
+						calAll();
 					},
 					error: function (e) {
 						alert(e);
@@ -246,25 +254,27 @@
 	});
 
 
-			$('#item1').change(function () {
-				var item = $(this).val();
-				var base_url = "<?=base_url()?>";
-				$.ajax({
-					url: base_url + 'invoice/serviceInfo',
-					type: "POST",
-					data: {'svc_id': item},
-					cache: false,
-					success: function (msg) {
-						var data = JSON.parse(msg);
-						$('#price'+count).val(data.price);
-						$('#description'+count).val(data.short_descr);
-					},
-					error: function (e) {
-						alert(e);
-					}
-				});
-				
-			});
+	$('.item').change(function () {
+		var y = $(this);
+		var item = $(this).val();
+		var base_url = "<?=base_url()?>";
+		$.ajax({
+			url: base_url + 'invoice/serviceInfo',
+			type: "POST",
+			data: {'svc_id': item},
+			cache: false,
+			success: function (msg) {
+				var data = JSON.parse(msg);
+				y.parent().siblings().find(".description").val(data.short_descr);
+				y.parent().siblings().find(".price").val(data.price);
+				calAll();
+			},
+			error: function (e) {
+				alert(e);
+			}
+		});
+		
+	});
 	
 	$(document).on('change keyup click', 'body', function () {
 		calAll();
@@ -281,7 +291,7 @@
 	function calAll(){
 		var stotal=0;
 		var tot=0;
-		var paid = $("#paid").val();
+		var discount = $("#discount").val();
 		var gst = $("#vat");
 		var qtys = $(".qty");
 		var prices = $(".price");
@@ -292,7 +302,7 @@
 			stotal+=parseFloat(rt);
 		}
 		$('#totalAmount').text(stotal);
-		$('#totalDue').text(stotal - paid);
+		$('#totalDue').text(stotal - discount);
 	} 
 	
 	

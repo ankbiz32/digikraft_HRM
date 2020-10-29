@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2020 at 12:28 PM
+-- Generation Time: Oct 29, 2020 at 01:31 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -890,7 +890,8 @@ CREATE TABLE `quotations` (
 --
 
 INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'QDS28102001', 1, '2020-10-28 10:34:07', '2020-10-31 10:32:28', 500, 0, 0, 500, NULL, NULL, 0, '2020-10-28 10:34:07', '2020-10-28 10:34:07');
+(1, 'QDS28102001', 1, '2020-10-28 10:34:07', '2020-10-31 10:32:28', 500, 0, 0, 500, NULL, NULL, 0, '2020-10-28 10:34:07', '2020-10-28 10:34:07'),
+(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 0, 1498, NULL, '', 0, '2020-10-29 11:12:46', '2020-10-29 11:12:46');
 
 -- --------------------------------------------------------
 
@@ -914,7 +915,9 @@ CREATE TABLE `quotation_item` (
 --
 
 INSERT INTO `quotation_item` (`id`, `quotation_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Something', 500, 1, '2020-10-28 10:34:52', '2020-10-28 10:34:52');
+(1, 1, 1, 'Something', 500, 1, '2020-10-28 10:34:52', '2020-10-28 10:34:52'),
+(2, 2, 1, 'sdrfgrfggrg', 499, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
+(3, 2, 2, 'df dgervcxvxv', 999, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46');
 
 -- --------------------------------------------------------
 
@@ -1574,13 +1577,13 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `quotations`
 --
 ALTER TABLE `quotations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `quotation_item`
 --
 ALTER TABLE `quotation_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `salary_type`

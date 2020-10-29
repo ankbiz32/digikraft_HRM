@@ -28,16 +28,16 @@ class Quotation extends CI_Controller {
 		}            
 	}
 
-	public function showQuote($insert_id)
+	public function showQuotation($insert_id)
 	{
 		if($this->session->userdata('user_login_access') != False) {
 			$data=array();
-			$data['invoice'] = $this->crud->getInfoId('invoice','id',$insert_id);
-			$data['client'] = $this->crud->getInfoId('clients','id',$data['invoice']->client_id);
-			$data['inv_items'] = $this->quote->get_all_items_by_invoiceJoin($data['invoice']->id);
+			$data['quotation'] = $this->crud->getInfoId('quotations','id',$insert_id);
+			$data['client'] = $this->crud->getInfoId('clients','id',$data['quotation']->client_id);
+			$data['quotation_items'] = $this->quote->get_all_items_by_quotationJoin($data['quotation']->id);
 			$data['settings'] = $this->crud->getInfoId('settings','id',1);
 			// var_dump('<pre>',$data);exit;
-			$this->load->view('backend/showInvoice',$data);
+			$this->load->view('backend/showQuotation',$data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -60,8 +60,7 @@ class Quotation extends CI_Controller {
 	public function saveQuotation()
 	{
 		$insert_id = $this->quote->store_quotation_record();
-		
-		if($this->invoice->store_quotation_item_record($insert_id)){
+		if($this->quote->store_quotation_item_record($insert_id)){
 			$this->session->set_flashdata('feedback','Quotation created');
 			echo "Quotation created";
 		}

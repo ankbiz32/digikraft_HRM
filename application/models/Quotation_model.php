@@ -5,14 +5,14 @@ class Quotation_model extends CI_Model
 {
 	public function store_quotation_record()
 	{
-		// var_dump($_POST);exit;
 		$data = array(
-			'inv_no' => $this->input->post('invoice_no', true),
+			'quote_no' => $this->input->post('quote_no', true),
 			'client_id' => $this->input->post('client_id', true),
-			'inv_date' => $this->input->post('date', true),
+			'quote_date' => $this->input->post('quote_date', true),
+			'valid_till' => $this->input->post('valid_till', true),
 			'gst' => $this->input->post('vat', true),
 			'remarks' => $this->input->post('remarks', true),
-			'total_paid' => $this->input->post('paid', true)
+			'discount' => $this->input->post('discount', true)
 		);
 		$item_price = $this->input->post('price[]', true);
 		$item_qty = $this->input->post('qty[]', true);
@@ -23,15 +23,15 @@ class Quotation_model extends CI_Model
 		$vat = $this->input->post('vat', true);
 		$vat_amount = $amount * ($vat / 100);
 		$total_amount = $amount + $vat_amount;
-		$paid = $this->input->post('paid', true);
+		$paid = $this->input->post('discount', true);
 		$data['sub_total'] = $amount;
-		$data['total_due'] = $total_amount - $paid;
-		$data['total'] = $total_amount;
+		$data['total'] = $total_amount - $paid;
+		// var_dump('<pre>',$data);exit;
 		$this->db->insert('quotations', $data);
 		return $this->db->insert_id();
 	}
 
-	public function store_invoice_item_record($insert_id)
+	public function store_quotation_item_record($insert_id)
 	{
 		
 		// var_dump('dd',$_POST);exit;
@@ -46,7 +46,7 @@ class Quotation_model extends CI_Model
 				'descr' => $item_description[$i],
 				'price' => $item_price[$i],
 				'qty' => $item_qty[$i],
-				'invoice_id' => $insert_id
+				'quotation_id' => $insert_id
 			);
 		}
 		if($this->db->insert_batch('quotation_item', $data)){
@@ -109,11 +109,11 @@ class Quotation_model extends CI_Model
 	}
 
 
-	function get_all_items_by_invoiceJoin($id){
+	function get_all_items_by_quotationJoin($id){
 		return $this->db->select('ii.*, s.name')
-						->from('invoice_item ii')
+						->from('quotation_item ii')
 						->join('services s', 's.id = ii.item_id', 'LEFT')
-						->where('invoice_id', $id)
+						->where('quotation_id', $id)
 						->get()->result();
 	}
 
