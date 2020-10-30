@@ -56,8 +56,8 @@
 														<a class="nav-link dropdown-toggle btn btn-sm btn-dark" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">See</a>
 														<div class="dropdown-menu">
 														<a class="dropdown-item" href='<?php echo base_url();?>proposals?client=<?php echo $c->name?>'>See Proposals</a>
-														<a class="dropdown-item" href="#">See Quotations</a>
-														<a class="dropdown-item" href="#">See Invoices</a>
+														<a class="dropdown-item" href='<?php echo base_url();?>quotation?client=<?php echo $c->name?>'>See Quotations</a>
+														<a class="dropdown-item" href='<?php echo base_url();?>invoice?client=<?php echo $c->name?>'>See Invoices</a>
 														</div>
 													</span>
                                                 </td>

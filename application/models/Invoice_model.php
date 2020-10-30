@@ -106,7 +106,18 @@ class Invoice_model extends CI_Model
 
 	public function get_all_invoice()
 	{
-		return $this->db->order_by('id','desc')->where('is_deleted',0)->get('invoice')->result();
+		
+		return $this->db->select('i.*, c.name')
+						->from('invoice i')
+						->join('clients c', 'c.id = i.client_id', 'LEFT')
+						->where('is_deleted',0)
+						->order_by('id','desc')
+						->get()->result();
+	}
+
+	public function get_all_invoiceTrash()
+	{
+		return $this->db->order_by('id','desc')->where('is_deleted',1)->get('invoice')->result();
 	}
 
 	public function get_invoice_record($invoice_id)

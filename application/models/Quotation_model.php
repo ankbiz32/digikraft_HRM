@@ -11,6 +11,7 @@ class Quotation_model extends CI_Model
 			'quote_date' => $this->input->post('quote_date', true),
 			'valid_till' => $this->input->post('valid_till', true),
 			'gst' => $this->input->post('vat', true),
+			'status' => 'SENT',
 			'remarks' => $this->input->post('remarks', true),
 			'discount' => $this->input->post('discount', true)
 		);
@@ -57,7 +58,7 @@ class Quotation_model extends CI_Model
 		}
 	}
 
-	public function update_invoice_record($id)
+	public function update_quotation_record($id)
 	{
 		// var_dump('<pre>',$_POST);exit;
 		$data = array();
@@ -69,12 +70,12 @@ class Quotation_model extends CI_Model
 		$item_qty = $this->input->post('qty[]', true);
 		$amount = 0;
 		
-		$this->db->delete('invoice_item', array('invoice_id' => $id));
+		$this->db->delete('quotation_item', array('quotation_id' => $id));
 		for ($i = 0; $i < count($item_id); $i++) {
 			$amount += ($item_price[$i] * $item_qty[$i]);
 			
 			$data2[$i] = array(
-				'invoice_id' => $id,
+				'quotation_id' => $id,
 				'item_id' => $item_id[$i],
 				'descr' => $item_description[$i],
 				'price' => $item_price[$i],
@@ -85,14 +86,16 @@ class Quotation_model extends CI_Model
 		$vat = $this->input->post('vat', true);
 		$vat_amount = $amount * ($vat / 100);
 		$total_amount = $amount + $vat_amount;
-		$paid = $this->input->post('paid', true);
-		$data['inv_date'] = $this->input->post('date', true);
+		$discount = $this->input->post('discount', true);
+		$data['quote_no'] = $this->input->post('quote_no', true);
+		$data['quote_date'] = $this->input->post('quote_date', true);
+		$data['valid_till'] = $this->input->post('valid_till', true);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['sub_total'] = $amount;
-		$data['total'] = $total_amount;
-		$data['total_paid'] = $this->input->post('paid', true);
-		$data['total_due'] = $total_amount - $paid;
+		$data['discount'] = $this->input->post('discount', true);
+		$data['total'] = $total_amount - $discount;
 		$data['remarks'] = $this->input->post('remarks', true);
+		$data['status'] = $this->input->post('status', true);
 
 		// var_dump('<pre>',$data, $data2);exit;
 
@@ -105,6 +108,18 @@ class Quotation_model extends CI_Model
 		return $this->db->select('q.*, c.name')
 						->from('quotations q')
 						->join('clients c', 'c.id = q.client_id', 'LEFT')
+						->where('is_deleted',0)
+						->order_by('id','desc')
+						->get()->result();
+	}
+
+	public function get_all_quotationTrash()
+	{
+		return $this->db->select('q.*, c.name')
+						->from('quotations q')
+						->join('clients c', 'c.id = q.client_id', 'LEFT')
+						->where('is_deleted',1)
+						->order_by('id','desc')
 						->get()->result();
 	}
 

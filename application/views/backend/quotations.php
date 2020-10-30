@@ -75,4 +75,10 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
+	$(document).ready(function(){
+		<?php if(isset($_GET['client'])){
+			$cl=urldecode($_GET['client']) ?>
+    		$('#employees123').DataTable().search('<?=$cl?>').draw();
+		<?php }?>
+	});
 </script>

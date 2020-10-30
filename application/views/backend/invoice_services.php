@@ -30,6 +30,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Invoice no.</th>
+                                                <th>Client</th>
                                                 <th>Date</th>
                                                 <!-- <th>Sub total</th> -->
                                                 <!-- <th>GST</th> -->
@@ -44,6 +45,7 @@
                                            <?php foreach($invoices as $c): ?>
                                             <tr>
                                                 <td><?= $c->inv_no ?></td>
+                                                <td><?= $c->name ?></td>
                                                 <td><?= date('d-m-Y',strtotime($c->inv_date)) ?></td>
                                                 <!-- <td>₹ <?= $c->sub_total ?></td> -->
                                                 <!-- <td> <?= $c->gst ?>%</td> -->
@@ -77,4 +79,10 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
+	$(document).ready(function(){
+		<?php if(isset($_GET['client'])){
+			$cl=urldecode($_GET['client']) ?>
+    		$('#employees123').DataTable().search('<?=$cl?>').draw();
+		<?php }?>
+	});
 </script>

@@ -36,20 +36,39 @@
 							<section class="invoice">
 								<div id="printableArea">
 									<!-- title row -->
-									<div class="row bg-light p-3 align-items-center">
+									<div class="row bg-light p-3">
 										<div class="col-sm-8">
-											<h2 class="page-header" style="border:0px;">
-												<img src="<?= base_url("assets/images/$settings->sitelogo"); ?>" height="80px">
+											<!-- <h2 class="page-header" style="border:0px;"> -->
+												<div class="row align-items-center">
+													<img src="<?= base_url("assets/images/$settings->sitelogo"); ?>" height="100px">
+													<div class="invoice-col ml-4" style="">
+														<address class="mb-0 text-dark">
+															<h5 class="text-uppercase"><strong><?= $settings->company_name?></strong></h5>
+															<span class="mb-1 d-block"><i class="fa fa-phone"></i>&nbsp; <?= $settings->contact?></span>
+															<span class="mb-1 d-block"><i class="fa fa-envelope"></i>&nbsp; <?= $settings->system_email; ?></span>
+															<span class="mb-1 d-block"><i class="fa fa-globe"></i>&nbsp; www.digikraftsocial.com</span>
+														</address>
+													</div>
+												</div>
 
-											</h2>
+											<!-- </h2> -->
 										</div>
 										<div class="col-sm-4">
 											<div class="invoice-col" style="">
 												<address class="mb-0 text-dark">
-													<h5 class="text-uppercase"><strong><?= $settings->company_name?></strong></h5>
-													<span class="mb-1 d-block"><i class="fa fa-phone"></i>&nbsp; <?= $settings->contact?></span>
-													<span class="mb-1 d-block"><i class="fa fa-envelope"></i>&nbsp; <?= $settings->system_email; ?></span>
-													<span class="mb-1 d-block"><i class="fa fa-globe"></i>&nbsp; www.digikraftsocial.com</span>
+													<h5 class="text-uppercase h4 text-secondary">QUOTATION</h5>
+													<div class="row">
+														<div class="col-4">Ref. no.</div>
+														<div class="col">: #<?= $quotation->quote_no; ?></div>
+													</div>
+													<div class="row">
+														<div class="col-4">Date</div>
+														<div class="col">: <?= date('d-m-Y', strtotime($quotation->quote_date)); ?></div>
+													</div>
+													<div class="row">
+														<div class="col-4">Valid till</div>
+														<div class="col">: <?= date('d-m-Y', strtotime($quotation->valid_till)); ?></div>
+													</div>
 												</address>
 											</div>
 										</div>
@@ -64,23 +83,6 @@
 												<span>Phone : <?= $client->contact_no; ?></span>
 												<br>
 												<span>E-mail : <?= $client->email; ?></span>
-											</address>
-										</div>
-										<div class="col-sm-4 ">
-											<h6 class="text-muted">DETAILS -</h6>
-											<address class=" mt-2 text-dark">
-												<div class="row">
-													<div class="col-4">Ref. no.</div>
-													<div class="col">: #<?= $quotation->quote_no; ?></div>
-												</div>
-												<div class="row">
-													<div class="col-4">Date</div>
-													<div class="col">: <?= date('d-m-Y', strtotime($quotation->quote_date)); ?></div>
-												</div>
-												<div class="row">
-													<div class="col-4">Valid till</div>
-													<div class="col">: <?= date('d-m-Y', strtotime($quotation->valid_till)); ?></div>
-												</div>
 											</address>
 										</div>
 										<!-- /.col -->
@@ -122,14 +124,16 @@
 													<th colspan="3" class="text-right">GST (<?= $quotation->gst; ?>%)</th>
 													<td class="text-right"><?= $settings->symbol . ' '; ?><?php echo $quotation->sub_total * (($quotation->gst) / 100); ?>/-</td>
 												</tr> -->
+												<?php if($quotation->discount!=0){?>
 												<tr>
 													<th colspan="3" class="text-right">Sub total:</th>
 													<td class="text-right"><strong><?= $settings->symbol . ' '; ?><?= $quotation->total?>/-</strong></td>
 												</tr>
 												<tr>
 													<th colspan="3" class="text-right">Discount:</th>
-													<td class="text-right"><?= $settings->symbol . ' '; ?><?= $quotation->discount?>/-</td>
+													<td class="text-right"><strong><?= $settings->symbol . ' '; ?><?= $quotation->discount?>/-</strong></td>
 												</tr>
+												<?php }?>
 												<tr class="">
 													<th colspan="3" class="text-right ">Estimated Amount:</th>
 													<td class="text-right h6"><?= $settings->symbol . ' '; ?><?= $quotation->total?>/-</td>

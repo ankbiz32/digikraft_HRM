@@ -28,6 +28,16 @@ class Invoice extends CI_Controller {
 		}            
 	}
 
+    public function trash(){
+        if($this->session->userdata('user_login_access') != False) {
+			$data['invoices'] = $this->invoice->get_all_invoiceTrash();
+			$this->load->view('backend/invoice_services',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+
 	public function showInvoice($insert_id)
 	{
 		if($this->session->userdata('user_login_access') != False) {

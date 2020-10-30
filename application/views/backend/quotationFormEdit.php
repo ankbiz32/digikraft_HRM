@@ -9,13 +9,13 @@
       <div class="page-wrapper">
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor"><i class="fa fa-quote-right" aria-hidden="true"></i> Quotation</h3>
+                    <h3 class="text-themecolor"><i class="fa fa-list" aria-hidden="true"></i> Quotation</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                         <li class="breadcrumb-item"><a href="<?=base_url('quotation')?>">Quotation</a></li>
-                        <li class="breadcrumb-item active"> Make new quotation</li>
+                        <li class="breadcrumb-item active"> Edit Quotation</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,10 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white"> Make new quotation<span class="pull-right " ></span></h4>
+                                <h4 class="m-b-0 text-white"> 
+									Edit Quotation
+									<a class="float-right" href="<?=base_url('quotation')?>"><i class="fa fa-times"></i> cancel</a>
+								</h4>
                             </div>
                             <?php echo validation_errors(); ?>
                                <?php echo $this->upload->display_errors(); ?>
@@ -37,34 +40,45 @@
 									enctype="multipart/form-data">
 
 										<div class="row">
+											<div class="col-12 mb-3">
+												<div class="form-group pl-0 col-sm-3">		
+													<label for="">Change status <span class="req">*</span></label>
+													<select name="status" class="form-control" required>
+														<option value="SENT" <?=$invoice->status=='SENT'?' selected':''?>>SENT</option>
+														<option value="REVISED" <?=$invoice->status=='REVISED'?' selected':''?>>REVISED</option>
+														<option value="APPROVED" <?=$invoice->status=='APPROVED'?' selected':''?>>APPROVED</option>
+														<option value="REJECTED" <?=$invoice->status=='REJECTED'?' selected':''?>>REJECTED</option>
+													</select>
+												</div>
+											</div>
 											<div class="col-md-3">
 												<div class="form-group">
 													<label>Select Client <span class="req">*</span></label>
-													<select class="form-control select2" name="client_id" data-placeholder="Select a client" required>
+													<select class="form-control bg-light" name="client_id" data-placeholder="Select a client" readonly required disabled>
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>"><?= $client->name; ?></option>
+															<option value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name; ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
 											</div>
 											<div class="col-md-3">
 												<div class="form-group">
-													<label for="exampleInputPassword1"># Quotation Ref No. <span class="req">*</span></label>
-													<input type="text" class="form-control" name="quote_no" value="<?= 'QDS'.date('dmy').rand(01,99) ?>"
-														placeholder="Enter quotation no" required>
+													<label for="exampleInputPassword1"># Quotation No. <span class="req">*</span></label>
+													<input type="text" class="form-control " name="quote_no" value="<?= $invoice->quote_no ?>"
+														placeholder="Enter Invoice No" required>
 												</div>
 											</div>
 											<div class="col-md-3">
 												<div class="form-group">
 													<label for="exampleInputPassword1">Quotation date <span class="req">*</span></label>
-													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="quote_date" placeholder="Enter quotation date" required>
+													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d',strtotime($invoice->quote_date))?>" name="quote_date" placeholder="Enter quotation Date" required>
 												</div>
 											</div>
 											<div class="col-md-3">
 												<div class="form-group">
-													<label for="exampleInputPassword1">Validi till <span class="req">*</span></label>
-													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="valid_till" placeholder="Enter validity date" required>
+													<label for="exampleInputPassword1">Valid till <span class="req">*</span></label>
+													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d',strtotime($invoice->valid_till))?>" name="valid_till" placeholder="Enter validity date" required>
 												</div>
 											</div>
 										</div>
@@ -73,7 +87,7 @@
 
 										<div class="row">
 											<div class="col-md-12 mb-3 text-uppercase">
-												Add services to quotation:
+												Add Services to quotation:
 											</div>
 											<div class="col-md-12 table-responsive">
 												<table class="table table-bordered select-invoice">
@@ -87,33 +101,33 @@
 													</tr>
 													</thead>
 													<tbody id="tBody">
-													<tr>
-														<td>
-															<select class="select2 item form-control" name="item_id[]" id="item1" required>
-																<option value="admin">--Select--</option>
-																<?php foreach ($items as $item): ?>
-																	<option
-																		value="<?= $item->id; ?>"><?= $item->name; ?></option>
-																<?php endforeach; ?>
-															</select>
-														</td>
-														<td>
-															<textarea type="text" class="form-control description"
-																	name="description[]"
-																	id="description1"></textarea>
-														</td>
-														<td>
-															<input type="text" class="price1 price form-control" name="price[]"
-																id="price1" required>
-														</td>
-														<td>
-															<input type="text" class="calTotal qty form-control" name="qty[]"
-																id="qty1" value="1" required>
-														</td>
-														<td>
-															<label id="output1" class="rowTotal">0</label>
-														</td>
-													</tr>
+													<?php foreach($inv_items as $itm){?>
+														<tr>
+															<td>
+																<select class="select2 item form-control" name="item_id[]" required>
+																	<option value="admin">--Select--</option>
+																	<?php foreach ($items as $item): ?>
+																		<option value="<?= $item->id; ?>" <?=$itm->item_id==$item->id?' selected':''?>><?= $item->name; ?></option>
+																	<?php endforeach; ?>
+																</select>
+															</td>
+															<td>
+																<textarea type="text" class="form-control description"
+																		name="description[]"><?=$itm->descr?></textarea>
+															</td>
+															<td>
+																<input type="text" class="price1 price form-control digits" name="price[]"
+																	 value="<?=$itm->price?>" required>
+															</td>
+															<td>
+																<input type="text" class="calTotal qty form-control" name="qty[]"
+																	 value="<?=$itm->qty?>" required>
+															</td>
+															<td>
+																<label id="output1" class="rowTotal"><?=$itm->price * $itm->qty?></label>
+															</td>
+														</tr>
+													<?php }?>
 													<tr id="addertr" class="bg-white">
 														<td colspan=5 class="text-right">
 															<button type="button" name="add" id="add" class="btn btn-success btn-custom-invoice float-right btn-sm"><i class="fa fa-plus"></i> 
@@ -130,7 +144,7 @@
 										<div class="row mt-2">
 											<div class="col-md-6">
 												<label>Personal remarks:</label>
-												<textarea class="form-control" name="remarks" rows="8" placeholder="This will not be shown in the final quotation print. Use this for personal remarks about the quotation."></textarea>
+												<textarea class="form-control" name="remarks" rows="8" placeholder="This will not be shown in the final quotation print. Use this for personal remarks about the quotation."><?=$invoice->remarks?></textarea>
 											</div>
 											<div class="col-md-6 text-right" >
 												<table class="table ">
@@ -150,8 +164,8 @@
 													</tr>
 													<tr class="text-right">
 														<td colspan="4">Discount :</td>
-														<td>₹ <input style="width: 80px" type="text" value="0" class="form-control" name="discount"
-																id="discount" required></td>
+														<td>₹ <input style="width: 80px" type="text" class="form-control" name="discount"
+																id="paid" value="<?= $invoice->discount ?>" required></td>
 													</tr>
 													<tr class="text-right">
 														<td colspan="4">Estimated Amt. :</td>
@@ -162,8 +176,8 @@
 										</div>
 
 										<div class="box-footer mt-4">
-											<button type="submit" class="btn btn-info mr-2">+ Save quotation</button>
-											<a href="<?=base_url('quotation')?>" class="btn btn-secondary">Cancel</a>
+											<button type="submit" class="btn btn-info mr-2">Update quotation</button>
+											<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
 										</div>
 								</form>
                             </div>
@@ -209,8 +223,8 @@
 					'id="price' + count + '" required>\n' +
 				'</td>\n' +
 				'<td>\n' +
-					'<input type="text" class="calTotal' + count + ' form-control qty" value="1" name="qty[]"\n' +
-					'id="qty' + count + '" required>\n' +
+					'<input type="text" class="calTotal' + count + ' form-control qty" name="qty[]"\n' +
+					'id="qty' + count + '" value="1" required>\n' +
 				'</td>\n' +
 				'<td style="position:relative">\n' +
 					'<label id="output' + count + '" class="rowTotal">0</label>\n' +
@@ -224,6 +238,7 @@
 
 			$('.select2').select2();
 
+	
 			$('.item').change(function () {
 				var y = $(this);
 				var item = $(this).val();
@@ -245,15 +260,24 @@
 				});
 				
 			});
-
-			$('.calTotal' + count + '').change(function () {
-				cal_count();
-			});
 		});		
 		calAll();
 	});
 
+	
+	$(document).on('change keyup click', 'body', function () {
+		calAll();
+		// console.log($('#subTotal').text());
+	});
 
+	$(document).on('click', '.btn_remove', function () {
+		var button_id = $(this).attr("id");
+		count--;
+		$('.yTr' + button_id + '').remove();
+		calAll();
+	});
+
+	
 	$('.item').change(function () {
 		var y = $(this);
 		var item = $(this).val();
@@ -275,23 +299,11 @@
 		});
 		
 	});
-	
-	$(document).on('change keyup click', 'body', function () {
-		calAll();
-		// console.log($('#subTotal').text());
-	});
-
-	$(document).on('click', '.btn_remove', function () {
-		var button_id = $(this).attr("id");
-		count--;
-		$('.yTr' + button_id + '').remove();
-		calAll();
-	});
 
 	function calAll(){
 		var stotal=0;
 		var tot=0;
-		var discount = $("#discount").val();
+		var paid = $("#paid").val();
 		var gst = $("#vat");
 		var qtys = $(".qty");
 		var prices = $(".price");
@@ -302,9 +314,8 @@
 			stotal+=parseFloat(rt);
 		}
 		$('#totalAmount').text(stotal);
-		$('#totalDue').text(stotal - discount);
+		$('#totalDue').text(stotal - paid);
 	} 
-	
 	
 
 </script>

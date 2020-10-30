@@ -28,6 +28,16 @@ class Quotation extends CI_Controller {
 		}            
 	}
 
+    public function trash(){
+        if($this->session->userdata('user_login_access') != False) {
+			$data['quotations'] = $this->quote->get_all_quotationTrash();
+			$this->load->view('backend/quotations',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+
 	public function showQuotation($insert_id)
 	{
 		if($this->session->userdata('user_login_access') != False) {
@@ -72,8 +82,8 @@ class Quotation extends CI_Controller {
     public function editQuotation($id){
         if($this->session->userdata('user_login_access') != False) { 
 			$data= array();
-			$data['quotation'] = $this->crud->getInfoId('quotation','id',$id);
-			$data['quotation_items'] = $this->quote->get_all_items_by_quotationJoin($data['quotation']->id);
+			$data['invoice'] = $this->crud->getInfoId('quotations','id',$id);
+			$data['inv_items'] = $this->quote->get_all_items_by_quotationJoin($data['invoice']->id);
 			$data['clients'] = $this->crud->getInfo('clients');
 			$data['items'] = $this->crud->getInfo('services');
 			$data['path'] = base_url().'quotation/updateQuotation/'.$id;
@@ -92,7 +102,7 @@ class Quotation extends CI_Controller {
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 			// $this->form_validation->set_rules('item_id','Service','trim|required|xss_clean');
-			$this->form_validation->set_rules('invoice_no','Invoice No.','trim|required|xss_clean');
+			$this->form_validation->set_rules('quote_no','Quotation No.','trim|required|xss_clean');
 
 			if ($this->form_validation->run() == FALSE) {
 				echo validation_errors();
@@ -100,7 +110,7 @@ class Quotation extends CI_Controller {
 			else{
 				$data=$this->input->post();
 				$data['updated_at']=date('Y-m-d H:i:s');
-				$success = $this->invoice->update_invoice_record($id);
+				$success = $this->quote->update_quotation_record($id);
 				$this->session->set_flashdata('feedback','Successfully updated');
 				echo "Successfully Updated";
 			}
@@ -113,11 +123,11 @@ class Quotation extends CI_Controller {
 
     public function deleteQuotation($id){
         if($this->session->userdata('user_login_access') != False) { 
-			$this->crud->softDeleteInfo('quotation','id',$id);
+			$this->crud->softDeleteInfo('quotations','id',$id);
 			// $this->crud->deleteInfo('invoice','id',$id);
 			// $this->crud->deleteInfo('invoice_item','invoice_id',$id);
 			$this->session->set_flashdata('delsuccess', 'Successfully Deleted');
-			redirect('invoice');
+			redirect('quotation');
         }
 		else{
 			redirect(base_url() , 'refresh');
