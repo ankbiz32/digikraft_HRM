@@ -37,6 +37,15 @@
                                         <label>Name <span class="req">*</span></label>
                                         <input type="text" name="name" value="<?=isset($service)?$service->name:''?>" class="form-control form-control-line" placeholder="Service name" minlength="2" required > 
                                     </div>
+									<div class="form-group col-md-8 m-t-20">
+                                        <label for="">Category</label>
+										<select name="category_id" id="" class="form-control" required>
+											<option value="">-- SELECT CATEGORY --</option>
+										<?php foreach($cat as $c){?>
+											<option value="<?=$c->id?>" <?=isset($service)?($service->category_id==$c->id?' selected':''):''?>><?=$c->cname?></option>
+										<?php }?>
+										</select>
+                                    </div>
 									<div class="col-md-4"></div>
 									<div class="form-group col-md-8 m-t-20">
                                         <label>Short description <small>(optional)</small> </label>

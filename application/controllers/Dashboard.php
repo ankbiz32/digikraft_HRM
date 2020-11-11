@@ -81,5 +81,19 @@ class Dashboard extends CI_Controller {
 			echo $message;			
 		}
 	}    
+	
+	public function delete_Todo($id){
+        $del= $this->dashboard_model->DeleteToDo($id);
+        $del = $this->db->affected_rows();
+		if($del){
+			$message="Successfully deleted";
+			echo $message;
+            redirect('dashboard/Dashboard');
+		} else {
+			$message="Something went wrong";
+			echo $message;	
+            redirect('dashboard/Dashboard');		
+		}
+	}    
     
 }

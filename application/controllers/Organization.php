@@ -135,9 +135,105 @@ class Organization extends CI_Controller {
 	}
 
 
+    public function ServicesCat(){
+        if($this->session->userdata('user_login_access') != False) { 
+			$data['cat'] = $this->crud->getInfo('services_category');
+			$this->load->view('backend/servicesCat',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+		
+    public function addServiceCat(){
+        if($this->session->userdata('user_login_access') != False) {
+			$data['path'] = base_url().'organization/saveServiceCat/';
+			$this->load->view('backend/serviceFormCat', $data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+		
+    public function saveServiceCat(){
+        if($this->session->userdata('user_login_access') != False) {
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+			$this->form_validation->set_rules('cname','Service name','trim|required|xss_clean');
+
+			if ($this->form_validation->run() == FALSE) {
+				echo validation_errors();
+			}
+			else{
+				$data=$this->input->post();
+				// var_dump('<pre>',$data);exit;
+				if($this->crud->insertInfo('services_category',$data)){
+					$this->session->set_flashdata('feedback','Successfully Added');
+					echo "Successfully Added";
+				}
+				else{
+					echo "Server error !";
+				}
+			}
+			
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+
+    public function editServiceCat($id){
+        if($this->session->userdata('user_login_access') != False) { 
+			$data= array();
+			$data['cat'] = $this->crud->getInfoId('services_category','id',$id);
+			$data['path'] = base_url().'organization/updateServiceCat/'.$id;
+			// var_dump('<pre>',$data['client']);exit;
+			$this->load->view('backend/serviceFormCat', $data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+
+    public function updateServiceCat($id){
+        if($this->session->userdata('user_login_access') != False) {
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+			$this->form_validation->set_rules('cname','Service name','trim|required|xss_clean');
+
+			if ($this->form_validation->run() == FALSE) {
+				echo validation_errors();
+			}
+			else{
+				$data=$this->input->post();
+				$data['updated_at']=date('Y-m-d H:i:s');
+				$success = $this->crud->updateInfo('services_category',$data,'id',$id);
+				$this->session->set_flashdata('feedback','Successfully updated');
+				echo "Successfully Updated";
+			}
+			
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+
+    public function deleteServiceCat($id){
+        if($this->session->userdata('user_login_access') != False) { 
+			$this->crud->deleteInfo('services_category','id',$id);
+			$this->session->set_flashdata('delsuccess', 'Successfully Deleted');
+			redirect('organization/ServicesCat');
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
+
     public function Services(){
         if($this->session->userdata('user_login_access') != False) { 
-			$data['services'] = $this->crud->getInfo('services');
+			$data['services'] = $this->crud->getServices();
 			$this->load->view('backend/services',$data);
         }
 		else{
@@ -147,7 +243,9 @@ class Organization extends CI_Controller {
 		
     public function addService(){
         if($this->session->userdata('user_login_access') != False) {
+			$data['cat'] = $this->crud->getInfo('services_category');
 			$data['path'] = base_url().'organization/saveService/';
+			// var_dump('<pre>',$data);exit;
 			$this->load->view('backend/serviceForm', $data);
         }
 		else{
@@ -187,6 +285,7 @@ class Organization extends CI_Controller {
     public function editService($id){
         if($this->session->userdata('user_login_access') != False) { 
 			$data= array();
+			$data['cat'] = $this->crud->getInfo('services_category');
 			$data['service'] = $this->crud->getInfoId('services','id',$id);
 			$data['path'] = base_url().'organization/updateService/'.$id;
 			// var_dump('<pre>',$data['client']);exit;

@@ -55,19 +55,27 @@
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="<?php echo base_url();?>organization/Department">Department </a></li>
                                 <li><a href="<?php echo base_url();?>organization/Designation">Designation</a></li>
-                                <li><a href="<?php echo base_url();?>organization/Services">Services</a></li>
                                 <li><a href="<?php echo base_url();?>organization/Clients">Clients</a></li>
+                            </ul>
+						</li>
+							
+                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="fa fa-list"></i><span class="hide-menu">Services </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="<?php echo base_url();?>organization/ServicesCat">Category</a></li>
+                                <li><a href="<?php echo base_url();?>organization/Services">Service</a></li>
+                            </ul>
+						</li>
+							
+                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="fa fa-inr"></i><span class="hide-menu">Sales </span></a>
+                            <ul aria-expanded="false" class="collapse">
+								<li><a href="<?php echo base_url(); ?>proposals"> Proposal</a></li>
+								<li><a href="<?php echo base_url(); ?>quotation"> Quotation</a></li>
+								<li><a href="<?php echo base_url(); ?>invoice"> Invoice</a></li>
                             </ul>
 						</li>
 					
 
 						<li><a href="<?php echo base_url(); ?>employee/Employees"><i class="mdi mdi-account-multiple"></i> <span class="hide-menu">Employees<span class="hide-menu">  </a></li>
-
-						<li><a href="<?php echo base_url(); ?>proposals"><i class="fa fa-sticky-note"></i> <span class="hide-menu">Proposal<span class="hide-menu">  </a></li>
-
-						<li><a href="<?php echo base_url(); ?>quotation"><i class="fa fa-quote-right"></i> <span class="hide-menu">Quotation<span class="hide-menu">  </a></li>
-
-						<li><a href="<?php echo base_url(); ?>invoice"><i class="fa fa-file-pdf-o"></i> <span class="hide-menu">Invoice<span class="hide-menu">  </a></li>
 						
 						
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-credit-card"></i><span class="hide-menu">Payroll </span></a>

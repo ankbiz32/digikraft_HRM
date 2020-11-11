@@ -177,7 +177,7 @@
 
 										<div class="box-footer mt-4">
 											<button type="submit" class="btn btn-info mr-2">Update quotation</button>
-											<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
+											<a href="<?=base_url('quotation')?>" class="btn btn-secondary">Cancel</a>
 										</div>
 								</form>
                             </div>

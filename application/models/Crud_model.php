@@ -17,6 +17,15 @@ class Crud_model extends CI_Model{
 		return $result;
 	}
 
+	function getServices(){
+		return $this->db->select('s.*, sc.cname')
+						->from('services s')
+						->join('services_category sc', 'sc.id = s.category_id', 'LEFT')
+						->order_by('id','desc')
+						// ->where('invoice_id', $id)
+						->get()->result();
+	}
+
 	function getProposals(){
 		return $this->db->select('p.*, c.name')
 						->from('proposal p')

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2020 at 01:31 PM
+-- Generation Time: Nov 11, 2020 at 01:33 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -890,8 +890,9 @@ CREATE TABLE `quotations` (
 --
 
 INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'QDS28102001', 1, '2020-10-28 10:34:07', '2020-10-31 10:32:28', 500, 0, 0, 500, NULL, NULL, 0, '2020-10-28 10:34:07', '2020-10-28 10:34:07'),
-(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 0, 1498, NULL, '', 0, '2020-10-29 11:12:46', '2020-10-29 11:12:46');
+(1, 'QDS28102001', 1, '2020-10-31 18:30:00', '2020-11-02 18:30:00', 42, 0, 0, 42, 'APPROVED', '', 1, '2020-10-28 10:34:07', '2020-10-30 07:34:08'),
+(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 98, 1400, NULL, '', 0, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
+(3, 'QDS30102085/V1', 1, '2020-10-30 18:30:00', '2020-11-03 18:30:00', 5100, 0, 500, 4600, 'APPROVED', 'Sent for web dev', 1, '2020-10-30 07:06:14', '2020-10-30 10:17:15');
 
 -- --------------------------------------------------------
 
@@ -915,9 +916,13 @@ CREATE TABLE `quotation_item` (
 --
 
 INSERT INTO `quotation_item` (`id`, `quotation_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Something', 500, 1, '2020-10-28 10:34:52', '2020-10-28 10:34:52'),
 (2, 2, 1, 'sdrfgrfggrg', 499, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
-(3, 2, 2, 'df dgervcxvxv', 999, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46');
+(3, 2, 2, 'df dgervcxvxv', 999, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
+(4, 1, 1, 'Something', 1, 2, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
+(5, 1, 1, 'sdrfgrfggrg', 2, 4, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
+(6, 1, 2, 'df dgervcxvxv', 4, 8, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
+(15, 3, 1, 'sdrfgrfggrg', 100, 1, '2020-10-30 09:47:15', '2020-10-30 09:47:15'),
+(16, 3, 2, 'df dgervcxvxv', 500, 10, '2020-10-30 09:47:15', '2020-10-30 09:47:15');
 
 -- --------------------------------------------------------
 
@@ -948,6 +953,7 @@ INSERT INTO `salary_type` (`id`, `salary_type`, `create_date`) VALUES
 
 CREATE TABLE `services` (
   `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT 0,
   `name` text NOT NULL,
   `short_descr` varchar(1000) DEFAULT NULL,
   `long_descr` text DEFAULT NULL,
@@ -961,10 +967,29 @@ CREATE TABLE `services` (
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `short_descr`, `long_descr`, `price`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Web dev', 'sdrfgrfggrg', NULL, '499', 1, '2020-10-22 12:02:54', '2020-10-22 12:02:54'),
-(2, 'Design', 'df dgervcxvxv', NULL, '999', 1, '2020-10-23 10:20:34', '2020-10-23 10:20:34'),
-(3, 'SEO Optimization', '', NULL, '639', 1, '2020-10-23 10:21:27', '2020-10-23 10:21:27');
+INSERT INTO `services` (`id`, `category_id`, `name`, `short_descr`, `long_descr`, `price`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 3, 'Web dev', 'sdrfgrfggrg', NULL, '499', 1, '2020-10-22 12:02:54', '2020-11-11 13:00:36'),
+(3, 3, 'SEO Optimization', 'gdfg', NULL, '639', 1, '2020-10-23 10:21:27', '2020-11-11 13:00:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `services_category`
+--
+
+CREATE TABLE `services_category` (
+  `id` int(11) NOT NULL,
+  `cname` varchar(500) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `services_category`
+--
+
+INSERT INTO `services_category` (`id`, `cname`, `created_at`, `updated_at`) VALUES
+(3, 'dreg', '2020-11-11 12:30:01', '2020-11-11 12:30:01');
 
 -- --------------------------------------------------------
 
@@ -1035,13 +1060,6 @@ CREATE TABLE `to-do_list` (
   `date` varchar(128) DEFAULT NULL,
   `value` varchar(14) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `to-do_list`
---
-
-INSERT INTO `to-do_list` (`id`, `user_id`, `to_dodata`, `date`, `value`) VALUES
-(31, 'Doe1754', 'New task is here in todo list', '2020-10-09 12:24:17pm', '1');
 
 --
 -- Indexes for dumped tables
@@ -1312,6 +1330,12 @@ ALTER TABLE `services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `services_category`
+--
+ALTER TABLE `services_category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
@@ -1577,13 +1601,13 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `quotations`
 --
 ALTER TABLE `quotations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `quotation_item`
 --
 ALTER TABLE `quotation_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `salary_type`
@@ -1595,6 +1619,12 @@ ALTER TABLE `salary_type`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `services_category`
+--
+ALTER TABLE `services_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -1613,7 +1643,7 @@ ALTER TABLE `social_media`
 -- AUTO_INCREMENT for table `to-do_list`
 --
 ALTER TABLE `to-do_list`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

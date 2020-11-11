@@ -70,109 +70,48 @@
                 ?>
                 <!-- Row -->
                 <div class="row">
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Notice Board</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive slimScrollDiv" style="height:600px;overflow-y:scroll">
-                                    <table class="table table-hover earning-box ">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>File</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           <?php foreach($notice AS $value): ?>
-                                            <tr class="scrollbar" style="vertical-align:top">
-                                                <td><?php echo $value->title ?></td>
-                                                <td><mark><a href="<?php echo base_url(); ?>assets/images/notice/<?php echo $value->file_url ?>" target="_blank"><?php echo $value->file_url ?></a></mark>
-                                                </td>
-                                                <td style="width:100px"><?php echo $value->date ?></td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-7">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">To Do list</h4>
                                 <h6 class="card-subtitle">List of your next task to complete</h6>
-                                <div class="to-do-widget m-t-20" style="height:550px;overflow-y:scroll">
-                                            <ul class="list-task todo-list list-group m-b-0" data-role="tasklist">
-                                               <?php foreach($todolist as $value): ?>
-                                                <li class="list-group-item" data-role="task">
-                                                   <?php if($value->value == '1'){ ?>
-                                                    <div class="checkbox checkbox-info">
-                                                        <input class="to-do" data-id="<?php echo $value->id?>" data-value="0" type="checkbox" id="<?php echo $value->id?>" >
-                                                        <label for="<?php echo $value->id?>"><span><?php echo $value->to_dodata; ?></span></label>
-                                                    </div>
-                                                    <?php } else { ?>
-                                                    <div class="checkbox checkbox-info">
-                                                        <input class="to-do" data-id="<?php echo $value->id?>" data-value="1" type="checkbox" id="<?php echo $value->id?>" checked>
-                                                        <label class="task-done" for="<?php echo $value->id?>"><span><?php echo $value->to_dodata; ?></span></label>
-                                                    </div> 
-                                                    <?php } ?>                                                   
-                                                </li>
-
-                                                <?php endforeach; ?>
-                                            </ul>                                    
-                                </div>
                                 <div class="new-todo">
                                    <form method="post" action="add_todo" enctype="multipart/form-data" id="add_todo" >
                                     <div class="input-group">
-                                        <input type="text" name="todo_data" class="form-control" style="border: 1px solid #fff !IMPORTANT;" placeholder="Add new task">
+                                        <input type="text" name="todo_data" class="form-control" placeholder="Add new task">
                                         <span class="input-group-btn">
                                         <input type="hidden" name="userid" value="<?php echo $this->session->userdata('user_login_id'); ?>">
                                         <button type="submit" class="btn btn-success todo-submit"><i class="fa fa-plus"></i></button>
                                         </span> 
                                     </div>
                                     </form>
-                                </div>                                
+                                </div>  
+                                <div class="to-do-widget m-t-20" style="height:550px;overflow-y:scroll">
+                                            <ul class="list-task todo-list list-group m-b-0" data-role="tasklist">
+                                               <?php foreach($todolist as $value): ?>
+                                                <li class="list-group-item row d-flex pb-0" data-role="task">
+                                                   <?php if($value->value == '1'){ ?>
+                                                    <div class="checkbox checkbox-info col-sm-11">
+                                                        <input class="to-do" data-id="<?php echo $value->id?>" data-value="0" type="checkbox" id="<?php echo $value->id?>" >
+                                                        <label for="<?php echo $value->id?>"><span><?php echo $value->to_dodata; ?></span></label>
+                                                    </div>
+													<a href="<?=base_url('dashboard/delete_Todo/').$value->id?>" title="Delete task" onclick="return confirm('Are you sure you want to delete?')"><h2 class="text-danger">&times;</h2></a>
+                                                    <?php } else { ?>
+                                                    <div class="checkbox checkbox-info col-sm-11">
+                                                        <input class="to-do" data-id="<?php echo $value->id?>" data-value="1" type="checkbox" id="<?php echo $value->id?>" checked>
+                                                        <label class="task-done" for="<?php echo $value->id?>"><span><?php echo $value->to_dodata; ?></span></label>
+                                                    </div>
+													<a href="<?=base_url('dashboard/delete_Todo/').$value->id?>" title="Delete task" onclick="return confirm('Are you sure you want to delete?')"><h2 class="text-danger">&times;</h2></a>
+                                                    <?php } ?>                                                   
+                                                </li>
+
+                                                <?php endforeach; ?>
+                                            </ul>                                    
+                                </div>                              
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Running Project</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive" style="height:600px;overflow-y:scroll">
-                                    <table class="table table-hover earning-box">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           <?php foreach($running AS $value): ?>
-                                            <tr style="vertical-align:top;background-color:#e3f0f7">
-                                                <td><a href="<?php echo base_url(); ?>Projects/view?P=<?php echo base64_encode($value->id); ?>"><?php echo substr("$value->pro_name",0,25).'...'; ?></a></td>
-                                                <td><?php echo $value->pro_start_date; ?></td>
-                                                <td><?php echo $value->pro_end_date; ?></td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">
@@ -203,6 +142,70 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!--Row -->
+                <div class="row">
+				
+                    <!-- <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Notice Board</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive slimScrollDiv" style="height:600px;overflow-y:scroll">
+                                    <table class="table table-hover earning-box ">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>File</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										<?php foreach($notice AS $value): ?>
+                                            <tr class="scrollbar" style="vertical-align:top">
+                                                <td><?php echo $value->title ?></td>
+                                                <td><mark><a href="<?php echo base_url(); ?>assets/images/notice/<?php echo $value->file_url ?>" target="_blank"><?php echo $value->file_url ?></a></mark>
+                                                </td>
+                                                <td style="width:100px"><?php echo $value->date ?></td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Running Project</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="height:600px;overflow-y:scroll">
+                                    <table class="table table-hover earning-box">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           <?php foreach($running AS $value): ?>
+                                            <tr style="vertical-align:top;background-color:#e3f0f7">
+                                                <td><a href="<?php echo base_url(); ?>Projects/view?P=<?php echo base64_encode($value->id); ?>"><?php echo substr("$value->pro_name",0,25).'...'; ?></a></td>
+                                                <td><?php echo $value->pro_start_date; ?></td>
+                                                <td><?php echo $value->pro_end_date; ?></td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div> -->
                 </div> 
 <script>
   $(".to-do").on("click", function(){

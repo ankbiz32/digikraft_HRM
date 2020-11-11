@@ -32,5 +32,8 @@
 		$this->db->where('id', $id);
 		$this->db->update('to-do_list',$data);		
 	}        
+	public function DeleteToDo($id){
+		$this->db->delete('to-do_list',array('id' => $id ));
+	}
     }
 ?>
