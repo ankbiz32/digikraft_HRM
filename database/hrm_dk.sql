@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2020 at 01:33 PM
+-- Generation Time: Nov 12, 2020 at 01:31 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -969,7 +969,7 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`id`, `category_id`, `name`, `short_descr`, `long_descr`, `price`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 3, 'Web dev', 'sdrfgrfggrg', NULL, '499', 1, '2020-10-22 12:02:54', '2020-11-11 13:00:36'),
-(3, 3, 'SEO Optimization', 'gdfg', NULL, '639', 1, '2020-10-23 10:21:27', '2020-11-11 13:00:19');
+(3, 4, 'SEO Optimization', 'gdfg', NULL, '639', 1, '2020-10-23 10:21:27', '2020-11-12 06:05:44');
 
 -- --------------------------------------------------------
 
@@ -989,7 +989,8 @@ CREATE TABLE `services_category` (
 --
 
 INSERT INTO `services_category` (`id`, `cname`, `created_at`, `updated_at`) VALUES
-(3, 'dreg', '2020-11-11 12:30:01', '2020-11-11 12:30:01');
+(3, 'dreg', '2020-11-11 12:30:01', '2020-11-11 12:30:01'),
+(4, 'New category', '2020-11-12 05:35:26', '2020-11-12 05:35:26');
 
 -- --------------------------------------------------------
 
@@ -1046,6 +1047,32 @@ CREATE TABLE `social_media` (
 INSERT INTO `social_media` (`id`, `emp_id`, `facebook`, `linkedin`, `instagram`, `skype_id`) VALUES
 (5, 'nam1390', '', '', '', ''),
 (6, 'Agr1106', 'https://facebook.com/ankur32', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `summary`
+--
+
+CREATE TABLE `summary` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `descr` varchar(500) DEFAULT NULL,
+  `qty` int(11) NOT NULL DEFAULT 1,
+  `is_billed` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `summary`
+--
+
+INSERT INTO `summary` (`id`, `client_id`, `service_id`, `descr`, `qty`, `is_billed`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'cxsfgubnb', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54'),
+(2, 1, 3, 'xc98721dds 8 4r5fvf dvb56d4', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54'),
+(3, 2, 3, 'jejkmv tgt4 trhd 6954tgbhn', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54');
 
 -- --------------------------------------------------------
 
@@ -1348,6 +1375,12 @@ ALTER TABLE `social_media`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `summary`
+--
+ALTER TABLE `summary`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `to-do_list`
 --
 ALTER TABLE `to-do_list`
@@ -1625,7 +1658,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `services_category`
 --
 ALTER TABLE `services_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1638,6 +1671,12 @@ ALTER TABLE `settings`
 --
 ALTER TABLE `social_media`
   MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `summary`
+--
+ALTER TABLE `summary`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `to-do_list`
