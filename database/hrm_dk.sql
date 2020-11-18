@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2020 at 01:31 PM
+-- Generation Time: Nov 18, 2020 at 01:33 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -523,7 +523,8 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`id`, `inv_no`, `client_id`, `inv_date`, `sub_total`, `gst`, `total`, `total_paid`, `total_due`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(8, 'DS27102043', 1, '2020-10-26 18:30:00', 499, 0, 499, 0, 499, 'ye hai', 0, '2020-10-27 10:44:30', '2020-10-27 11:34:05');
+(8, 'DS27102043', 1, '2020-10-26 18:30:00', 499, 0, 499, 0, 499, 'ye hai', 1, '2020-10-27 10:44:30', '2020-10-27 11:34:05'),
+(9, 'DS18112031', 2, '2020-11-17 18:30:00', 23350, 0, 23350, 0, 23350, '', 0, '2020-11-18 08:03:29', '2020-11-18 12:12:55');
 
 -- --------------------------------------------------------
 
@@ -548,7 +549,11 @@ CREATE TABLE `invoice_item` (
 
 INSERT INTO `invoice_item` (`id`, `invoice_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
 (27, 8, 1, 'sdrfgrfggrg', 499, 1, '2020-10-27 11:04:05', '2020-10-27 11:04:05'),
-(28, 8, 3, '', 639, 0, '2020-10-27 11:04:05', '2020-10-27 11:04:05');
+(28, 8, 3, '', 639, 0, '2020-10-27 11:04:05', '2020-10-27 11:04:05'),
+(35, 9, 7, 'High conversion landing pages', 3000, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
+(36, 9, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
+(37, 9, 11, '', 12000, 5, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
+(38, 9, 10, '', 8000, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55');
 
 -- --------------------------------------------------------
 
@@ -791,14 +796,6 @@ CREATE TABLE `proposal` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `proposal`
---
-
-INSERT INTO `proposal` (`id`, `client_id`, `file_src`, `descr`, `status`, `follow_up_date`, `created_at`, `updated_at`) VALUES
-(1, 2, 'facebook.webp', 'ter', 'SENT', '2020-10-30 18:30:00', '2020-10-28 07:18:31', '2020-10-28 07:18:31'),
-(3, 1, 'whatsapp-updates.webp', '', 'SENT', '2020-10-27 18:30:00', '2020-10-28 09:05:53', '2020-10-28 09:05:53');
-
 -- --------------------------------------------------------
 
 --
@@ -891,8 +888,9 @@ CREATE TABLE `quotations` (
 
 INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 'QDS28102001', 1, '2020-10-31 18:30:00', '2020-11-02 18:30:00', 42, 0, 0, 42, 'APPROVED', '', 1, '2020-10-28 10:34:07', '2020-10-30 07:34:08'),
-(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 98, 1400, NULL, '', 0, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
-(3, 'QDS30102085/V1', 1, '2020-10-30 18:30:00', '2020-11-03 18:30:00', 5100, 0, 500, 4600, 'APPROVED', 'Sent for web dev', 1, '2020-10-30 07:06:14', '2020-10-30 10:17:15');
+(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 98, 1400, NULL, '', 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
+(3, 'QDS30102085/V1', 1, '2020-10-30 18:30:00', '2020-11-03 18:30:00', 5100, 0, 500, 4600, 'APPROVED', 'Sent for web dev', 1, '2020-10-30 07:06:14', '2020-10-30 10:17:15'),
+(4, 'QDS18112083', 2, '2020-11-17 18:30:00', '2020-11-17 18:30:00', 11249, 0, 0, 11249, 'APPROVED', '', 0, '2020-11-18 06:17:13', '2020-11-18 06:52:22');
 
 -- --------------------------------------------------------
 
@@ -922,7 +920,9 @@ INSERT INTO `quotation_item` (`id`, `quotation_id`, `item_id`, `descr`, `price`,
 (5, 1, 1, 'sdrfgrfggrg', 2, 4, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
 (6, 1, 2, 'df dgervcxvxv', 4, 8, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
 (15, 3, 1, 'sdrfgrfggrg', 100, 1, '2020-10-30 09:47:15', '2020-10-30 09:47:15'),
-(16, 3, 2, 'df dgervcxvxv', 500, 10, '2020-10-30 09:47:15', '2020-10-30 09:47:15');
+(16, 3, 2, 'df dgervcxvxv', 500, 10, '2020-10-30 09:47:15', '2020-10-30 09:47:15'),
+(19, 4, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 15, '2020-11-18 06:22:22', '2020-11-18 06:22:22'),
+(20, 4, 12, '', 5999, 1, '2020-11-18 06:22:22', '2020-11-18 06:22:22');
 
 -- --------------------------------------------------------
 
@@ -968,8 +968,14 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `category_id`, `name`, `short_descr`, `long_descr`, `price`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Web dev', 'sdrfgrfggrg', NULL, '499', 1, '2020-10-22 12:02:54', '2020-11-11 13:00:36'),
-(3, 4, 'SEO Optimization', 'gdfg', NULL, '639', 1, '2020-10-23 10:21:27', '2020-11-12 06:05:44');
+(5, 4, 'Festival creatives', 'Creatives for Holi, Diwali & all major festivals.', NULL, '350', 1, '2020-11-18 06:03:43', '2020-11-18 06:03:43'),
+(6, 4, 'Logo Design', 'Custom logo for your brand', NULL, '2500', 1, '2020-11-18 06:05:16', '2020-11-18 06:05:16'),
+(7, 5, 'Landing Page', 'High conversion landing pages', NULL, '3000', 1, '2020-11-18 06:05:54', '2020-11-18 06:05:54'),
+(8, 5, 'Multi-page website', '', NULL, '6000', 1, '2020-11-18 06:06:45', '2020-11-18 06:06:45'),
+(9, 5, 'Dynamic Website with Admin panel', '', NULL, '9000', 1, '2020-11-18 06:07:25', '2020-11-18 06:07:25'),
+(10, 5, 'Wordpress website', '', NULL, '8000', 1, '2020-11-18 06:07:41', '2020-11-18 06:07:41'),
+(11, 6, 'Social Media Marketing', '', NULL, '12000', 1, '2020-11-18 06:08:16', '2020-11-18 06:08:16'),
+(12, 6, 'Google Ads Marketing', '', NULL, '7000', 1, '2020-11-18 06:08:37', '2020-11-18 06:08:37');
 
 -- --------------------------------------------------------
 
@@ -989,8 +995,9 @@ CREATE TABLE `services_category` (
 --
 
 INSERT INTO `services_category` (`id`, `cname`, `created_at`, `updated_at`) VALUES
-(3, 'dreg', '2020-11-11 12:30:01', '2020-11-11 12:30:01'),
-(4, 'New category', '2020-11-12 05:35:26', '2020-11-12 05:35:26');
+(4, 'Graphic Design', '2020-11-12 05:35:26', '2020-11-18 06:27:11'),
+(5, 'Web Development', '2020-11-18 05:51:38', '2020-11-18 05:51:38'),
+(6, 'Digital Marketing', '2020-11-18 05:56:38', '2020-11-18 05:56:38');
 
 -- --------------------------------------------------------
 
@@ -1061,6 +1068,7 @@ CREATE TABLE `summary` (
   `descr` varchar(500) DEFAULT NULL,
   `qty` int(11) NOT NULL DEFAULT 1,
   `is_billed` tinyint(4) NOT NULL DEFAULT 0,
+  `date` date NOT NULL DEFAULT current_timestamp(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -1069,10 +1077,10 @@ CREATE TABLE `summary` (
 -- Dumping data for table `summary`
 --
 
-INSERT INTO `summary` (`id`, `client_id`, `service_id`, `descr`, `qty`, `is_billed`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'cxsfgubnb', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54'),
-(2, 1, 3, 'xc98721dds 8 4r5fvf dvb56d4', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54'),
-(3, 2, 3, 'jejkmv tgt4 trhd 6954tgbhn', 1, 0, '2020-11-12 11:36:54', '2020-11-12 11:36:54');
+INSERT INTO `summary` (`id`, `client_id`, `service_id`, `descr`, `qty`, `is_billed`, `date`, `created_at`, `updated_at`) VALUES
+(7, 2, 5, '', 1, 0, '2020-11-18', '2020-11-18 12:20:06', '2020-11-18 12:20:06'),
+(8, 2, 6, '', 1, 0, '2020-11-18', '2020-11-18 12:20:18', '2020-11-18 12:20:18'),
+(9, 2, 8, '', 1, 0, '2020-11-18', '2020-11-18 12:20:23', '2020-11-18 12:20:23');
 
 -- --------------------------------------------------------
 
@@ -1538,13 +1546,13 @@ ALTER TABLE `holiday`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1634,13 +1642,13 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `quotations`
 --
 ALTER TABLE `quotations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `quotation_item`
 --
 ALTER TABLE `quotation_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `salary_type`
@@ -1652,13 +1660,13 @@ ALTER TABLE `salary_type`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `services_category`
 --
 ALTER TABLE `services_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1676,7 +1684,7 @@ ALTER TABLE `social_media`
 -- AUTO_INCREMENT for table `summary`
 --
 ALTER TABLE `summary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `to-do_list`

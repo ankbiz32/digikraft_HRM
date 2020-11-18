@@ -63,7 +63,7 @@
 											</div>
 											<div class="col-md-3">
 												<div class="form-group">
-													<label for="exampleInputPassword1">Validi till <span class="req">*</span></label>
+													<label for="exampleInputPassword1">Valid till <span class="req">*</span></label>
 													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d')?>" name="valid_till" placeholder="Enter validity date" required>
 												</div>
 											</div>

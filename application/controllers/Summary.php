@@ -44,20 +44,33 @@ class Summary extends CI_Controller {
 			$data=array();
 			$data['client'] = $this->crud->getInfoId('clients','id',$id);
 			$data['summary'] = $this->summ->get_non_billed_summary($id);
-			var_dump('<pre>',$data);exit;
-			$this->load->view('backend/showQuotation',$data);
+			$this->load->view('backend/summary',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		} 
+	}
+
+	public function summary_serv_billed($id)
+	{
+		if($this->session->userdata('user_login_access') != False) {
+			$data=array();
+			$data['client'] = $this->crud->getInfoId('clients','id',$id);
+			$data['summary'] = $this->summ->get_billed_summary($id);
+			$this->load->view('backend/summary_billed',$data);
         }
 		else{
 			redirect(base_url() , 'refresh');
 		} 
 	}
 		
-    public function addSP(){
+	public function addSummary($cid)
+	{
         if($this->session->userdata('user_login_access') != False) {
-			$data['clients'] = $this->crud->getInfo('clients');
-			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'quotation/saveQuotation/';
-			$this->load->view('backend/quotationForm', $data);
+			$data['client'] = $this->crud->getInfoId('clients','id',$cid);
+			$data['services'] = $this->crud->getInfo('services');
+			$data['path'] = base_url().'summary/saveSummary/'.$cid;
+			$this->load->view('backend/summaryForm', $data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -65,87 +78,79 @@ class Summary extends CI_Controller {
 	}
 		
 	
-	public function saveSP()
+	public function saveSummary($cid)
 	{
-		$insert_id = $this->quote->store_quotation_record();
-		if($this->quote->store_quotation_item_record($insert_id)){
-			$this->session->set_flashdata('feedback','Quotation created');
-			echo "Quotation created";
+		$data=$this->input->post();
+		$data['client_id']=$cid;
+		$data['date']=date('Y-m-d', strtotime($data['date']));
+		if($this->crud->insertInfo('summary',$data)){
+			$this->session->set_flashdata('feedback','Service created');
+			echo "Service added";
 		}
 		else{
 			echo "Server error !";
 		}
 	}
 
-    public function editSP($id){
+    public function editSummary($cid,$id){
         if($this->session->userdata('user_login_access') != False) { 
+			
 			$data= array();
-			$data['invoice'] = $this->crud->getInfoId('quotations','id',$id);
-			$data['inv_items'] = $this->quote->get_all_items_by_quotationJoin($data['invoice']->id);
-			$data['clients'] = $this->crud->getInfo('clients');
-			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'quotation/updateQuotation/'.$id;
+			$data['client'] = $this->crud->getInfoId('clients','id',$cid);
+			$data['services'] = $this->crud->getInfo('services');
+			$data['service'] = $this->crud->getInfoId('summary','id',$id);
+			$data['path'] = base_url().'summary/updateSummary/'.$cid.'/'.$id;
 			// var_dump('<pre>',$data);exit;
-			$this->load->view('backend/quotationFormEdit', $data);
+			$this->load->view('backend/summaryForm', $data);
         }
 		else{
 			redirect(base_url() , 'refresh');
 		}        
 	}
 
-    public function updateSP($id){
-		// var_dump('<pre>',$_POST);exit;
+    public function updateSummary($cid,$id){
         if($this->session->userdata('user_login_access') != False) {
-
-			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-			// $this->form_validation->set_rules('item_id','Service','trim|required|xss_clean');
-			$this->form_validation->set_rules('quote_no','Quotation No.','trim|required|xss_clean');
-
-			if ($this->form_validation->run() == FALSE) {
-				echo validation_errors();
+			$data=$this->input->post();
+			$data['client_id']=$cid;
+			$data['date']=date('Y-m-d', strtotime($data['date']));
+			$data['updated_at']=date('Y-m-d H:i:s');
+			if($this->crud->updateInfo('summary',$data,'id',$id)){
+				$this->session->set_flashdata('feedback','Service updated');
+				echo "Service updated";
 			}
 			else{
-				$data=$this->input->post();
-				$data['updated_at']=date('Y-m-d H:i:s');
-				$success = $this->quote->update_quotation_record($id);
-				$this->session->set_flashdata('feedback','Successfully updated');
-				echo "Successfully Updated";
+				echo "Server error !";
 			}
-			
         }
 		else{
 			redirect(base_url() , 'refresh');
 		}        
 	}
 
-    public function deleteSP($id){
+    public function deleteSummary($cid,$id){
         if($this->session->userdata('user_login_access') != False) { 
-			$this->crud->softDeleteInfo('quotations','id',$id);
-			// $this->crud->deleteInfo('invoice','id',$id);
-			// $this->crud->deleteInfo('invoice_item','invoice_id',$id);
+			$this->crud->deleteInfo('summary','id',$id);
 			$this->session->set_flashdata('delsuccess', 'Successfully Deleted');
-			redirect('quotation');
+			redirect('summary/summary_serv/'.$cid);
         }
 		else{
 			redirect(base_url() , 'refresh');
 		}        
 	}
 
-	public function SPInfo()
-	{
-		$svc_id = $this->input->post('svc_id', true);
-		$svc = $this->crud->getInfoId('services','id',$svc_id);
-		if ($svc) {
-			$resp= array();
-			$resp['price'] = $svc->price;
-			$resp['short_descr'] = $svc->short_descr;
-		} else {
-			$resp = '';
+	public function toInvoice()
+    {
+		$ids=json_decode($this->input->post('id'));
+		foreach($ids as $id){
+			$inv_items[$id] = $this->crud->getInfoId('summary','id',$id);
+			$inv_items[$id]->price = $this->crud->getInfoId('services','id',$inv_items[$id]->service_id)->price;
 		}
-		echo json_encode($resp);
-	}
-
+		$cid=json_decode($this->input->post('cid'));
+		$response['inv_items'] = $inv_items;
+		$response['ids'] = $ids;
+		$response['cid'] =$cid;
+        echo json_encode($response);
+    }
 
     
 }

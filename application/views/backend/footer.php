@@ -189,6 +189,12 @@
     $(".select2").select2({
 		theme:'bootstrap4'
 	});
+
+	$('#datepickerSumm').datepicker({
+		format: "dd-mm-yyyy",
+        autoclose: true, 
+        todayHighlight: true 
+	});
     </script>
 <script type="text/javascript">
 

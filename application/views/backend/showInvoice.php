@@ -94,25 +94,34 @@
 												<tr>
 													<th>S. No.</th>
 													<th>Service</th>
-													<th>Price &nbsp; x &nbsp; Qty</th>
+													<th>Qty</th>
 													<th width="100px" class="text-right">Subtotal</th>
 												</tr>
 												</thead>
 												<tbody>
 												<?php
 												$z=1;
-												foreach ($inv_items as $item):
-													?>
+												foreach ($cat as $c):?>
 													<tr>
 														<td class=""><?= $z?>.</td>
 														<td class="">
-															<h6><?= $item->name; ?></h6>
-															<?= nl2br($item->descr) ?>
-														</td>
-														<td class=""><?=$settings->symbol.$item->price.'&emsp; x &emsp;'.$item->qty; ?></td>
-														<td class="text-right"><?= $settings->symbol . ' '; ?><?php echo $item->price * $item->qty; ?>/-</td>
+															<h6><?= $c->cname; ?></h6>
+												<?php
+													$st=0;
+													$qty=0;
+													foreach ($inv_items as $item):
+														if($c->cname==$item->cname){
+															$st+=$item->price * $item->qty;
+															$qty+= $item->qty;
+															echo '- '.$item->name.'<br>';
+													 	} 
+													endforeach;?>
+													
+													</td>
+														<td class=""><?=$qty?></td>
+														<td class="text-right"><?= $settings->symbol . ' '; ?><?= $st?>/-</td>
 													</tr>
-												<?php $z++; endforeach; ?>
+													<?php  $z++; endforeach; ?>
 
 												<!-- <tr>
 													<th colspan="3" class="text-right">Subtotal:</th>

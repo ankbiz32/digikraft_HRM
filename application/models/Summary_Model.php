@@ -109,7 +109,7 @@ class Summary_model extends CI_Model
 						->join('services sv', 'sv.id = s.service_id', 'LEFT')
 						->where('s.client_id',$client_id)
 						->where('is_billed',0)
-						->order_by('id','desc')
+						->order_by('date','desc')
 						->get()->result();
 	}
 

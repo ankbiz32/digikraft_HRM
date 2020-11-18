@@ -131,9 +131,20 @@ class Invoice_model extends CI_Model
 	}
 
 	function get_all_items_by_invoiceJoin($id){
-		return $this->db->select('ii.*, s.name')
+		return $this->db->select('ii.*, s.name, c.cname')
 						->from('invoice_item ii')
 						->join('services s', 's.id = ii.item_id', 'LEFT')
+						->join('services_category c', 'c.id = s.category_id', 'LEFT')
+						->where('invoice_id', $id)
+						->get()->result();
+	}
+
+	function get_all_items_by_invoiceJoin_cat($id){
+		return $this->db->select("c.cname")
+						->from('invoice_item ii')
+						->join('services s', 's.id = ii.item_id', 'LEFT')
+						->join('services_category c', 'c.id = s.category_id', 'LEFT')
+						->group_by('s.category_id')
 						->where('invoice_id', $id)
 						->get()->result();
 	}
