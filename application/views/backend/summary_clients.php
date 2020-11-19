@@ -13,6 +13,7 @@
                 </div>
             </div>
             <div class="message"></div>
+      		<?php echo $this->session->flashdata('message'); ?>
             <div class="container-fluid">
                 <div class="row mt-3">
                     <div class="col-12">

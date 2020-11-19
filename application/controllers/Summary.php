@@ -41,10 +41,45 @@ class Summary extends CI_Controller {
 	public function summary_serv($id)
 	{
 		if($this->session->userdata('user_login_access') != False) {
+			unset($_SESSION['dates']);
 			$data=array();
 			$data['client'] = $this->crud->getInfoId('clients','id',$id);
 			$data['summary'] = $this->summ->get_non_billed_summary($id);
 			$this->load->view('backend/summary',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		} 
+	}
+
+	public function dateFilter($id)
+	{
+		if($this->session->userdata('user_login_access') != False) {
+			$data=array();
+			$data['client'] = $this->crud->getInfoId('clients','id',$id);
+			$from=date('Y-m-d 00:00:00',strtotime($_POST['from']));
+			$to=date('Y-m-d 00:00:00',strtotime($_POST['to']));
+			$conds='date BETWEEN "'. $from. '" and "'. $to.'"';
+			$data['summary'] = $this->summ->get_non_billed_summary($id, $conds);
+			$_SESSION['dates']='<p class="col-12"><strong> Summary from <strong>'.date('d-m-Y',strtotime($from)).'</strong> to <strong>'.date('d-m-Y',strtotime($to)).'</strong> &nbsp;&nbsp;<u><a href="'.base_url('summary/summary_serv/').$id.'">Reset</a></u></strong><p>';
+			$this->load->view('backend/summary',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		} 
+	}
+
+	public function dateFilterBilled($id)
+	{
+		if($this->session->userdata('user_login_access') != False) {
+			$data=array();
+			$data['client'] = $this->crud->getInfoId('clients','id',$id);
+			$from=date('Y-m-d 00:00:00',strtotime($_POST['from']));
+			$to=date('Y-m-d 00:00:00',strtotime($_POST['to']));
+			$conds='date BETWEEN "'. $from. '" and "'. $to.'"';
+			$data['summary'] = $this->summ->get_billed_summary($id, $conds);
+			$_SESSION['dates']='<p class="col-12"><strong> Summary from <strong>'.date('d-m-Y',strtotime($from)).'</strong> to <strong>'.date('d-m-Y',strtotime($to)).'</strong> &nbsp;&nbsp;<u><a href="'.base_url('summary/summary_serv_billed/').$id.'">Reset</a></u></strong><p>';
+			$this->load->view('backend/summary_billed',$data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -140,17 +175,59 @@ class Summary extends CI_Controller {
 
 	public function toInvoice()
     {
-		$ids=json_decode($this->input->post('id'));
-		foreach($ids as $id){
-			$inv_items[$id] = $this->crud->getInfoId('summary','id',$id);
-			$inv_items[$id]->price = $this->crud->getInfoId('services','id',$inv_items[$id]->service_id)->price;
-		}
-		$cid=json_decode($this->input->post('cid'));
-		$response['inv_items'] = $inv_items;
-		$response['ids'] = $ids;
-		$response['cid'] =$cid;
-        echo json_encode($response);
-    }
+		if($this->session->userdata('user_login_access') != False) {
+			$ids=explode(',',$this->input->post('ids'));
+			// var_dump('<pre>',$ids);exit;
+			foreach($ids as $id){
+				$inv_items[$id] = $this->crud->getInfoId('summary','id',$id);
+				$inv_items[$id]->price = $this->crud->getInfoId('services','id',$inv_items[$id]->service_id)->price;
+			}
+			$cid=$this->input->post('cid');
+			$response= array();
+			$response['inv_items'] = $inv_items;
+			$response['ids'] = $ids;
+			$response['cid'] =$cid;
+			$response['clients'] = $this->crud->getInfo('clients');
+			$response['items'] = $this->crud->getInfo('services');
+			$response['path'] = base_url().'summary/saveInvoice/'.$id;
+			// var_dump('<pre>',$response);exit;
+			$this->load->view('backend/summToInv', $response);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}  
+		
+	}
+
+    public function saveInvoice(){
+        if($this->session->userdata('user_login_access') != False) {
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+			$this->form_validation->set_rules('invoice_no','Invoice No.','trim|required|xss_clean');
+			if ($this->form_validation->run() == FALSE) {
+				echo validation_errors();
+			}
+			else{
+				$this->load->model('Invoice_Model','invoice');
+				// var_dump('<pre>',$this->input->post());exit;
+				$insert_id = $this->invoice->store_invoice_record();
+				if($this->invoice->store_invoice_item_record($insert_id)){
+					$ids=explode(',',$this->input->post('ids'));
+					$this->summ->setToBilled($ids);
+					$this->session->set_flashdata('message','<div class="message" style="display:initial;opacity:1">Invoice generated</div>');
+					redirect ('summary');
+				}
+				else{
+					$this->session->set_flashdata('message','<div class="message" style="display:initial;background-color:#d00000">Error</div>');
+					redirect ('summary');
+				}
+			}
+			
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}        
+	}
 
     
 }

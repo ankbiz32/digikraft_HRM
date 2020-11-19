@@ -14,11 +14,29 @@
                 </div>
             </div>
             <div class="message"></div>
+      		<?php echo $this->session->flashdata('message'); ?>
             <div class="container-fluid">
                 <div class="row mt-3">
 					<div class="col-sm-12 mt-3 mb-4">
 						<a href="<?=base_url('summary/summary_serv_billed/').$client->id?>" class="btn btn-default"><i class="fa fa-circle fa-sm text-success" style="transform:scale(0.6)"></i> See billed services</a>
+						<div class="pull-right">
+							<form action="<?=base_url('summary/dateFilter/').$client->id?>" id="noScript" method="POST" class="d-flex">
+								<div class="input-group input-daterange mr-2">
+									<input type="text" class="form-control" name="from" placeholder="From" required>
+									<div class="input-group-addon">-</div>
+									<input type="text" class="form-control" name="to" placeholder="To" required>
+								</div>
+								<button type="submit" class="btn btn-default border border-secondary">Filter</button>
+							</form>
+						</div>
 					</div>
+					
+					<?php 
+						if(isset($_SESSION['dates'])){
+							echo $_SESSION['dates']; 
+							unset($_SESSION['dates']);
+						}
+			  		?>
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
@@ -63,6 +81,12 @@
                             </div>
                         </div>
                     </div>
+					<div class="col-12 d-none">
+						<form id="noScript" action="<?=base_url('summary/toInvoice')?>" method="POST" class="invForm">
+							<input type="text" name="ids" class="form-control col-4 mr-2" id="idsInput">
+							<input type="text" name="cid" class="form-control col-4" value="<?=$client->id?>">
+						</form>
+					</div>
                 </div>
 <?php $this->load->view('backend/footer'); ?>
 <script>
@@ -96,27 +120,6 @@
 			}
 		});
 
-		// Generate invoice button
-		$(document).on('click', '#invBtn', function() {
-			if (items.length==0) {
-				alert('Please select atleast one service to generate invoice.');
-			}else{
-				$.ajax({
-					type: 'post',
-					url: "<?=base_url('summary/toInvoice')?>",
-					data:{
-						id:JSON.stringify(items),
-						cid:<?=$client->id?>,
-					},
-					success:function(response){
-					},
-					error: function(){
-						alert("Server error !")
-					}
-				});
-			}
-		});
-
 		// Individual select/deselect button
 		$(document).on('click', '.rowSelector', function() {
 			getSelected();
@@ -127,6 +130,7 @@
 			$("input:checkbox[class=rowSelector]:checked").each(function () {
 				val= $(this).data("id");
 				items.push(val);
+				$('#idsInput').val(items);
 			});
 			if(items.length==0){
 				$('.btn-bulk').hide();
@@ -135,5 +139,14 @@
 				$('.btn-bulk').show();
 			}
 		}
+
+		// Generate invoice button
+		$(document).on('click', '#invBtn', function() {
+			if (items.length==0) {
+				alert('Please select atleast one service to generate invoice.');
+			}else{
+				$('.invForm').submit();
+			}
+		});
 	});
 </script>

@@ -56,6 +56,7 @@
                                 <li><a href="<?php echo base_url();?>organization/Department">Department </a></li>
                                 <li><a href="<?php echo base_url();?>organization/Designation">Designation</a></li>
                                 <li><a href="<?php echo base_url();?>organization/Clients">Clients</a></li>
+                                <li><a href="<?php echo base_url();?>employee/Employees">Employees</a></li>
                             </ul>
 						</li>
 							
@@ -74,10 +75,7 @@
 								<li><a href="<?php echo base_url(); ?>invoice"> Invoice</a></li>
                             </ul>
 						</li>
-					
-
-						<li><a href="<?php echo base_url(); ?>employee/Employees"><i class="mdi mdi-account-multiple"></i> <span class="hide-menu">Employees<span class="hide-menu">  </a></li>
-						
+											
 						
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-credit-card"></i><span class="hide-menu">Payroll </span></a>
                             <ul aria-expanded="false" class="collapse">

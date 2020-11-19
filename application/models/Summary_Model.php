@@ -102,28 +102,35 @@ class Summary_model extends CI_Model
 		$this->db->where('id', $id)->update('quotations', $data);
 	}
 
-	public function get_non_billed_summary($client_id)
+	public function get_non_billed_summary($client_id, $conds=null)
 	{
-		return $this->db->select('s.*, sv.name AS service_name')
-						->from('summary s')
-						->join('services sv', 'sv.id = s.service_id', 'LEFT')
-						->where('s.client_id',$client_id)
+		 $this->db->select('s.*, sv.name AS service_name')
+					->from('summary s')
+					->join('services sv', 'sv.id = s.service_id', 'LEFT');
+					if($conds){
+						$this->db->where($conds);
+					}
+		return $this->db->where('s.client_id',$client_id)
 						->where('is_billed',0)
 						->order_by('date','desc')
 						->get()->result();
 	}
 
-	public function get_billed_summary($client_id)
+	public function get_billed_summary($client_id, $conds=null)
 	{
-		return $this->db->select('s.*, sv.name AS service_name')
-						->from('summary s')
-						->join('services sv', 'sv.id = s.service_id', 'LEFT')
-						->where('s.client_id',$client_id)
+		 $this->db->select('s.*, sv.name AS service_name')
+					->from('summary s')
+					->join('services sv', 'sv.id = s.service_id', 'LEFT');
+					if($conds){
+						$this->db->where($conds);
+					}
+		return $this->db->where('s.client_id',$client_id)
 						->where('is_billed',1)
-						->order_by('id','desc')
-						->get()
-						->result();
+						->order_by('date','desc')
+						->get()->result();
 	}
+
+
 
 	public function get_all_quotationTrash()
 	{
@@ -143,6 +150,12 @@ class Summary_model extends CI_Model
 						->get()->result();
 	}
 
+	public function setToBilled($ids)
+	{
+		$this->db->where_in("id", $ids);
+    	$this->db->update("summary",['is_billed'=>1,'updated_at'=>date('Y-m-d H:i:s')]);
+	}
+	
 	public function get_settings_record()
 	{
 		return $this->db->where('id', 1)->get('tbl_settings')->row();

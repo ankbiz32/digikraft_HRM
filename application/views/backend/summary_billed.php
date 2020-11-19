@@ -14,11 +14,29 @@
                 </div>
             </div>
             <div class="message"></div>
+      		<?php echo $this->session->flashdata('message'); ?>
             <div class="container-fluid">
                 <div class="row mt-3">
 					<div class="col-sm-12 mt-3 mb-4">
 						<a href="<?=base_url('summary/summary_serv/').$client->id?>" class="btn btn-default"><i class="fa fa-circle fa-sm text-warning" style="transform:scale(0.6)"></i> See un-billed services</a>
+						<div class="pull-right">
+							<form action="<?=base_url('summary/dateFilterBilled/').$client->id?>" id="noScript" method="POST" class="d-flex">
+								<div class="input-group input-daterange mr-2">
+									<input type="text" class="form-control" name="from" placeholder="From">
+									<div class="input-group-addon">-</div>
+									<input type="text" class="form-control" name="to" placeholder="To">
+								</div>
+								<button type="submit" class="btn btn-default border border-secondary">Filter</button>
+							</form>
+						</div>
 					</div>
+					
+					<?php 
+						if(isset($_SESSION['dates'])){
+							echo $_SESSION['dates']; 
+							unset($_SESSION['dates']);
+						}
+			  		?>
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
@@ -29,21 +47,21 @@
                                     <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <!-- <th>Id</th> -->
                                                 <th>Date</th>
                                                 <th>Service Name</th>
                                                 <th>Descr.</th>
                                                 <th>Qty</th>
+                                                <th>Billed on</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                            <?php foreach($summary as $s): ?>
                                             <tr>
-                                                <!-- <td><?= $s->id ?></td> -->
                                                 <td><?= date('d-m-Y',strtotime($s->date)) ?></td>
                                                 <td><?= $s->service_name ?></td>
                                                 <td><?= $s->descr ?></td>
                                                 <td><?= $s->qty ?></td>
+                                                <td><?= date('d-m-Y',strtotime($s->updated_at)) ?></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -52,6 +70,12 @@
                             </div>
                         </div>
                     </div>
+					<div class="col-12 d-none">
+						<form id="noScript" action="<?=base_url('summary/toInvoice')?>" method="POST" class="">
+							<input type="text" name="ids" class="form-control col-4 mr-2" id="idsInput">
+							<input type="text" name="cid" class="form-control col-4" value="<?=$client->id?>">
+						</form>
+					</div>
                 </div>
 <?php $this->load->view('backend/footer'); ?>
 <script>
@@ -63,10 +87,16 @@
 				bSortable: false,
 				aTargets: [ 0 ]
 			}
-		]
+		],
+		dom: 'Bflrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
     });
 	
 	$(function () {
+		items= [];
+		
 		// All select/deselect button
 		$(document).on('click', '.allSelector', function() {
 			if ($(this).is(':checked')) {
@@ -89,6 +119,8 @@
 			$("input:checkbox[class=rowSelector]:checked").each(function () {
 				val= $(this).data("id");
 				items.push(val);
+				$('#idsInput').val(items);
+				console.log($('#idsInput').val());
 			});
 			if(items.length==0){
 				$('.btn-bulk').hide();
@@ -97,5 +129,14 @@
 				$('.btn-bulk').show();
 			}
 		}
+
+		// Generate invoice button
+		$(document).on('click', '#invBtn', function() {
+			if (items.length==0) {
+				alert('Please select atleast one service to generate invoice.');
+			}else{
+				$('.invForm').submit();
+			}
+		});
 	});
 </script>

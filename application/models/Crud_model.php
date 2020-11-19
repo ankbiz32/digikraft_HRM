@@ -17,6 +17,18 @@ class Crud_model extends CI_Model{
 		return $result;
 	}
 
+	public function getInfo2($table,$conds=null){
+		if($conds){
+			$this->db->where($conds)
+			
+			->where("cd.created >='$from'")
+			->where("cd.created <='$to'");
+		}
+		$query = $this->db->get($table);
+		$result = $query->result();
+		return $result;
+	}
+
 	function getServices(){
 		return $this->db->select('s.*, sc.cname')
 						->from('services s')

@@ -137,11 +137,18 @@
         });
     });
     $(function () {
-  $("#datepicker").datepicker({ 
-        autoclose: true, 
-        todayHighlight: true
-  }).datepicker('update', new Date());
-});
+		$("#datepicker").datepicker({ 
+				autoclose: true, 
+				todayHighlight: true
+		}).datepicker('update', new Date());
+
+		$('.input-daterange input').each(function() {
+			$(this).datepicker({
+				format: 'dd-mm-yyyy'
+			});
+		});
+
+	});
     jQuery('.mydatepicker, #datepicker').datepicker();
     jQuery('#datepicker-autoclose').datepicker({
         autoclose: true,
@@ -203,30 +210,34 @@ $('form').each(function() {
     submitHandler: function(form) {
         var formval = form;
         var url = $(form).attr('action');
-
-        // Create an FormData object
-        var data = new FormData(formval);
-        $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
-            // url: "crud/Add_userInfo",
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            success: function (response) {
-                // console.log(response);            
-                $(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
-                $('form').trigger("reset");
-                window.setTimeout(function(){location.reload()},1500);
-            },
-            error: function (e) {
-				alert('server error');
-                console.log(e);
-            }
-        });
+		if(form.id=='noScript'){
+			form.submit();
+		}
+		else{
+			// Create an FormData object
+			var data = new FormData(formval);
+			$.ajax({
+				type: "POST",
+				enctype: 'multipart/form-data',
+				// url: "crud/Add_userInfo",
+				url: url,
+				data: data,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 600000,
+				success: function (response) {
+					// console.log(response);            
+					$(".message").fadeIn('fast').delay(3000).fadeOut('fast').html(response);
+					$('form').trigger("reset");
+					window.setTimeout(function(){location.reload()},1500);
+				},
+				error: function (e) {
+					alert('server error');
+					console.log(e);
+				}
+			});
+		}
     }
 });
 });

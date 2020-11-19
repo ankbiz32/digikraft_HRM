@@ -57,6 +57,7 @@
 														<div class="dropdown-menu">
 														<a class="dropdown-item" href='<?php echo base_url();?>proposals?client=<?php echo $c->name?>'>See Proposals</a>
 														<a class="dropdown-item" href='<?php echo base_url();?>quotation?client=<?php echo $c->name?>'>See Quotations</a>
+														<a class="dropdown-item" href='<?php echo base_url('summary/summary_serv/').$c->id?>'>See Summary</a>
 														<a class="dropdown-item" href='<?php echo base_url();?>invoice?client=<?php echo $c->name?>'>See Invoices</a>
 														</div>
 													</span>
