@@ -29,7 +29,8 @@
                                     <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Client Name</th>
+                                                <th>Organisation</th>
+                                                <th>Person</th>
                                                 <th>Contact</th>
                                                 <th>GST no. </th>
                                                 <th>Remarks </th>
@@ -39,7 +40,8 @@
                                         <tbody>
                                            <?php foreach($clients as $c): ?>
                                             <tr>
-                                                <?= wordwrap($c->name,30,"<br>\n") ?></td>
+                                                <td><?= wordwrap($c->name,30,"<br>\n") ?></td>
+                                                <td><?= wordwrap($c->person,30,"<br>\n") ?></td>
                                                 <td>
 													<?= 
 														'<i class="fa fa-phone fa-sm"></i> '.$c->contact_no.

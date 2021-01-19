@@ -62,6 +62,7 @@ class Organization extends CI_Controller {
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 			$this->form_validation->set_rules('name','Name','trim|required|xss_clean');
+			$this->form_validation->set_rules('person','Concerned Person','trim|required|xss_clean');
 			$this->form_validation->set_rules('contact_no','Contact No.','trim|required|xss_clean|min_length[10]|max_length[10]');
 
 			if ($this->form_validation->run() == FALSE) {
@@ -104,6 +105,7 @@ class Organization extends CI_Controller {
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 			$this->form_validation->set_rules('name','Name','trim|required|xss_clean');
+			$this->form_validation->set_rules('person','Concerned Person','trim|required|xss_clean');
 			$this->form_validation->set_rules('contact_no','Contact No.','trim|required|xss_clean|min_length[10]|max_length[10]');
 
 			if ($this->form_validation->run() == FALSE) {
