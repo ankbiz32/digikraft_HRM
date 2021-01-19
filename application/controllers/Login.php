@@ -86,6 +86,7 @@ class Login extends CI_Controller {
         $query = $this->login_model->getUserForLogin($credential);
         if ($query->num_rows() > 0) {
             $row = $query->row();
+            $this->session->set_userdata('uid', $row->id);
             $this->session->set_userdata('user_login_access', '1');
             $this->session->set_userdata('user_login_id', $row->em_id);
             $this->session->set_userdata('name', $row->first_name);

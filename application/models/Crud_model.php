@@ -47,6 +47,23 @@ class Crud_model extends CI_Model{
 						->get()->result();
 	}
 
+	function getExpenses(){
+		return $this->db->select('e.*, em.first_name, em.last_name')
+						->from('expenses e')
+						->join('employee em', 'em.id = e.user_id', 'LEFT')
+						->order_by('created_at','desc')
+						->get()->result();
+	}
+
+	function getExpensesId($id){
+		return $this->db->select('e.*, em.first_name, em.last_name')
+						->from('expenses e')
+						->join('employee em', 'em.id = e.user_id', 'LEFT')
+						->order_by('created_at','desc')
+						->where('e.id',$id)
+						->get()->row();
+	}
+
 
 	public function getInfoId($table,$col,$id,$conds=null){
 		$query = $this->db->where($col,$id);

@@ -39,7 +39,7 @@
                                         <tbody>
                                            <?php foreach($clients as $c): ?>
                                             <tr>
-                                                <td><?= $c->name ?></td>
+                                                <?= wordwrap($c->name,30,"<br>\n") ?></td>
                                                 <td>
 													<?= 
 														'<i class="fa fa-phone fa-sm"></i> '.$c->contact_no.
@@ -48,7 +48,7 @@
 													?>
 												</td>
                                                 <td><?= $c->gst_no ?></td>
-                                                <td><?= $c->remarks ?></td>
+                                                <td><?= nl2br($c->remarks) ?></td>
                                                 <td class="jsgrid-align-center ">
 													<a href="<?php echo base_url();?>organization/editClient/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>organization/deleteClient/<?php echo $c->id;?>" title="Delete" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash-o"></i></a>
