@@ -36,6 +36,14 @@
 							<section class="invoice">
 								<div id="printableArea">
 									<!-- title row -->
+									<style>
+										h1,h2,h3,h4,h5,h6,.h6,th,td,span,div .col {
+											color: #222;
+										}
+										button span{
+											color:white;
+										}
+									</style>
 									<div class="row bg-light p-3 align-items-center">
 										<div class="col-sm-8">
 											<h2 class="page-header" style="border:0px;">
@@ -47,7 +55,7 @@
 											<div class="invoice-col" style="">
 												<address class="mb-0 text-dark">
 													<h5 class="text-uppercase"><strong><?= $settings->company_name?></strong></h5>
-													<span class="mb-1 d-block"><i class="fa fa-phone"></i>&nbsp; <?= $settings->contact?></span>
+													<span class="mb-1 d-block"><i class="fa fa-phone"></i>&nbsp; <?= strlen($settings->contact)==10?'+91-'.$settings->contact:$settings->contact; ?></span>
 													<span class="mb-1 d-block"><i class="fa fa-envelope"></i>&nbsp; <?= $settings->system_email; ?></span>
 													<span class="mb-1 d-block"><i class="fa fa-globe"></i>&nbsp; www.digikraftsocial.com</span>
 												</address>
@@ -57,17 +65,17 @@
 
 									<div class="row mt-4">
 										<div class="col-sm-8">
-											<h6 class="text-muted">INVOICE TO -</h6>
+											<h6 class="">INVOICE TO -</h6>
 											<address class="mb-0 mt-2 text-dark">
 												<span><?= $client->name; ?></span>
 												<br>
-												<span>Phone : <?= $client->contact_no; ?></span>
+												<span>Contact : <?= strlen($client->contact_no)==10?'+91-'.$client->contact_no:$client->contact_no; ?></span>
 												<br>
 												<span>E-mail : <?= $client->email; ?></span>
 											</address>
 										</div>
 										<div class="col-sm-4 ">
-											<h6 class="text-muted">INVOICE DETAILS -</h6>
+											<h6 class="">INVOICE DETAILS -</h6>
 											<address class=" mt-2 text-dark">
 												<div class="row">
 													<div class="col-4">Invoice no.</div>
@@ -153,7 +161,7 @@
 
 									<div class="row mt-4">
 										<div class="col-sm-8">
-											<h6 class="text-muted">BANK DETAILS -</h6>
+											<h6 class="">BANK DETAILS -</h6>
 											<address class=" mt-2 text-dark">
 												<div class="row">
 													<div class="col-3">Bank</div>
@@ -178,7 +186,7 @@
 											</address>
 										</div>
 										<div class="col-sm-4 ">
-											<h6 class="text-muted">T&C -</h6>
+											<h6 class="">T&C -</h6>
 											<address class=" mt-2 text-dark">
 												<div class="row">
 													<div class="col">- Please pay your deposit upon receipt of the invoice.</div>
