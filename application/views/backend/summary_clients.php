@@ -26,7 +26,8 @@
                                     <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Client Name</th>
+                                                <th>Client</th>
+                                                <th>Person Name</th>
                                                 <th>Contact</th>
                                                 <th>Action</th>
                                             </tr>
@@ -35,6 +36,7 @@
                                            <?php foreach($clients as $c): ?>
                                             <tr>
                                                 <td><?= $c->name ?></td>
+                                                <td><?= $c->person ?></td>
                                                 <td>
 													<?= 
 														'<i class="fa fa-phone fa-sm"></i> '.$c->contact_no.

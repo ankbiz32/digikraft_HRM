@@ -53,7 +53,7 @@
 													<select class="form-control bg-light" name="client_id" data-placeholder="Select a client" style="pointer-events:none" readonly required >
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>" <?=$cid==$client->id?' selected':''?> ><?= $client->name; ?></option>
+															<option value="<?= $client->id; ?>" <?=$cid==$client->id?' selected':''?> ><?= $client->name.' ('.$client->person.')'  ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>

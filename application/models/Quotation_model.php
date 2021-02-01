@@ -105,7 +105,7 @@ class Quotation_model extends CI_Model
 
 	public function get_all_quotation()
 	{
-		return $this->db->select('q.*, c.name')
+		return $this->db->select('q.*, c.name, c.person')
 						->from('quotations q')
 						->join('clients c', 'c.id = q.client_id', 'LEFT')
 						->where('is_deleted',0)
@@ -115,7 +115,7 @@ class Quotation_model extends CI_Model
 
 	public function get_all_quotationTrash()
 	{
-		return $this->db->select('q.*, c.name')
+		return $this->db->select('q.*, c.name, c.person')
 						->from('quotations q')
 						->join('clients c', 'c.id = q.client_id', 'LEFT')
 						->where('is_deleted',1)
@@ -146,5 +146,16 @@ class Quotation_model extends CI_Model
 			return "Data Deleted Successfully";
 		}
 	}
+
+	function get_all_items_by_QuotJoin($id){
+		return $this->db->select('qi.*, s.name, c.cname')
+						->from('quotation_item qi')
+						->join('services s', 's.id = qi.item_id', 'LEFT')
+						->join('services_category c', 'c.id = s.category_id', 'LEFT')
+						->where('quotation_id', $id)
+						->get()->result();
+	}
+
+
 
 }

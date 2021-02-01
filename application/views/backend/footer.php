@@ -211,6 +211,7 @@ $('form').each(function() {
         var formval = form;
         var url = $(form).attr('action');
 		if(form.id=='noScript'){
+            // alert('in');
 			form.submit();
 		}
 		else{

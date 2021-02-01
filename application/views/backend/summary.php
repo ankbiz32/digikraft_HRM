@@ -40,7 +40,7 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
-								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-warning" style="transform:scale(0.6)"></i> Unbilled service summary for : <?=$client->name?></small></h4>
+								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-warning" style="transform:scale(0.6)"></i> Unbilled service summary for : <?=$client->name.' ('.$client->person.')' ?></small></h4>
 								<span class="ml-auto">
 									<button class="btn btn-sm btn-primary mr-2 mb-2 mb-sm-0" id="invBtn"><i class="fa fa-print"> </i> Generate Invoice</button>
 									<a href="<?= base_url().'summary/addSummary/'.$client->id ?>" class="text-white btn btn-sm btn-success"><i class="fa fa-plus"></i> Add service</a>

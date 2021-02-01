@@ -9,13 +9,13 @@
       <div class="page-wrapper">
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor"><i class="fa fa-list" aria-hidden="true"></i> Invoice</h3>
+                    <h3 class="text-themecolor"><i class="fa fa-list" aria-hidden="true"></i> Proforma Invoice</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>">Invoice</a></li>
-                        <li class="breadcrumb-item active"> <?=isset($service)?'Edit':'Add new'?> Add invoice</li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>">Proforma Invoice</a></li>
+                        <li class="breadcrumb-item active"> <?=isset($service)?'Edit':'Add new'?> Add Proforma Invoice</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white"> <?=$invoice!=''?'Edit':'Generate new'?> invoice<span class="pull-right " ></span></h4>
+                                <h4 class="m-b-0 text-white"> <?=$invoice!=''?'Edit':'Generate new'?> Proforma Invoice<span class="pull-right " ></span></h4>
                             </div>
                             <?php echo validation_errors(); ?>
                                <?php echo $this->upload->display_errors(); ?>
@@ -43,7 +43,7 @@
 													<select class="form-control select2" name="client_id" data-placeholder="Select a client" required>
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>"><?= $client->name; ?></option>
+															<option value="<?= $client->id; ?>"><?= $client->name.' ('.$client->person.')'  ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -156,8 +156,8 @@
 										</div>
 
 										<div class="box-footer mt-4">
-											<button type="submit" class="btn btn-info mr-2">+ Generate Invoice</button>
-											<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
+											<button type="submit" class="btn btn-info mr-2">+ Generate Proforma Invoice</button>
+											<a href="<?=base_url('invoice/proforma')?>" class="btn btn-secondary">Cancel</a>
 										</div>
 								</form>
                             </div>

@@ -18,9 +18,19 @@ class Invoice extends CI_Controller {
     }
 
 
-    public function index(){
+    public function proforma(){
         if($this->session->userdata('user_login_access') != False) {
 			$data['invoices'] = $this->invoice->get_all_invoice();
+			$this->load->view('backend/proforma',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		}            
+	}
+
+    public function index(){
+        if($this->session->userdata('user_login_access') != False) {
+			$data['invoices'] = $this->invoice->get_all_final_invoice();
 			$this->load->view('backend/invoice_services',$data);
         }
 		else{
@@ -67,13 +77,17 @@ class Invoice extends CI_Controller {
 			redirect(base_url() , 'refresh');
 		}        
 	}
-		
+
 	
 	public function saveInvoice()
 	{
 		$insert_id = $this->invoice->store_invoice_record();
 		
 		if($this->invoice->store_invoice_item_record($insert_id)){
+			
+			if($this->input->post('ref_quotation_id')){
+				$this->db->where('id', $this->input->post('ref_quotation_id'))->update('quotations', ['ref_invoice_id'=>$insert_id]);
+			}
 			$this->session->set_flashdata('feedback','Invoice generated');
 			echo "Invoice generated";
 		}

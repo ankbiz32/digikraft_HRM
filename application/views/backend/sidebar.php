@@ -72,7 +72,14 @@
 								<li><a href="<?php echo base_url(); ?>proposals"> Proposal</a></li>
 								<li><a href="<?php echo base_url(); ?>quotation"> Quotation</a></li>
 								<li><a href="<?php echo base_url(); ?>summary"> Summary</a></li>
-								<li><a href="<?php echo base_url(); ?>invoice"> Invoice</a></li>
+								<li>
+                                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><span class="hide-menu">Invoices </span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a href="<?php echo base_url(); ?>invoice/proforma"> Proforma invoice</a></li>
+                                        <li><a href="<?php echo base_url(); ?>invoice"> Final Invoice</a></li>
+                                    </ul>
+                                </li>
+								<li><a href="<?php echo base_url(); ?>payment"> Payments</a></li>
                             </ul>
 						</li>
 											

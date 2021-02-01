@@ -33,6 +33,7 @@
                                                 <th>Person</th>
                                                 <th>Contact</th>
                                                 <th>GST no. </th>
+                                                <th>Balance </th>
                                                 <th>Remarks </th>
                                                 <th>Action</th>
                                             </tr>
@@ -50,8 +51,10 @@
 													?>
 												</td>
                                                 <td><?= $c->gst_no ?></td>
+                                                <td>₹<?= $c->balance?$c->balance:0 ?>/-</td>
                                                 <td><?= nl2br($c->remarks) ?></td>
                                                 <td class="jsgrid-align-center ">
+													<a href="<?=base_url('payment/addPayment?client=').$c->id?>" title="Add payment" class="btn btn-sm btn-warning waves-effect waves-light"><i class="fa fa-money"></i></a>
 													<a href="<?php echo base_url();?>organization/editClient/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>organization/deleteClient/<?php echo $c->id;?>" title="Delete" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash-o"></i></a>
 													<span class="dropdown d-inline-block">

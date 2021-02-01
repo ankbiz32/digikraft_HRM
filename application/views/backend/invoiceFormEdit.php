@@ -14,8 +14,8 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>">Invoice</a></li>
-                        <li class="breadcrumb-item active"> Edit invoice</li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>"><?=isset($_GET['final']) ? '' : 'Proforma' ?> Invoice</a></li>
+                        <li class="breadcrumb-item active"> Edit <?=isset($_GET['final']) ? 'Final' : 'Proforma' ?> Invoice</li>
                     </ol>
                 </div>
             </div>
@@ -26,8 +26,12 @@
                         <div class="card card-outline-info">
                             <div class="card-header">
                                 <h4 class="m-b-0 text-white"> 
-									Edit invoice
-									<a class="float-right" href="<?=base_url('invoice')?>"><i class="fa fa-times"></i> cancel</a>
+									Edit <?=isset($_GET['final']) ? 'Final' : 'Proforma' ?> Invoice
+									<?php if(isset($_GET['final'])){?>
+										<a class="float-right" href="<?=base_url('invoice')?>"><i class="fa fa-times"></i> cancel</a>
+									<?php } else{?>
+										<a class="float-right" href="<?=base_url('invoice/proforma')?>"><i class="fa fa-times"></i> cancel</a>
+									<?php }?>
 								</h4>
                             </div>
                             <?php echo validation_errors(); ?>
@@ -46,7 +50,7 @@
 													<select class="form-control bg-light" name="client_id" data-placeholder="Select a client" readonly required disabled>
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name; ?></option>
+															<option value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name.' ('.$client->person.')'  ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -145,22 +149,33 @@
 														<td colspan="4">Total:</td>
 														<td>₹ <label id="totalAmount">0.00</label></td>
 													</tr>
-													<tr class="text-right">
-														<td colspan="4">Amt. Paid :</td>
-														<td>₹ <input style="width: 80px" type="text" class="form-control" name="paid"
-																id="paid" value="<?= $invoice->total_paid ?>" required></td>
-													</tr>
-													<tr class="text-right">
-														<td colspan="4">Amt. Due :</td>
-														<td>₹ <label id="totalDue">0.00</label></td>
-													</tr>
+													<?php if(isset($_GET['final'])) { ?>
+														<tr class="text-right">
+															<td colspan="4">Status:</td>
+															<td>PAID</td>
+														</tr>
+													<?php } else { ?>
+														<tr class="text-right">
+															<td colspan="4">Amt. Paid :</td>
+															<td>₹ <input style="width: 80px" type="text" class="form-control" name="paid"
+																	id="paid" value="<?= $invoice->total_paid ?>" required></td>
+														</tr>
+														<tr class="text-right">
+															<td colspan="4">Amt. Due :</td>
+															<td>₹ <label id="totalDue">0.00</label></td>
+														</tr>
+													<?php } ?>
 												</table>
 											</div>
 										</div>
 
 										<div class="box-footer mt-4">
-											<button type="submit" class="btn btn-info mr-2">Update Invoice</button>
-											<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
+											<button type="submit" class="btn btn-info mr-2">Update <?=isset($_GET['final']) ? 'Final' : 'Proforma' ?> Invoice</button>
+											<?php if(isset($_GET['final'])) { ?>
+												<a href="<?=base_url('invoice')?>" class="btn btn-secondary">Cancel</a>
+											<?php } else { ?>
+												<a href="<?=base_url('invoice/proforma')?>" class="btn btn-secondary">Cancel</a>
+											<?php } ?>
 										</div>
 								</form>
                             </div>

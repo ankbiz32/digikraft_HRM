@@ -40,7 +40,7 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
-								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-success" style="transform:scale(0.6)"></i> Billed service summary for : <?=$client->name?></small></h4>
+								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-success" style="transform:scale(0.6)"></i> Billed service summary for : <?=$client->name.' ('.$client->person.')' ?></small></h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">

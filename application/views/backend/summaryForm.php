@@ -31,7 +31,7 @@
 
                                 <form class="row" method="post" action="<?=$path?>" enctype="multipart/form-data">
                                     <div class="form-group col-md-12 m-t-20">
-                                        <label>Client Name: <strong><?=$client->name?></strong></label>
+                                        <label>Client Name: <strong><?=$client->name.' ('.$client->person.')' ?></strong></label>
                                         <!-- <select name="client_id" class="form-control disabled" disabled required>
 											<option value="<?=$client->id?>"><?=$client->name?></option>
 										</select> -->

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2020 at 01:13 PM
+-- Generation Time: Feb 01, 2021 at 01:33 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -178,11 +178,13 @@ CREATE TABLE `bank_info` (
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `person` varchar(800) NOT NULL,
   `address` varchar(500) DEFAULT NULL,
   `contact_no` varchar(50) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `gst_no` varchar(100) DEFAULT NULL,
   `remarks` text DEFAULT NULL,
+  `balance` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) DEFAULT NULL
@@ -192,9 +194,40 @@ CREATE TABLE `clients` (
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `address`, `contact_no`, `email`, `gst_no`, `remarks`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'The Digital Ox', 'Budhapara,Raipur', '9879878978', 'dssv@tdo.com', '', '', '2020-10-22 12:03:15', '2020-10-28 05:56:50', NULL),
-(2, 'Cluebix', '', '7899879877', 'sdad@sfs.xd', '', '', '2020-10-28 05:26:34', '2020-10-28 05:26:34', NULL);
+INSERT INTO `clients` (`id`, `name`, `person`, `address`, `contact_no`, `email`, `gst_no`, `remarks`, `balance`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'The Digital Ox', 'Someone', 'Budhapara,Raipur', '9879878978', 'dssv@tdo.com', '', '', '36000', '2020-10-22 12:03:15', '2020-10-28 05:56:50', NULL),
+(2, 'Cluebix', 'SR Dani', '', '7899879877', 'sdad@sfs.xd', '', 'Cluebix - 7899879877\r\nsfsfrrgr - 7899879877', NULL, '2020-10-28 05:26:34', '2021-01-27 06:57:34', NULL),
+(3, 'Random Inc.', 'persons', '', '6549877894', '', '', '', NULL, '2021-01-19 06:01:01', '2021-01-19 06:31:24', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_payments`
+--
+
+CREATE TABLE `client_payments` (
+  `id` int(11) NOT NULL,
+  `receipt_no` varchar(200) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `invoice_id` int(11) DEFAULT NULL,
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `remarks` text DEFAULT NULL,
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `client_payments`
+--
+
+INSERT INTO `client_payments` (`id`, `receipt_no`, `client_id`, `amount`, `invoice_id`, `payment_date`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(23, 'PDS01022173', 3, '5000', 19, '2021-01-31 18:30:00', '', 0, '2021-02-01 11:52:23', '2021-02-01 11:52:23'),
+(24, 'PDS01022147', 1, '20000', NULL, '2021-01-31 18:30:00', '', 0, '2021-02-01 11:53:35', '2021-02-01 11:53:35'),
+(25, 'PDS01022190', 1, '15000', NULL, '2021-01-31 18:30:00', '', 0, '2021-02-01 11:54:13', '2021-02-01 11:54:13'),
+(26, 'PDS01022152', 1, '1000', NULL, '2021-01-31 18:30:00', '', 0, '2021-02-01 12:21:57', '2021-02-01 12:21:57'),
+(27, 'PDS01022138', 3, '1000', 19, '2021-01-31 18:30:00', '', 0, '2021-02-01 12:23:37', '2021-02-01 12:23:37');
 
 -- --------------------------------------------------------
 
@@ -464,6 +497,22 @@ CREATE TABLE `emp_training` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `descr` varchar(1000) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `file_src` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `field_visit`
 --
 
@@ -514,6 +563,7 @@ CREATE TABLE `invoice` (
   `total_due` double NOT NULL,
   `remarks` varchar(500) NOT NULL,
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `ref_quotation_id` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -522,15 +572,12 @@ CREATE TABLE `invoice` (
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`id`, `inv_no`, `client_id`, `inv_date`, `sub_total`, `gst`, `total`, `total_paid`, `total_due`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(8, 'DS27102043', 1, '2020-10-26 18:30:00', 499, 0, 499, 0, 499, 'ye hai', 1, '2020-10-27 10:44:30', '2020-10-27 11:34:05'),
-(9, 'DS18112031', 2, '2020-11-17 18:30:00', 23350, 0, 23350, 0, 23350, '', 0, '2020-11-18 08:03:29', '2020-11-18 12:12:55'),
-(10, 'DS19112029', 2, '2020-11-18 18:30:00', 12000, 0, 12000, 0, 12000, '', 0, '2020-11-19 07:25:54', '2020-11-19 07:25:54'),
-(11, 'DS19112073', 2, '2020-11-18 18:30:00', 10250, 0, 10250, 0, 10250, '', 0, '2020-11-19 08:14:45', '2020-11-19 08:14:45'),
-(12, 'DS19112022', 2, '2020-11-18 18:30:00', 2500, 0, 2500, 0, 2500, '', 0, '2020-11-19 08:16:22', '2020-11-19 08:16:22'),
-(13, 'DS19112051', 1, '2020-11-18 18:30:00', 6000, 0, 6000, 0, 6000, '', 0, '2020-11-19 08:17:53', '2020-11-19 08:17:53'),
-(14, 'DS19112064', 1, '2020-11-18 18:30:00', 6000, 0, 6000, 0, 6000, '', 0, '2020-11-19 08:26:32', '2020-11-19 08:26:32'),
-(15, 'DS19112064', 2, '2020-11-18 18:30:00', 12000, 0, 12000, 0, 12000, '', 0, '2020-11-19 12:03:28', '2020-11-19 12:03:28');
+INSERT INTO `invoice` (`id`, `inv_no`, `client_id`, `inv_date`, `sub_total`, `gst`, `total`, `total_paid`, `total_due`, `remarks`, `is_deleted`, `ref_quotation_id`, `created_at`, `updated_at`) VALUES
+(17, 'DS666666', 3, '2021-01-25 18:30:00', 3350, 0, 3350, 3350, 0, '', 0, NULL, '2021-01-26 10:41:32', '2021-01-26 11:12:59'),
+(18, 'DS26012159', 3, '2021-01-25 18:30:00', 6500, 0, 6500, 0, 6500, 'Nahi pata', 0, NULL, '2021-01-26 12:27:28', '2021-01-26 12:27:28'),
+(19, 'DS27012153', 3, '2021-01-26 18:30:00', 6000, 0, 6000, 6000, 0, 'Nahi pata', 0, NULL, '2021-01-27 05:34:20', '2021-01-27 05:34:20'),
+(20, 'DS27012177', 2, '2021-01-26 18:30:00', 49000, 0, 49000, 49000, 0, '', 0, '8', '2021-01-27 06:41:41', '2021-01-27 07:25:51'),
+(21, 'DS27012198', 2, '2021-01-26 18:30:00', 49000, 0, 49000, 0, 49000, '', 0, NULL, '2021-01-27 06:43:02', '2021-01-27 06:43:02');
 
 -- --------------------------------------------------------
 
@@ -554,25 +601,18 @@ CREATE TABLE `invoice_item` (
 --
 
 INSERT INTO `invoice_item` (`id`, `invoice_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
-(27, 8, 1, 'sdrfgrfggrg', 499, 1, '2020-10-27 11:04:05', '2020-10-27 11:04:05'),
-(28, 8, 3, '', 639, 0, '2020-10-27 11:04:05', '2020-10-27 11:04:05'),
-(35, 9, 7, 'High conversion landing pages', 3000, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
-(36, 9, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
-(37, 9, 11, '', 12000, 5, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
-(38, 9, 10, '', 8000, 1, '2020-11-18 11:42:55', '2020-11-18 11:42:55'),
-(39, 10, 5, '', 350, 10, '2020-11-19 07:25:54', '2020-11-19 07:25:54'),
-(40, 10, 6, '', 2500, 1, '2020-11-19 07:25:54', '2020-11-19 07:25:54'),
-(41, 10, 8, '', 6000, 1, '2020-11-19 07:25:54', '2020-11-19 07:25:54'),
-(42, 11, 5, '', 350, 5, '2020-11-19 08:14:45', '2020-11-19 08:14:45'),
-(43, 11, 6, '', 2500, 1, '2020-11-19 08:14:45', '2020-11-19 08:14:45'),
-(44, 11, 8, '', 6000, 1, '2020-11-19 08:14:45', '2020-11-19 08:14:45'),
-(45, 12, 6, '', 2500, 1, '2020-11-19 08:16:22', '2020-11-19 08:16:22'),
-(46, 13, 8, '', 6000, 1, '2020-11-19 08:17:53', '2020-11-19 08:17:53'),
-(47, 14, 5, '', 350, 10, '2020-11-19 08:26:32', '2020-11-19 08:26:32'),
-(48, 14, 6, '', 2500, 1, '2020-11-19 08:26:32', '2020-11-19 08:26:32'),
-(49, 15, 8, '', 6000, 1, '2020-11-19 12:03:28', '2020-11-19 12:03:28'),
-(50, 15, 5, '', 350, 10, '2020-11-19 12:03:28', '2020-11-19 12:03:28'),
-(51, 15, 6, '', 2500, 1, '2020-11-19 12:03:28', '2020-11-19 12:03:28');
+(60, 17, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 1, '2021-01-26 10:42:59', '2021-01-26 10:42:59'),
+(61, 17, 7, 'High conversion landing pages', 3000, 1, '2021-01-26 10:42:59', '2021-01-26 10:42:59'),
+(62, 18, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 10, '2021-01-26 12:27:29', '2021-01-26 12:27:29'),
+(63, 18, 7, 'High conversion landing pages', 3000, 1, '2021-01-26 12:27:29', '2021-01-26 12:27:29'),
+(64, 19, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 10, '2021-01-27 05:34:20', '2021-01-27 05:34:20'),
+(65, 19, 7, 'High conversion landing pages', 2500, 1, '2021-01-27 05:34:20', '2021-01-27 05:34:20'),
+(69, 21, 10, '', 15000, 2, '2021-01-27 06:43:02', '2021-01-27 06:43:02'),
+(70, 21, 11, '', 12000, 1, '2021-01-27 06:43:02', '2021-01-27 06:43:02'),
+(71, 21, 12, '', 7000, 1, '2021-01-27 06:43:02', '2021-01-27 06:43:02'),
+(72, 20, 10, '', 15000, 2, '2021-01-27 06:55:51', '2021-01-27 06:55:51'),
+(73, 20, 11, '', 12000, 1, '2021-01-27 06:55:51', '2021-01-27 06:55:51'),
+(74, 20, 12, '', 7000, 1, '2021-01-27 06:55:51', '2021-01-27 06:55:51');
 
 -- --------------------------------------------------------
 
@@ -897,6 +937,7 @@ CREATE TABLE `quotations` (
   `status` varchar(500) DEFAULT NULL,
   `remarks` varchar(500) DEFAULT NULL,
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `ref_invoice_id` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -905,11 +946,10 @@ CREATE TABLE `quotations` (
 -- Dumping data for table `quotations`
 --
 
-INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'QDS28102001', 1, '2020-10-31 18:30:00', '2020-11-02 18:30:00', 42, 0, 0, 42, 'APPROVED', '', 1, '2020-10-28 10:34:07', '2020-10-30 07:34:08'),
-(2, 'QDS29102062', 2, '2020-10-28 18:30:00', '2020-10-30 18:30:00', 1498, 0, 98, 1400, NULL, '', 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
-(3, 'QDS30102085/V1', 1, '2020-10-30 18:30:00', '2020-11-03 18:30:00', 5100, 0, 500, 4600, 'APPROVED', 'Sent for web dev', 1, '2020-10-30 07:06:14', '2020-10-30 10:17:15'),
-(4, 'QDS18112083', 2, '2020-11-17 18:30:00', '2020-11-17 18:30:00', 11249, 0, 0, 11249, 'APPROVED', '', 0, '2020-11-18 06:17:13', '2020-11-18 06:52:22');
+INSERT INTO `quotations` (`id`, `quote_no`, `client_id`, `quote_date`, `valid_till`, `sub_total`, `gst`, `discount`, `total`, `status`, `remarks`, `is_deleted`, `ref_invoice_id`, `created_at`, `updated_at`) VALUES
+(6, 'QDS26012188', 1, '2021-01-25 18:30:00', '2021-01-25 18:30:00', 6000, 0, 0, 6000, 'SENT', '', 0, NULL, '2021-01-26 12:01:52', '2021-01-26 12:01:52'),
+(7, 'QDS26012162', 3, '2021-01-25 18:30:00', '2021-01-29 18:30:00', 6500, 0, 500, 6000, 'SENT', 'Nahi pata', 0, NULL, '2021-01-26 12:24:50', '2021-01-26 12:24:50'),
+(8, 'QDS27012171', 2, '2021-01-26 18:30:00', '2021-01-26 18:30:00', 49000, 0, 0, 49000, 'SENT', '', 0, '20', '2021-01-27 06:40:37', '2021-01-27 06:40:37');
 
 -- --------------------------------------------------------
 
@@ -933,15 +973,12 @@ CREATE TABLE `quotation_item` (
 --
 
 INSERT INTO `quotation_item` (`id`, `quotation_id`, `item_id`, `descr`, `price`, `qty`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, 'sdrfgrfggrg', 499, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
-(3, 2, 2, 'df dgervcxvxv', 999, 1, '2020-10-29 11:12:46', '2020-10-29 11:12:46'),
-(4, 1, 1, 'Something', 1, 2, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
-(5, 1, 1, 'sdrfgrfggrg', 2, 4, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
-(6, 1, 2, 'df dgervcxvxv', 4, 8, '2020-10-30 07:04:08', '2020-10-30 07:04:08'),
-(15, 3, 1, 'sdrfgrfggrg', 100, 1, '2020-10-30 09:47:15', '2020-10-30 09:47:15'),
-(16, 3, 2, 'df dgervcxvxv', 500, 10, '2020-10-30 09:47:15', '2020-10-30 09:47:15'),
-(19, 4, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 15, '2020-11-18 06:22:22', '2020-11-18 06:22:22'),
-(20, 4, 12, '', 5999, 1, '2020-11-18 06:22:22', '2020-11-18 06:22:22');
+(23, 6, 8, '', 6000, 1, '2021-01-26 12:01:52', '2021-01-26 12:01:52'),
+(24, 7, 5, 'Creatives for Holi, Diwali & all major festivals.', 350, 10, '2021-01-26 12:24:50', '2021-01-26 12:24:50'),
+(25, 7, 7, 'High conversion landing pages', 3000, 1, '2021-01-26 12:24:50', '2021-01-26 12:24:50'),
+(26, 8, 10, '', 15000, 2, '2021-01-27 06:40:37', '2021-01-27 06:40:37'),
+(27, 8, 11, '', 12000, 1, '2021-01-27 06:40:37', '2021-01-27 06:40:37'),
+(28, 8, 12, '', 7000, 1, '2021-01-27 06:40:37', '2021-01-27 06:40:37');
 
 -- --------------------------------------------------------
 
@@ -1179,6 +1216,13 @@ ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `client_payments`
+--
+ALTER TABLE `client_payments`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `receipt_no` (`receipt_no`);
+
+--
 -- Indexes for table `deduction`
 --
 ALTER TABLE `deduction`
@@ -1254,6 +1298,12 @@ ALTER TABLE `emp_penalty`
 -- Indexes for table `emp_salary`
 --
 ALTER TABLE `emp_salary`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1474,7 +1524,13 @@ ALTER TABLE `bank_info`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `client_payments`
+--
+ALTER TABLE `client_payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `deduction`
@@ -1555,6 +1611,12 @@ ALTER TABLE `emp_salary`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `field_visit`
 --
 ALTER TABLE `field_visit`
@@ -1570,13 +1632,13 @@ ALTER TABLE `holiday`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1666,13 +1728,13 @@ ALTER TABLE `pro_task_assets`
 -- AUTO_INCREMENT for table `quotations`
 --
 ALTER TABLE `quotations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `quotation_item`
 --
 ALTER TABLE `quotation_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `salary_type`

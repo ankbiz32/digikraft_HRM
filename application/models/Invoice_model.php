@@ -27,6 +27,9 @@ class Invoice_model extends CI_Model
 		$data['sub_total'] = $amount;
 		$data['total_due'] = $total_amount - $paid;
 		$data['total'] = $total_amount;
+		if($this->input->post('ref_quotation_id')){
+			$data['ref_quotation_id']=$this->input->post('ref_quotation_id');
+		}
 		$this->db->insert('invoice', $data);
 		return $this->db->insert_id();
 	}
@@ -107,9 +110,22 @@ class Invoice_model extends CI_Model
 	public function get_all_invoice()
 	{
 		
-		return $this->db->select('i.*, c.name')
+		return $this->db->select('i.*, c.name, c.person')
 						->from('invoice i')
 						->join('clients c', 'c.id = i.client_id', 'LEFT')
+						->where('total_due > 0')
+						->where('is_deleted',0)
+						->order_by('id','desc')
+						->get()->result();
+	}
+
+	public function get_all_final_invoice()
+	{
+		
+		return $this->db->select('i.*, c.name, c.person')
+						->from('invoice i')
+						->join('clients c', 'c.id = i.client_id', 'LEFT')
+						->where('total_due = 0')
 						->where('is_deleted',0)
 						->order_by('id','desc')
 						->get()->result();

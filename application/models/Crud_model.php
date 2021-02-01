@@ -39,7 +39,7 @@ class Crud_model extends CI_Model{
 	}
 
 	function getProposals(){
-		return $this->db->select('p.*, c.name')
+		return $this->db->select('p.*, c.name, c.person')
 						->from('proposal p')
 						->join('clients c', 'c.id = p.client_id', 'LEFT')
 						->order_by('id','desc')

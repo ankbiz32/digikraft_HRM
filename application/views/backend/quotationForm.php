@@ -43,7 +43,7 @@
 													<select class="form-control select2" name="client_id" data-placeholder="Select a client" required>
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>"><?= $client->name; ?></option>
+															<option value="<?= $client->id; ?>"><?= $client->name.' ('.$client->person.')' ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>

@@ -43,7 +43,7 @@
                                            <?php foreach($proposals as $c): ?>
                                             <tr>
                                                 <td><?= $c->id ?></td>
-                                                <td><?= $c->name ?></td>
+                                                <td><?= $c->name ?> <br> (<?=$c->person?>)</td>
                                                 <td><?= $c->descr ?></td>
                                                 <td><?= date('d-m-Y',strtotime($c->created_at)) ?></td>
                                                 <td><?= date('d-m-Y',strtotime($c->follow_up_date)) ?></td>

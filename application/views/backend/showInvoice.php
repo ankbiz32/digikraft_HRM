@@ -85,10 +85,17 @@
 													<div class="col-4">Date</div>
 													<div class="col">: <?= date('d-m-Y', strtotime($invoice->inv_date)); ?></div>
 												</div>
-												<div class="row">
-													<div class="col-4">Amount due</div>
-													<div class="col">: <?= $settings->symbol; ?><?= $invoice->total_due; ?>/-</div>
-												</div>
+												<?php if(isset($_GET['final'])) { ?>
+													<div class="row">
+														<div class="col-4">Amount Paid</div>
+														<div class="col">: <?= $settings->symbol; ?><?= $invoice->total_paid; ?>/-</div>
+													</div>
+												<?php } else { ?>
+													<div class="row">
+														<div class="col-4">Amount due</div>
+														<div class="col">: <?= $settings->symbol; ?><?= $invoice->total_due; ?>/-</div>
+													</div>
+												<?php } ?>
 											</address>
 										</div>
 										<!-- /.col -->
@@ -143,14 +150,22 @@
 													<th colspan="3" class="text-right">Total:</th>
 													<td class="text-right"><strong><?= $settings->symbol . ' '; ?><?= $invoice->total; ?>/-</strong></td>
 												</tr>
-												<tr>
-													<th colspan="3" class="text-right">Amount Paid:</th>
-													<td class="text-right"><?= $settings->symbol . ' '; ?><?= $invoice->total_paid; ?>/-</td>
-												</tr>
-												<tr class="">
-													<th colspan="3" class="text-right ">Amount Due:</th>
-													<td class="text-right h6"><?= $settings->symbol . ' '; ?><?= $invoice->total_due; ?>/-</td>
-												</tr>
+												
+												<?php if(isset($_GET['final'])) { ?>
+													<tr>
+														<th colspan="3" class="text-right">Status:</th>
+														<td class="text-right h6">PAID	</td>
+													</tr>
+												<?php } else { ?>
+													<tr>
+														<th colspan="3" class="text-right">Amount Paid:</th>
+														<td class="text-right"><?= $settings->symbol . ' '; ?><?= $invoice->total_paid; ?>/-</td>
+													</tr>
+													<tr class="">
+														<th colspan="3" class="text-right ">Amount Due:</th>
+														<td class="text-right h6"><?= $settings->symbol . ' '; ?><?= $invoice->total_due; ?>/-</td>
+													</tr>
+												<?php } ?>
 												</tbody>
 											</table>
 										</div>
@@ -185,14 +200,20 @@
 												</div>
 											</address>
 										</div>
-										<div class="col-sm-4 ">
-											<h6 class="">T&C -</h6>
-											<address class=" mt-2 text-dark">
-												<div class="row">
-													<div class="col">- Please pay your deposit upon receipt of the invoice.</div>
-												</div>
-											</address>
-										</div>
+										<?php if(isset($_GET['final'])) { ?>
+											<div class="col-sm-4 ">
+												<h6 class=""></h6>
+											</div>
+										<?php } else { ?>
+											<div class="col-sm-4 ">
+												<h6 class="">T&C -</h6>
+												<address class=" mt-2 text-dark">
+													<div class="row">
+														<div class="col">- Please pay your deposit upon receipt of the invoice.</div>
+													</div>
+												</address>
+											</div>
+										<?php } ?>
 										<!-- /.col -->
 									</div>
 
