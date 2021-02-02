@@ -206,6 +206,7 @@
 
 		document.body.innerHTML = printContents;
 
+        document.title='Quotation #<?=$quotation->quote_no?>';
 		window.print();
 
 		document.body.innerHTML = originalContents;

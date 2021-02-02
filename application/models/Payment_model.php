@@ -38,7 +38,7 @@ class Payment_model extends CI_Model
 				$this->db->update('invoice');
 			}
 
-			echo true;
+			return true;
 		}
 		else{
 			return false;
@@ -92,7 +92,7 @@ class Payment_model extends CI_Model
 	public function get_all_payments()
 	{
 		
-		return $this->db->select('i.*, c.name, c.person, in.inv_no')
+		return $this->db->select('i.*, c.name, c.person, in.inv_no, in.total_due, in.id AS inv_id')
 						->from('client_payments i')
 						->join('invoice in', 'in.id = i.invoice_id', 'LEFT')
 						->join('clients c', 'c.id = i.client_id', 'LEFT')

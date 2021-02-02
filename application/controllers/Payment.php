@@ -38,16 +38,18 @@ class Payment extends CI_Controller {
 		}            
 	}
 
-	public function showPayment($insert_id)
+	public function showPayment($id)
 	{
 		if($this->session->userdata('user_login_access') != False) {
 			$data=array();
-			$data['quotation'] = $this->crud->getInfoId('quotations','id',$insert_id);
-			$data['client'] = $this->crud->getInfoId('clients','id',$data['quotation']->client_id);
-			$data['quotation_items'] = $this->pay->get_all_items_by_quotationJoin($data['quotation']->id);
+			$data['rcpt'] = $this->crud->getInfoId('client_payments','id',$id);
+			if($data['rcpt']->invoice_id){
+				$data['inv_no'] = $this->crud->getInfoId('invoice','id',$data['rcpt']->invoice_id)->inv_no;
+			}
+			$data['client'] = $this->crud->getInfoId('clients','id',$data['rcpt']->client_id); 
 			$data['settings'] = $this->crud->getInfoId('settings','id',1);
 			// var_dump('<pre>',$data);exit;
-			$this->load->view('backend/showQuotation',$data);
+			$this->load->view('backend/showPayment',$data);
         }
 		else{
 			redirect(base_url() , 'refresh');

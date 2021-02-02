@@ -46,7 +46,11 @@
                                                 <td><?= date('d-m-Y',strtotime($c->created_at)) ?></td>
                                                 <td>₹ <?= $c->amount ?>/-</td>
                                                 <td><?= $c->remarks?></td>
-                                                <td><?= $c->inv_no?'#'.$c->inv_no:''?></td>
+                                                <?php if($c->total_due==0){?>
+                                                    <td><a target="_blank" href="<?php echo base_url("invoice/showInvoice/$c->inv_id?final=1"); ?>"> <?= $c->inv_no?'#'.$c->inv_no.'<br> <small>(FULL PAID)</small>':''?> </a></td>
+                                                <?php } else{?>
+                                                    <td><a target="_blank" href="<?php echo base_url("invoice/showInvoice/$c->inv_id"); ?>"> <?= $c->inv_no?'#'.$c->inv_no.'<br> <small> (Due: ₹ '.$c->total_due.'/-)</small>':''?> </a></td>
+                                                <?php } ?>
                                                 <td class="jsgrid-align-center ">
 													<a class="btn btn-success btn-edit mr-1 btn-sm" target="_blank"
 													href="<?php echo base_url("payment/showPayment/$c->id"); ?>"><i class="fa fa-eye"></i></a>

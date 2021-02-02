@@ -251,6 +251,8 @@
 
 		document.body.innerHTML = printContents;
 
+        document.title='Invoice #<?=isset($_GET['final']) ? $invoice->inv_no." (PAID)": $invoice->inv_no." (DUE)"?>';
+
 		window.print();
 
 		document.body.innerHTML = originalContents;
