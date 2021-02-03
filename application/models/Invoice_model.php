@@ -5,7 +5,7 @@ class Invoice_model extends CI_Model
 {
 	public function store_invoice_record()
 	{
-		// var_dump($_POST);exit;
+		// var_dump('<pre>',$_POST);exit;
 		$data = array(
 			'inv_no' => $this->input->post('invoice_no', true),
 			'client_id' => $this->input->post('client_id', true),
@@ -30,8 +30,15 @@ class Invoice_model extends CI_Model
 		if($this->input->post('ref_quotation_id')){
 			$data['ref_quotation_id']=$this->input->post('ref_quotation_id');
 		}
-		$this->db->insert('invoice', $data);
-		return $this->db->insert_id();
+		if($this->db->insert('invoice', $data)){
+			$ins_id= $this->db->insert_id();
+			if(isset($_POST['paid_in_advance'])){
+				$bal=$this->db->where('id', $data['client_id'])->get('clients')->row()->balance;
+				$bal=$bal-$data['total_paid'];
+				$this->db->where('id', $data['client_id'])->update('clients', ['balance'=>$bal]);
+			}
+			return $ins_id;
+		}
 	}
 
 	public function store_invoice_item_record($insert_id)

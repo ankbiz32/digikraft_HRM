@@ -47,48 +47,31 @@ class Payment_model extends CI_Model
 
 	public function update_payment($id)
 	{
-		// var_dump('<pre>',$_POST);exit;
-		$data = array();
-		$data2 = array();
-
-		$item_id = $this->input->post('item_id[]', true);
-		$item_description = $this->input->post('description[]', true);
-		$item_price = $this->input->post('price[]', true);
-		$item_qty = $this->input->post('qty[]', true);
-		$amount = 0;
-		
-		$this->db->delete('invoice_item', array('invoice_id' => $id));
-		for ($i = 0; $i < count($item_id); $i++) {
-			$amount += ($item_price[$i] * $item_qty[$i]);
-			
-			$data2[$i] = array(
-				'invoice_id' => $id,
-				'item_id' => $item_id[$i],
-				'descr' => $item_description[$i],
-				'price' => $item_price[$i],
-				'qty' => $item_qty[$i]
-			);
-			$this->db->insert('invoice_item', $data2[$i]);
+		// var_dump('<pre>',$this->input->post());exit;
+		$data=$this->input->post();
+		$old_payment=$this->db->where('id', $id)->get('client_payments')->row();
+		if($data['advance_payment']){
+			$bal=$this->db->where('id', $data['client_id'])->get('clients')->row()->balance;
+			$bal= $bal - $old_payment->amount + $data['amount'];
+			$this->db->where('id', $data['client_id'])->update('clients', ['balance'=>$bal]);
 		}
-		$vat = $this->input->post('vat', true);
-		$vat_amount = $amount * ($vat / 100);
-		$total_amount = $amount + $vat_amount;
-		$paid = $this->input->post('paid', true);
-		$data['inv_date'] = $this->input->post('date', true);
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$data['sub_total'] = $amount;
-		$data['total'] = $total_amount;
-		$data['total_paid'] = $this->input->post('paid', true);
-		$data['total_due'] = $total_amount - $paid;
-		$data['remarks'] = $this->input->post('remarks', true);
-
-		// var_dump('<pre>',$data, $data2);exit;
-
-		$this->db->where('id', $id)->update('invoice', $data);
+		else{
+			$inv=$this->db->where('id', $old_payment->invoice_id)->get('invoice')->row();
+			$paid= $inv->total_paid - $old_payment->amount + $data['amount'];
+			$due= $inv->total_due + $old_payment->amount - $data['amount'];
+			$this->db->where('id', $old_payment->invoice_id)->update('invoice', ['total_paid'=>$paid, 'total_due'=>$due]);
+		}
+		unset($data['advance_payment']);
+		$data['updated_at']=date('Y-m-d H:i:s');
+		if($this->db->where('id', $id)->update('client_payments', $data)){
+			return true;
+		}
+		else{
+			return false;
+		}
     }
     
     
-
 	public function get_all_payments()
 	{
 		

@@ -99,13 +99,12 @@ class Payment extends CI_Controller {
     public function editPayment($id){
         if($this->session->userdata('user_login_access') != False) { 
 			$data= array();
-			$data['invoice'] = $this->crud->getInfoId('quotations','id',$id);
-			$data['inv_items'] = $this->pay->get_all_items_by_quotationJoin($data['invoice']->id);
+			$data['payment'] = $this->crud->getInfoId('client_payments','id',$id);
+			$data['inv'] = $this->crud->getInfoId('invoice','id',$data['payment']->invoice_id);
 			$data['clients'] = $this->crud->getInfo('clients');
-			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'quotation/updateQuotation/'.$id;
+			$data['path'] = base_url().'payment/updatePayment/'.$id;
 			// var_dump('<pre>',$data);exit;
-			$this->load->view('backend/quotationFormEdit', $data);
+			$this->load->view('backend/paymentFormEdit', $data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -118,18 +117,16 @@ class Payment extends CI_Controller {
 
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-			// $this->form_validation->set_rules('item_id','Service','trim|required|xss_clean');
-			$this->form_validation->set_rules('pay_no','Quotation No.','trim|required|xss_clean');
+			$this->form_validation->set_rules('receipt_no','Quotation No.','trim|required|xss_clean');
 
 			if ($this->form_validation->run() == FALSE) {
 				echo validation_errors();
 			}
 			else{
-				$data=$this->input->post();
-				$data['updated_at']=date('Y-m-d H:i:s');
 				$success = $this->pay->update_payment($id);
 				$this->session->set_flashdata('feedback','Successfully updated');
-				echo "Successfully Updated";
+				// echo "Successfully Updated";
+				redirect(base_url('payment') , 'refresh');
 			}
 			
         }

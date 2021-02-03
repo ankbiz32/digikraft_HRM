@@ -43,7 +43,7 @@
                                             <tr>
                                                 <td><?= $c->receipt_no?></td>
                                                 <td><?= $c->name ?> <br> (<?=$c->person?>)</td>
-                                                <td><?= date('d-m-Y',strtotime($c->created_at)) ?></td>
+                                                <td><?= date('d-m-Y',strtotime($c->payment_date)) ?></td>
                                                 <td>₹ <?= $c->amount ?>/-</td>
                                                 <td><?= $c->remarks?></td>
                                                 <?php if($c->total_due==0){?>
@@ -57,7 +57,7 @@
 
 													<a href="<?php echo base_url();?>payment/editPayment/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 
-													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>payment/deletePayment/<?php echo $c->id;?>" title="Reject Payment" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a>
+													<!-- <a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>payment/deletePayment/<?php echo $c->id;?>" title="Reject Payment" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a> -->
                                                     
                                                 </td>
                                             </tr>

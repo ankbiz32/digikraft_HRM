@@ -42,10 +42,10 @@
 											<div class="col-md-4">
 												<div class="form-group">
 													<label>Select Client <span class="req">*</span></label>
-													<select class="form-control bg-light select2" name="client_id" data-placeholder="Select a client" readonly required>
+													<select class="form-control bg-light" name="client_id" id="client_id" data-placeholder="Select a client" style="pointer-events:none" readonly required>
 														<option value="">-- Select --</option>
 														<?php foreach ($clients as $client): ?>
-															<option value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name.' ('.$client->person.')'  ?></option>
+															<option data-bal="<?=$client->balance?>" value="<?= $client->id; ?>" <?=$invoice->client_id==$client->id?' selected':''?> ><?= $client->name.' ('.$client->person.')'  ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -144,10 +144,20 @@
 															<td>PAID</td>
 														</tr>
 													<?php } else { ?>
+
+
 														<tr class="text-right">
 															<td colspan="4">Amt. Paid :</td>
-															<td>₹ <input style="width: 80px" type="number" class="form-control" name="paid"
-																	id="paid" value="0" required></td>
+															<td>
+																<input type="checkbox" class="form-control" name="paid_in_advance" id="paid_in_advance">
+																<label for="paid_in_advance">
+																	Paid in advance
+																</label>
+																<span id="paid_input" style="display:none">
+																	₹ <input style="width: 120px" type="number" class="form-control" value="0" name="paid"
+																		id="paid" required>
+																</span>
+															</td>
 														</tr>
 														<tr class="text-right">
 															<td colspan="4">Amt. Due :</td>
@@ -182,6 +192,25 @@
 	var count = 1;
 
 	$(document).ready(function () {	
+		max=$("#client_id").find(':selected').data('bal');
+		$("#paid_input input").attr('max',max);
+		
+		$("#paid_in_advance").change(function() {
+			if(this.checked) {
+				$("#paid_input").show();
+				$("#paid_input").css('margin-left','30px');
+				$("#paid_input input").val(parseInt($('#totalAmount').text()));
+				calAll();
+			}
+			else{
+				$("#paid_input").hide();
+				$("#paid_input").css('margin-left','0px');
+				$("#paid_input input").val(0);
+				calAll();
+			}
+		});
+
+
 		calAll();
 	});
 

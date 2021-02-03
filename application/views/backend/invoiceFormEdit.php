@@ -158,7 +158,7 @@
 														<tr class="text-right">
 															<td colspan="4">Amt. Paid :</td>
 															<td>₹ <input style="width: 80px" type="text" class="form-control" name="paid"
-																	id="paid" value="<?= $invoice->total_paid ?>" required></td>
+																	id="paid" value="<?= $invoice->total_paid ?>" required readonly></td>
 														</tr>
 														<tr class="text-right">
 															<td colspan="4">Amt. Due :</td>
