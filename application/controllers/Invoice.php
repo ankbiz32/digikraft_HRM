@@ -57,7 +57,7 @@ class Invoice extends CI_Controller {
 			$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
 			$data['cat'] = $this->invoice->get_all_items_by_invoiceJoin_cat($data['invoice']->id);
 			$data['settings'] = $this->crud->getInfoId('settings','id',1);
-			// var_dump('<pre>',$data);exit;
+			var_dump('<pre>',$data);exit;
 			$this->load->view('backend/showInvoice',$data);
         }
 		else{

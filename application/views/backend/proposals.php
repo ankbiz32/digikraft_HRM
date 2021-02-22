@@ -26,7 +26,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
-                                    <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="employees123" class="display table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
@@ -44,12 +44,23 @@
                                             <tr>
                                                 <td><?= $c->id ?></td>
                                                 <td><?= $c->name ?> <br> (<?=$c->person?>)</td>
-                                                <td><?= $c->descr ?></td>
+                                                <td class="min-width:200px">
+                                                    <div class="readmore">
+                                                        <?php if(strlen($c->descr)>100){?>
+                                                            <?= nl2br(substr($c->descr,0,100))?>
+                                                            <span class="ellipsis">...</span>
+                                                            <span class="moreText"><?= nl2br(substr($c->descr,100))?></span> <br>
+                                                            <a class="more" href="javascript:;">Show more +</a>
+                                                        <?php } else{?>
+                                                            <?= nl2br($c->descr)?>
+                                                        <?php }?>
+                                                    </div>
+                                                </td>
                                                 <td><?= date('d-m-Y',strtotime($c->created_at)) ?></td>
                                                 <td><?= date('d-m-Y',strtotime($c->follow_up_date)) ?></td>
                                                 <td><a href="<?=base_url('assets/proposals/').$c->file_src?>"><i class="fa fa-file"></i> <?=$c->file_src?></a></td>
                                                 <td><?= $c->status ?></td>
-                                                <td class="jsgrid-align-center ">
+                                                <td class="jsgrid-align-center nowrap">
 
 													<a href="<?php echo base_url();?>proposals/editProposal/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 

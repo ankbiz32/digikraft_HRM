@@ -26,7 +26,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
-                                    <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="employees123" class="display table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Service Name</th>
@@ -42,8 +42,19 @@
                                                 <td><?= $c->name ?></td>
                                                 <td><?= $c->cname ?></td>
                                                 <td>₹ <?= $c->price ?></td>
-                                                <td><?= $c->short_descr ?></td>
-                                                <td class="jsgrid-align-center ">
+                                                <td style="min-width:200px">
+                                                    <div class="readmore">
+                                                    <?php if(strlen($c->short_descr)>100){?>
+                                                        <?= nl2br(substr($c->short_descr,0,100))?>
+                                                        <span class="ellipsis">...</span>
+                                                        <span class="moreText"><?= nl2br(substr($c->short_descr,100))?></span> <br>
+                                                        <a class="more" href="javascript:;">Show more +</a>
+                                                    <?php } else{?>
+                                                        <?= nl2br($c->short_descr)?>
+                                                    <?php }?>
+                                                    </div>
+                                                </td>
+                                                <td class="jsgrid-align-center nowrap">
 													<a href="<?php echo base_url();?>organization/editService/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>organization/deleteService/<?php echo $c->id;?>" title="Delete" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash-o"></i></a>
                                                 </td>

@@ -14,7 +14,7 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('quotation')?>">Payments</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('payment')?>">Payments</a></li>
                         <li class="breadcrumb-item active"> Edit payment</li>
                     </ol>
                 </div>
@@ -94,7 +94,7 @@
                                             <div class="col-md-6"></div>
                                             <div class="col box-footer mt-4">
                                                 <button type="submit" class="btn btn-info mr-2">Update payment</button>
-                                                <a href="<?=base_url('payment')?>" class="btn btn-secondary">Cancel</a>
+                                                <a  href="javascript:;" onclick="window.history.back()" class="btn btn-secondary">Cancel</a>
                                             </div>
 								</form>
                             </div>

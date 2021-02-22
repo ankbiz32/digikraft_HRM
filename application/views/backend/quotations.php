@@ -1,5 +1,6 @@
 <?php $this->load->view('backend/header'); ?>
 <?php $this->load->view('backend/sidebar'); ?>
+
          <div class="page-wrapper">
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
@@ -26,7 +27,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
-                                    <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="employees123" class="display table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Quotation no.</th>
@@ -44,12 +45,23 @@
                                             <tr>
                                                 <td><?= $c->quote_no ?></td>
                                                 <td><?= $c->name ?> <br> (<?=$c->person?>)</td>
-                                                <td><?= date('d-m-Y',strtotime($c->quote_date)) ?></td>
-                                                <td><?= date('d-m-Y',strtotime($c->valid_till)) ?></td>
-                                                <td>₹ <?= $c->total ?>/-</td>
-                                                <td><?= $c->remarks?></td>
+                                                <td class="nowrap"><?= date('d-m-Y',strtotime($c->quote_date)) ?></td>
+                                                <td class="nowrap"><?= date('d-m-Y',strtotime($c->valid_till)) ?></td>
+                                                <td class="nowrap">₹ <?= $c->total ?>/-</td>
+                                                <td style="min-width:200px">
+                                                    <div class="readmore">
+                                                    <?php if(strlen($c->remarks)>100){?>
+                                                        <?= nl2br(substr($c->remarks,0,100))?>
+                                                        <span class="ellipsis">...</span>
+                                                        <span class="moreText"><?= nl2br(substr($c->remarks,100))?></span> <br>
+                                                        <a class="more" href="javascript:;">Show more +</a>
+                                                    <?php } else{?>
+                                                        <?= nl2br($c->remarks)?>
+                                                    <?php }?>
+                                                    </div>
+                                                </td>
                                                 <td><?= $c->status ?></td>
-                                                <td class="jsgrid-align-center ">
+                                                <td class="jsgrid-align-center nowrap">
 													<a class="btn btn-success btn-edit mr-1 btn-sm" target="_blank"
 													href="<?php echo base_url("quotation/showQuotation/$c->id"); ?>"><i class="fa fa-eye"></i></a>
 

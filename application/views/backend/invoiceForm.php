@@ -14,8 +14,8 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>">Proforma Invoice</a></li>
-                        <li class="breadcrumb-item active"> <?=isset($service)?'Edit':'Add new'?> Add Proforma Invoice</li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('invoice/proforma')?>">Proforma Invoice</a></li>
+                        <li class="breadcrumb-item active"> <?=isset($service)?'Edit':'Add new'?> Proforma Invoice</li>
                     </ol>
                 </div>
             </div>

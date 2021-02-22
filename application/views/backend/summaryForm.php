@@ -10,6 +10,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?=base_url()?>">Home</a></li>
                         <li class="breadcrumb-item"><a href="<?=base_url('summary')?>"> Summary (Select clients)</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('summary/summary_serv/').$client->id?>"><?=$client->name.' ('.$client->person.')' ?></a></li>
                         <li class="breadcrumb-item active"> <?=isset($service)?'Edit':'Add '?> Service</li>
                     </ol>
                 </div>

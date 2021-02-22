@@ -51,6 +51,15 @@ date_default_timezone_set('Asia/Kolkata');
 		.dtBox .dtpicker-button{
 			color:white !important;
 		}
+        .readmore {
+            font-size:14px;
+        }
+        .readmore .moreText {
+            display:none;
+        }
+        .readmore a.more {
+            display:block;
+        }
 	</style>
 </head>
 

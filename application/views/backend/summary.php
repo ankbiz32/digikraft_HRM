@@ -40,7 +40,7 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
-								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-warning" style="transform:scale(0.6)"></i> Unbilled service summary for : <?=$client->name.' ('.$client->person.')' ?></small></h4>
+								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-warning" style="transform:scale(0.6)"></i> Unbilled service summary for : <strong><?=$client->name.' ('.$client->person.')' ?></strong></small></h4>
 								<span class="ml-auto">
 									<button class="btn btn-sm btn-primary mr-2 mb-2 mb-sm-0" id="invBtn"><i class="fa fa-print"> </i> Generate Invoice</button>
 									<a href="<?= base_url().'summary/addSummary/'.$client->id ?>" class="text-white btn btn-sm btn-success"><i class="fa fa-plus"></i> Add service</a>
@@ -52,7 +52,7 @@
                                         <thead>
                                             <tr>
                                                 <!-- <th>Id</th> -->
-												<th><input type="checkbox" class="allSelector" style="opacity:1;position:relative;left:0;transform:scale(1.2)" data-id="$s->id"></th>
+												<th><input type="checkbox" class="allSelector" style="opacity:1;position:relative;left:0;transform:scale(1.2)"></th>
                                                 <th>Date</th>
                                                 <th>Service Name</th>
                                                 <th>Descr.</th>
@@ -67,7 +67,18 @@
 												<th><input type="checkbox" class="rowSelector" style="opacity:1;position:relative;left:0;transform:scale(1.2)" data-id="<?=$s->id?>"></th>
                                                 <td><?= date('d-m-Y',strtotime($s->date)) ?></td>
                                                 <td><?= $s->service_name ?></td>
-                                                <td><?= $s->descr ?></td>
+                                                <td class="min-width:200px">
+                                                    <div class="readmore">
+                                                        <?php if(strlen($s->descr)>100){?>
+                                                            <?= nl2br(substr($s->descr,0,100))?>
+                                                            <span class="ellipsis">...</span>
+                                                            <span class="moreText"><?= nl2br(substr($s->descr,100))?></span> <br>
+                                                            <a class="more" href="javascript:;">Show more +</a>
+                                                        <?php } else{?>
+                                                            <?= nl2br($s->descr)?>
+                                                        <?php }?>
+                                                    </div>
+                                                </td>
                                                 <td><?= $s->qty ?></td>
                                                 <td class="jsgrid-align-center ">
 													<a href="<?php echo base_url();?>summary/editSummary/<?=$client->id.'/'.$s->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>

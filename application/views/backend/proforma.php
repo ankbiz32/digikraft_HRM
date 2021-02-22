@@ -26,7 +26,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
-                                    <table id="employees123" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="employees123" class="display table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Proforma Invoice no.</th>
@@ -46,14 +46,25 @@
                                             <tr>
                                                 <td><?= $c->inv_no ?></td>
                                                 <td><?= $c->name ?> <br> (<?=$c->person?>)</td>
-                                                <td><?= date('d-m-Y',strtotime($c->inv_date)) ?></td>
+                                                <td class="nowrap"><?= date('d-m-Y',strtotime($c->inv_date)) ?></td>
                                                 <!-- <td>₹ <?= $c->sub_total ?></td> -->
                                                 <!-- <td> <?= $c->gst ?>%</td> -->
-                                                <td>₹ <?= $c->total ?></td>
-                                                <td>₹ <?= $c->total_paid ?></td>
-                                                <td>₹ <?= $c->total_due ?></td>
-                                                <td><?= $c->remarks?></td>
-                                                <td class="jsgrid-align-center ">
+                                                <td class="nowrap">₹ <?= $c->total ?></td>
+                                                <td class="nowrap">₹ <?= $c->total_paid ?></td>
+                                                <td class="nowrap">₹ <?= $c->total_due ?></td>
+                                                <td style="min-width:200px">
+                                                    <div class="readmore">
+                                                    <?php if(strlen($c->remarks)>100){?>
+                                                        <?= nl2br(substr($c->remarks,0,100))?>
+                                                        <span class="ellipsis">...</span>
+                                                        <span class="moreText"><?= nl2br(substr($c->remarks,100))?></span> <br>
+                                                        <a class="more"  href="javascript:;">Show more +</a>
+                                                    <?php } else{?>
+                                                        <?= nl2br($c->remarks)?>
+                                                    <?php }?>
+                                                    </div>
+                                                </td>
+                                                <td class="jsgrid-align-center nowrap">
 													<a href="<?=base_url('payment/addPayment?client=').$c->client_id.'&invoice='.$c->id?>" title="Add payment" class="btn btn-sm btn-warning waves-effect waves-light"><i class="fa fa-money"></i></a>
 													
                                                     <a class="btn btn-success btn-edit mr-1 btn-sm" target="_blank"

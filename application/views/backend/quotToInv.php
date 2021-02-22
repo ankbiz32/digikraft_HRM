@@ -14,7 +14,7 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>">Quotation Invoice</a></li>
+                        <li class="breadcrumb-item"><a   href="javascript:;" onclick="window.history.back()">Quotation Invoice</a></li>
                     </ol>
                 </div>
             </div>

@@ -14,7 +14,7 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?>"><?=isset($_GET['final']) ? '' : 'Proforma' ?> Invoice</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('invoice')?><?=isset($_GET['final']) ? '' : '/proforma' ?>"><?=isset($_GET['final']) ? '' : 'Proforma' ?> Invoice</a></li>
                         <li class="breadcrumb-item active"> Edit <?=isset($_GET['final']) ? 'Final' : 'Proforma' ?> Invoice</li>
                     </ol>
                 </div>

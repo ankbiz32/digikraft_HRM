@@ -40,7 +40,7 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header d-flex align-items-center">
-								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-success" style="transform:scale(0.6)"></i> Billed service summary for : <?=$client->name.' ('.$client->person.')' ?></small></h4>
+								<h4 class="m-b-0 text-white"><small><i class="fa fa-circle fa-sm text-success" style="transform:scale(0.6)"></i> Billed service summary for : <strong><?=$client->name.' ('.$client->person.')' ?></strong></small></h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -59,7 +59,18 @@
                                             <tr>
                                                 <td><?= date('d-m-Y',strtotime($s->date)) ?></td>
                                                 <td><?= $s->service_name ?></td>
-                                                <td><?= $s->descr ?></td>
+                                                <td class="min-width:200px">
+                                                    <div class="readmore">
+                                                        <?php if(strlen($s->descr)>100){?>
+                                                            <?= nl2br(substr($s->descr,0,100))?>
+                                                            <span class="ellipsis">...</span>
+                                                            <span class="moreText"><?= nl2br(substr($s->descr,100))?></span> <br>
+                                                            <a class="more" href="javascript:;">Show more +</a>
+                                                        <?php } else{?>
+                                                            <?= nl2br($s->descr)?>
+                                                        <?php }?>
+                                                    </div>
+                                                </td>
                                                 <td><?= $s->qty ?></td>
                                                 <td><?= date('d-m-Y',strtotime($s->updated_at)) ?></td>
                                             </tr>

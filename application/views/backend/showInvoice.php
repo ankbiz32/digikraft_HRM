@@ -3,7 +3,7 @@
 <?php $this->load->view('backend/sidebar'); ?>
 <style>
 	td{
-		vertical-align: middle !important;
+		/* vertical-align: middle !important; */
 	}
 </style>
       <div class="page-wrapper">
@@ -77,10 +77,12 @@
 										<div class="col-sm-4 ">
 											<h6 class="">INVOICE DETAILS -</h6>
 											<address class=" mt-2 text-dark">
-												<div class="row">
-													<div class="col-4">Invoice no.</div>
-													<div class="col">: #<?= $invoice->inv_no; ?></div>
-												</div>
+												<?php if(isset($_GET['final'])) { ?>
+													<div class="row">
+														<div class="col-4">Invoice no.</div>
+														<div class="col">: #<?= $invoice->inv_no; ?></div>
+													</div>
+												<?php } ?>
 												<div class="row">
 													<div class="col-4">Date</div>
 													<div class="col">: <?= date('d-m-Y', strtotime($invoice->inv_date)); ?></div>
@@ -118,21 +120,23 @@
 												$z=1;
 												foreach ($cat as $c):?>
 													<tr>
-														<td class=""><?= $z?>.</td>
+														<td class="" style="width:120px"><?= $z?>.</td>
 														<td class="">
 															<h6><?= $c->cname; ?></h6>
-												<?php
-													$st=0;
-													$qty=0;
-													foreach ($inv_items as $item):
-														if($c->cname==$item->cname){
-															$st+=$item->price * $item->qty;
-															$qty+= $item->qty;
-															echo '- '.$item->name.'<br>';
-													 	} 
-													endforeach;?>
-													
-													</td>
+															<?php
+																$st=0;
+																$qty=0;
+																foreach ($inv_items as $item):
+																	if($c->cname==$item->cname){
+																		$st+=$item->price * $item->qty;
+																		$qty+= $item->qty;
+																		echo '- '.$item->name.'<br> <p class="pl-2 w-50"> ('.$item->descr.')</p>';
+																	} 
+																endforeach;?>
+															
+														</td>
+														
+														<!-- <td class=""><?=$settings->symbol.$item->price.'&emsp; x &emsp;'.$item->qty; ?></td> -->
 														<td class=""><?=$qty?></td>
 														<td class="text-right"><?= $settings->symbol . ' '; ?><?= $st?>/-</td>
 													</tr>
