@@ -37,6 +37,7 @@
                                                 <th>Total</th>
                                                 <th>Paid</th>
                                                 <th>Due Amt.</th>
+                                                <th>Due date</th>
                                                 <th>Remarks</th>
                                                 <th>Action</th>
                                             </tr>
@@ -52,6 +53,7 @@
                                                 <td class="nowrap">₹ <?= $c->total ?></td>
                                                 <td class="nowrap">₹ <?= $c->total_paid ?></td>
                                                 <td class="nowrap">₹ <?= $c->total_due ?></td>
+                                                <td class="nowrap"><?= date('d-m-Y',strtotime($c->due_date)) ?></td>
                                                 <td style="min-width:200px">
                                                     <div class="readmore">
                                                     <?php if(strlen($c->remarks)>100){?>

@@ -44,57 +44,55 @@
 											color:white;
 										}
 									</style>
-									<div class="row bg-light p-3">
-										<div class="col-sm-8">
-											<!-- <h2 class="page-header" style="border:0px;"> -->
-												<div class="row align-items-center">
-													<img src="<?= base_url("assets/images/$settings->sitelogo"); ?>" height="100px">
-													<div class="invoice-col ml-4" style="">
-														<address class="mb-0 text-dark">
-															<h5 class="text-uppercase"><strong><?= $settings->company_name?></strong></h5>
-															<span class="mb-1 d-block"><i class="fa fa-phone"></i>&nbsp; <?= strlen($settings->contact)==10?'+91-'.$settings->contact:$settings->contact; ?></span>
-															<span class="mb-1 d-block"><i class="fa fa-envelope"></i>&nbsp; <?= $settings->system_email; ?></span>
-															<span class="mb-1 d-block"><i class="fa fa-globe"></i>&nbsp; www.digikraftsocial.com</span>
-														</address>
-													</div>
-												</div>
-
-											<!-- </h2> -->
+									<div class="row bg-light p-3 align-items-center">
+										<div class="col-sm-6">
+											<h1 class="page-header font-weight-bold" style="border:0px;">QUOTATION</h1>
 										</div>
-										<div class="col-sm-4">
-											<div class="invoice-col" style="">
-												<address class="mb-0 text-dark">
-													<h5 class="text-uppercase h4">QUOTATION</h5>
-													<div class="row">
-														<div class="col-4">Ref. no.</div>
-														<div class="col">: #<?= $quotation->quote_no; ?></div>
-													</div>
-													<div class="row">
-														<div class="col-4">Date</div>
-														<div class="col">: <?= date('d-m-Y', strtotime($quotation->quote_date)); ?></div>
-													</div>
-													<div class="row">
-														<div class="col-4">Valid till</div>
-														<div class="col">: <?= date('d-m-Y', strtotime($quotation->valid_till)); ?></div>
-													</div>
+										<div class="col-sm-6">
+											<div class="invoice-col d-flex justify-content-end" style="">
+												<address class="mb-0 text-dark mr-5">
+													<h5 class="text-muted">Quotation by:</h5>
+													<h5 class="text-uppercase"><?= $settings->company_name?></h5>
+													<span class="d-block"><?= $settings->address.' '.$settings->address2; ?></span>
+													<span class="d-block"><?= strlen($settings->contact)==10?'+91-'.$settings->contact:$settings->contact; ?></span>
+													<span class="d-block"><?= $settings->system_email; ?></span>
 												</address>
+												<img src="<?= base_url("assets/images/$settings->sitelogo"); ?>" height="80px">
 											</div>
 										</div>
 									</div>
 
 									<div class="row mt-4">
-										<div class="col-sm-8">
-											<h6 class="">QUOTATION FOR -</h6>
+										<div class="col-sm-7 pl-4">
+											<h5 class="text-muted">Quotation for:</h5>
 											<address class="mb-0 mt-2 text-dark">
-												<span><?= $client->name; ?></span>
-												<br>
+											
+												<h5 class="text-uppercase"><?= $client->name?></h5>
 												<span>Contact : <?= strlen($client->contact_no)==10?'+91-'.$client->contact_no:$client->contact_no; ?></span>
 												<br>
 												<span>E-mail : <?= $client->email; ?></span>
 											</address>
 										</div>
+										<div class="col-sm-4 ml-3 pl-3">
+											<h5 class="text-muted">Quotation details:</h5>
+											<address class=" mt-2 text-dark">
+													<div class="row">
+														<div class="col-5">Reference no.</div>
+														<div class="col">: #<?= $quotation->quote_no; ?></div>
+													</div>
+												<div class="row">
+													<div class="col-5">Date</div>
+													<div class="col">: <?= date('d-m-Y', strtotime($quotation->quote_date)); ?></div>
+												</div>
+												<div class="row">
+													<div class="col-5">Valid till</div>
+													<div class="col">: <?= date('d-m-Y', strtotime($quotation->valid_till)); ?></div>
+												</div>
+											</address>
+										</div>
 										<!-- /.col -->
 									</div>
+
 
 									<!-- Table row -->
 									<div class="row mt-5 px-3">

@@ -5,6 +5,10 @@
 	td{
 		vertical-align: middle !important;
 	}
+	textarea.description{
+		font-size:12px !important;
+		width:320px !important;
+	}
 </style>
       <div class="page-wrapper">
             <div class="row page-titles">
@@ -55,17 +59,25 @@
 													</select>
 												</div>
 											</div>
-											<div class="col-md-4">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label for="exampleInputPassword1"># Invoice No. <span class="req">*</span></label>
 													<input type="text" class="form-control  bg-light" name="invoice_no" value="<?= $invoice->inv_no ?>"
 														placeholder="Enter Invoice No" readonly required>
 												</div>
 											</div>
-											<div class="col-md-4">
+											
+											<div class="col-md-1"></div>
+											<div class="col-md-2">
 												<div class="form-group">
 													<label for="exampleInputPassword1">Invoice date <span class="req">*</span></label>
 													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d',strtotime($invoice->inv_date))?>" name="date" placeholder="Enter Invoice Date" required>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="form-group">
+													<label for="exampleInputPassword1">Due date <span class="req">*</span></label>
+													<input type="text" class="form-control datepicker pl-3" value="<?=date('Y-m-d',strtotime($invoice->due_date))?>" name="due_date" placeholder="Enter Invoice due Date" required>
 												</div>
 											</div>
 										</div>

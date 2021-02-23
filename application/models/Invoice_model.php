@@ -10,6 +10,7 @@ class Invoice_model extends CI_Model
 			'inv_no' => $this->input->post('invoice_no', true),
 			'client_id' => $this->input->post('client_id', true),
 			'inv_date' => $this->input->post('date', true),
+			'due_date' => $this->input->post('due_date', true),
 			'gst' => $this->input->post('vat', true),
 			'remarks' => $this->input->post('remarks', true),
 			'total_paid' => $this->input->post('paid', true)
@@ -97,6 +98,7 @@ class Invoice_model extends CI_Model
 		$total_amount = $amount + $vat_amount;
 		$paid = $this->input->post('paid', true);
 		$data['inv_date'] = $this->input->post('date', true);
+		$data['due_date'] = $this->input->post('due_date', true);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['sub_total'] = $amount;
 		$data['total'] = $total_amount;
