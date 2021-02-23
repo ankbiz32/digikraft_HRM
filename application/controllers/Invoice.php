@@ -169,6 +169,43 @@ class Invoice extends CI_Controller {
 		echo json_encode($resp);
 	}
 
+	public function sendPdf($id)
+	{
+
+		$this->load->library('pdf');
+		$html_content = '<h3 align="center">Convert HTML to PDF in CodeIgniter using Dompdf</h3>';
+		$html_content .=  json_encode($this->crud->getInfoId('invoice','id',$id));
+		$this->pdf->loadHtml($html_content);
+		$this->pdf->setPaper('A4','Portrait');
+		$this->pdf->render();
+		$file = $this->pdf->output();
+		file_put_contents('assets/test.pdf', $file);
+
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'ankbiz32@gmail.com', // change it to yours
+			'smtp_pass' => 'kgfklpnostq*32', // change it to yours
+			'mailtype' => 'html',
+			'charset' => 'iso-8859-1',
+			'wordwrap' => TRUE
+		  );
+		  $this->load->library('email', $config);
+		  $this->email->set_newline("\r\n");
+
+		$this->email->from('ankbiz32@gmail.com', 'Identification');
+		$this->email->to('ankur.agr32@gmail.com');
+		$this->email->subject('Send Email Codeigniter');
+		$this->email->message('The email send using codeigniter library');
+		if($this->email->send())
+			echo 'sent';
+		else
+			show_error($this->email->print_debugger());
+
+		// $this->pdf->stream($id.".pdf", array("Attachment"=>0));
+	}
+
 	function getWords(float $number)
 	{
 		$decimal = round($number - ($no = floor($number)), 2) * 100;

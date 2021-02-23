@@ -66,6 +66,8 @@
 													<a href="<?php echo base_url();?>invoice/editInvoice/<?php echo $c->id?>?final=1" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>invoice/deleteInvoice/<?php echo $c->id;?>" title="Reject invoice" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a>
+													
+                                                    <a  href="<?php echo base_url();?>invoice/sendPdf/<?php echo $c->id;?>" title="Send invoice by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
                                                     
                                                     <?php if($c->ref_quotation_id){?>
                                                         <br>
