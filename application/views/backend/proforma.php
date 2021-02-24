@@ -15,7 +15,12 @@
                     </ol>
                 </div>
             </div>
-            <div class="message"></div>
+            <?php if($this->session->flashdata('feedback')){?>
+                <div class="message d-block"><?=$this->session->flashdata('feedback')?> </div>
+            <?php }?>
+            <?php if($this->session->flashdata('error')){?>
+                <div class="message d-block bg-danger"><?=$this->session->flashdata('error')?>  </div>
+            <?php }?>
             <div class="container-fluid">
                 <div class="row mt-3">
                     <div class="col-12">
@@ -75,6 +80,9 @@
 													<a href="<?php echo base_url();?>invoice/editInvoice/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>invoice/deleteInvoice/<?php echo $c->id;?>" title="Reject invoice" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a>
+
+                                                    <a  href="<?php echo base_url();?>invoice/sendInvoice/<?php echo $c->id;?>/proforma" title="Send unpaid invoice by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
+
                                                     <?php if($c->ref_quotation_id){?>
                                                         <br>
                                                         <small><a target="_blank" class="btn btn-default btn-sm mt-2" href="<?= base_url("quotation/showQuotation/$c->ref_quotation_id")?>">See ref. quotation</a></small>

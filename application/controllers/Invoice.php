@@ -28,6 +28,7 @@ class Invoice extends CI_Controller {
 		}            
 	}
 
+
     public function index(){
         if($this->session->userdata('user_login_access') != False) {
 			$data['invoices'] = $this->invoice->get_all_final_invoice();
@@ -169,42 +170,107 @@ class Invoice extends CI_Controller {
 		echo json_encode($resp);
 	}
 
-	public function sendPdf($id)
+	public function sendInvoice($id, $final)
 	{
+		$invoice = $this->crud->getInfoId('invoice','id',$id);
+		$client= $this->crud->getInfoId('clients','id',$invoice->client_id);
 
-		$this->load->library('pdf');
-		$html_content = '<h3 align="center">Convert HTML to PDF in CodeIgniter using Dompdf</h3>';
-		$html_content .=  json_encode($this->crud->getInfoId('invoice','id',$id));
-		$this->pdf->loadHtml($html_content);
-		$this->pdf->setPaper('A4','Portrait');
-		$this->pdf->render();
-		$file = $this->pdf->output();
-		file_put_contents('assets/test.pdf', $file);
+		// if (file_exists('assets/test.pdf')){
+		// 	unlink('assets/test.pdf');
+		// }
+		// // Creating dynamic PDF & saving it in assets folder
+		// $this->load->library('pdf');
+		// $this->pdf->set_base_path('http://localhost/hrm_digikraft/');
+		// $html_content = '
+		// 	<link href="http://localhost/hrm_digikraft/assets/css/test.css" rel="stylesheet">
+		// 	<h3 class="red-custom">Convert HTML to PDF in CodeIgniter using Dompdf</h3>
+		// ';
+		// $this->pdf->loadHtml($html_content);
+		// $this->pdf->setPaper('A4','Portrait');
+		// $this->pdf->render();
+		// // $this->pdf->stream("dompdf_out.pdf", array("Attachment" => false));
+		// $file = $this->pdf->output();
+		// file_put_contents('assets/test.pdf', $file);
+		// exit;
 
-		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://smtp.googlemail.com',
-			'smtp_port' => 465,
-			'smtp_user' => 'ankbiz32@gmail.com', // change it to yours
-			'smtp_pass' => 'kgfklpnostq*32', // change it to yours
-			'mailtype' => 'html',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
-		  );
-		  $this->load->library('email', $config);
-		  $this->email->set_newline("\r\n");
+		// Sending the dynamic PDF through attachment from SMTP e-mail
+		$this->load->config('email');
+        // $from = $this->email->smtp_user;
+        $from = 'no-reply@digikraftsocial.com';
+        $to = $client->email;
+        $subject = 'Invoice #'.$invoice->inv_no.' - DigiKraft Social';
+        $message = '
+			<p><b>Hi '. $client->name.',<b></p>
+			';
+		if($final=='final'){
+			$message.='
+				<p>Your invoice has been generated. Please click on the button below to see your invoice.</p>
+				<p>&nbsp;</p>
+				<p style="text-align:center"><a href="'.base_url().'invoice/download/'.$client->id.'/'.$invoice->id.'/'.$invoice->inv_no.'?final=1" style="font-size:16px;padding:5px 15px; background-color:#34A2C6; color:white; text-decoration:none;">SEE INVOICE</a></p>
+				<p>&nbsp;</p>
+				<p >Cannot see the button? Copy & paste the below link in your browser to see your invoice.</p>
+				<p >'.base_url().'invoice/download/'.$client->id.'/'.$invoice->id.'/'.$invoice->inv_no.'?final=1</p>
+			';
+		}
+		else{
+			$message.='
+				<p>Your unpaid invoice has been generated. Please click on the button below to see your invoice.</p>
+				<p>&nbsp;</p>
+				<p style="text-align:center"><a href="'.base_url().'invoice/download/'.$client->id.'/'.$invoice->id.'/'.$invoice->inv_no.'" style="font-size:16px;padding:5px 15px; background-color:#34A2C6; color:white; text-decoration:none;">SEE INVOICE</a></p>
+				<p>&nbsp;</p>
+				<p>Cannot see the button? Copy & paste the below link in your browser to see your invoice.</p>
+				<p>'.base_url().'invoice/download/'.$client->id.'/'.$invoice->id.'/'.$invoice->inv_no.'</p>
+			';
+		}
+		$message.='
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>Thanks & Regards,</p>
+			<p>DigiKraft Social</p>
+		';
 
-		$this->email->from('ankbiz32@gmail.com', 'Identification');
-		$this->email->to('ankur.agr32@gmail.com');
-		$this->email->subject('Send Email Codeigniter');
-		$this->email->message('The email send using codeigniter library');
-		if($this->email->send())
-			echo 'sent';
-		else
-			show_error($this->email->print_debugger());
+        $this->email->set_newline("\r\n");
+        $this->email->from($from,'DigiKraft Social');
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+		$this->email->attach('assets/test.pdf');
 
-		// $this->pdf->stream($id.".pdf", array("Attachment"=>0));
+        if ($this->email->send()) {
+			$this->session->set_flashdata('feedback','Mail sent');
+        } else {
+			$this->session->set_flashdata('error','Error sending mail');
+		}
+
+		if($final=='final'){
+			redirect(base_url('invoice') );
+		} else{
+			redirect(base_url('invoice/proforma') );
+		}
+		// unlink('assets/test.pdf');
 	}
+
+	
+    public function download($cid,$insert_id,$iid){
+		$info= $this->db->where('client_id', $cid)->where('inv_no', $iid)->where('id', $insert_id)->get('invoice')->row();
+		if($info){
+				$data=array();
+				$data['invoice'] = $this->crud->getInfoId('invoice','id',$insert_id);
+				$data['client'] = $this->crud->getInfoId('clients','id',$data['invoice']->client_id);
+				$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
+				$data['cat'] = $this->invoice->get_all_items_by_invoiceJoin_cat($data['invoice']->id);
+				$data['settings'] = $this->crud->getInfoId('settings','id',1);
+	
+				$data['amtWords']=ucfirst($this->getWords($data['invoice']->total));
+	
+				// var_dump('<pre>',$amtWords);exit;
+				$this->load->view('backend/downloadInvoice',$data);
+		}
+		else{
+			echo '<p style="text-align:center; line-height:90vh; font-size:18px; font-family:sans-serif "><b>No invoice found.</b></p>';
+		}
+	}
+
 
 	function getWords(float $number)
 	{
