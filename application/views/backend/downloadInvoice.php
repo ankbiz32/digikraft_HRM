@@ -242,6 +242,20 @@
 									<div class="row mt-3">
 										<h5 class="col">Thank you for your business.</h5>
 									</div>
+									<style>
+                                            .custom-footer {
+                                                position: fixed;
+                                                left: 0;
+                                                bottom: 0;
+                                                width: 100%;
+                                                color: BLACK;
+                                                text-align: center;
+                                                background:transparent;
+                                            }
+                                        </style>
+									<div class="custom-footer">
+										<p class="mb-0">www.digikraftsocial.com</p>
+									</div>
 								</div>
 								
 

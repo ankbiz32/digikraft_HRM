@@ -16,7 +16,12 @@
                     </ol>
                 </div>
             </div>
-            <div class="message"></div>
+            <?php if($this->session->flashdata('feedback')){?>
+                <div class="message d-block"><?=$this->session->flashdata('feedback')?> </div>
+            <?php }?>
+            <?php if($this->session->flashdata('error')){?>
+                <div class="message d-block bg-danger"><?=$this->session->flashdata('error')?>  </div>
+            <?php }?>
             <div class="container-fluid">
                 <div class="row mt-3">
                     <div class="col-12">
@@ -70,6 +75,8 @@
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>quotation/deleteQuotation/<?php echo $c->id;?>" title="Reject quotation" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a>
 
 													<a  href="<?php echo base_url();?>quotation/convertToInvoice/<?php echo $c->id;?>" title="Convert to Invoice" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-share"></i></a>
+
+                                                    <a  href="<?php echo base_url();?>quotation/sendQuote/<?php echo $c->id;?>" title="Send quotation by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
                                                     
                                                 </td>
                                             </tr>

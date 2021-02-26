@@ -149,6 +149,68 @@ class Payment extends CI_Controller {
 	}
 
 
+	public function sendReceipt($id)
+	{
+		$rcpt = $this->crud->getInfoId('client_payments','id',$id);
+		$client= $this->crud->getInfoId('clients','id',$rcpt->client_id);
+		if($client->email==''){
+			$this->session->set_flashdata('error','E-mail id not found for this client. Please set the e-mail id for the client.');
+		}
+		else{
+			$this->load->config('email');
+			$from = 'no-reply@digikraftsocial.com';
+			$to = $client->email;
+			$subject = 'Payment receipt #'.$rcpt->receipt_no.' - DigiKraft Social';
+			$message = '
+				<p><b>Hi '. $client->name.',<b></p>
+				<p>Your payment receipt has been generated. Please click on the button below to see your payment receipt.</p>
+				<p>&nbsp;</p>
+				<p style="text-align:center"><a href="'.base_url().'payment/download/'.$client->id.'/'.$rcpt->id.'/'.$rcpt->receipt_no.'" style="font-size:16px;padding:5px 15px; background-color:#34A2C6; color:white; text-decoration:none;">SEE PAYMENT RECEIPT</a></p>
+				<p>&nbsp;</p>
+				<p >Cannot see the button? Copy & paste the below link in your browser to see your payment receipt.</p>
+				<p >'.base_url().'payment/download/'.$client->id.'/'.$rcpt->id.'/'.$rcpt->receipt_no.'</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>Thanks & Regards,</p>
+				<p>DigiKraft Social</p>
+			';
+
+			$this->email->set_newline("\r\n");
+			$this->email->from($from,'DigiKraft Social');
+			$this->email->to($to);
+			$this->email->subject($subject);
+			$this->email->message($message);
+
+			if ($this->email->send()) {
+				$this->session->set_flashdata('feedback','Mail sent');
+			} else {
+				$this->session->set_flashdata('error','Error sending mail');
+			}
+		}
+		redirect(base_url('payment') );
+		// unlink('assets/test.pdf');
+	}
+
+	
+    public function download($cid,$insert_id,$iid){
+		$info= $this->db->where('client_id', $cid)->where('receipt_no', $iid)->where('id', $insert_id)->where('is_deleted', 0)->get('client_payments')->row();
+		if($info){
+			$data=array();
+			$data['rcpt'] = $this->crud->getInfoId('client_payments','id',$insert_id);
+			if($data['rcpt']->invoice_id){
+				$data['inv_no'] = $this->crud->getInfoId('invoice','id',$data['rcpt']->invoice_id)->inv_no;
+			}
+			$data['client'] = $this->crud->getInfoId('clients','id',$data['rcpt']->client_id); 
+			$data['settings'] = $this->crud->getInfoId('settings','id',1);
+	
+			$this->load->view('backend/downloadReceipt',$data);
+		}
+		else{
+			echo '<p style="text-align:center; line-height:90vh; font-size:18px; font-family:sans-serif "><b>No receipt found.</b></p>';
+		}
+	}
+
+
 
     
 }

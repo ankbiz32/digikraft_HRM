@@ -1,6 +1,6 @@
             </div>
 
-            <footer class="footer"> © 2020 DigiKraft social </footer>
+            <footer class="footer"> © <?=date('Y')?> DigiKraft social </footer>
 
         </div>
 

@@ -165,6 +165,67 @@ class Quotation extends CI_Controller {
 		echo json_encode($resp);
 	}
 
+	
+	public function sendQuote($id)
+	{
+		$quote = $this->crud->getInfoId('quotations','id',$id);
+		$client= $this->crud->getInfoId('clients','id',$quote->client_id);
+		if($client->email==''){
+			$this->session->set_flashdata('error','E-mail id not found for this client. Please set the e-mail id for the client.');
+		}
+		else{
+			$this->load->config('email');
+			$from = 'no-reply@digikraftsocial.com';
+			$to = $client->email;
+			$subject = 'Quotation #'.$quote->quote_no.' - DigiKraft Social';
+			$message = '
+				<p><b>Hi '. $client->name.',<b></p>
+				<p>Your quotation has been generated. Please click on the button below to see the quotation.</p>
+				<p>&nbsp;</p>
+				<p style="text-align:center"><a href="'.base_url().'quotation/download/'.$client->id.'/'.$quote->id.'/'.$quote->quote_no.'" style="font-size:16px;padding:5px 15px; background-color:#34A2C6; color:white; text-decoration:none;">SEE QUOTATION</a></p>
+				<p>&nbsp;</p>
+				<p >Cannot see the button? Copy & paste the below link in your browser to see quotation.</p>
+				<p >'.base_url().'quotation/download/'.$client->id.'/'.$quote->id.'/'.$quote->quote_no.'</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>Thanks & Regards,</p>
+				<p>DigiKraft Social</p>
+			';
+
+			$this->email->set_newline("\r\n");
+			$this->email->from($from,'DigiKraft Social');
+			$this->email->to($to);
+			$this->email->subject($subject);
+			$this->email->message($message);
+
+			if ($this->email->send()) {
+				$this->session->set_flashdata('feedback','Mail sent');
+			} else {
+				$this->session->set_flashdata('error','Error sending mail');
+			}
+		}
+		redirect(base_url('quotation') );
+		// unlink('assets/test.pdf');
+	}
+
+	
+    public function download($cid,$insert_id,$iid){
+		$info= $this->db->where('client_id', $cid)->where('quote_no', $iid)->where('id', $insert_id)->where('is_deleted', 0)->get('quotations')->row();
+		if($info){
+
+				$data=array();
+				$data['quotation'] = $this->crud->getInfoId('quotations','id',$insert_id);
+				$data['client'] = $this->crud->getInfoId('clients','id',$data['quotation']->client_id);
+				$data['quotation_items'] = $this->quote->get_all_items_by_quotationJoin($data['quotation']->id);
+				$data['settings'] = $this->crud->getInfoId('settings','id',1);
+	
+				$this->load->view('backend/downloadQuotation',$data);
+		}
+		else{
+			echo '<p style="text-align:center; line-height:90vh; font-size:18px; font-family:sans-serif "><b>No quotation found.</b></p>';
+		}
+	}
+
 
     
 }

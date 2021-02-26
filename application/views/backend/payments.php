@@ -15,7 +15,12 @@
                     </ol>
                 </div>
             </div>
-            <div class="message"></div>
+            <?php if($this->session->flashdata('feedback')){?>
+                <div class="message d-block"><?=$this->session->flashdata('feedback')?> </div>
+            <?php }?>
+            <?php if($this->session->flashdata('error')){?>
+                <div class="message d-block bg-danger"><?=$this->session->flashdata('error')?>  </div>
+            <?php }?>
             <div class="container-fluid">
                 <div class="row mt-3">
                     <div class="col-12">
@@ -69,6 +74,8 @@
 													<a href="<?php echo base_url();?>payment/editPayment/<?php echo $c->id?>" title="Edit" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-pencil-square-o"></i></a>
 
 													<!-- <a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>payment/deletePayment/<?php echo $c->id;?>" title="Reject Payment" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a> -->
+
+                                                    <a  href="<?php echo base_url();?>payment/sendReceipt/<?php echo $c->id;?>" title="Send payment receipt by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
                                                     
                                                 </td>
                                             </tr>
