@@ -39,7 +39,7 @@
                                <?php echo $this->session->flashdata('formdata'); ?>
                                <?php echo $this->session->flashdata('feedback'); ?>
                             <div class="card-body">
-								<form role="form" action="<?= $path ?>" method="post"
+								<form role="form" action="<?= $path ?>" id="noScript" method="post"
 									enctype="multipart/form-data">
 
 										<div class="row">

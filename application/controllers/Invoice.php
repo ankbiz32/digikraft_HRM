@@ -100,6 +100,22 @@ class Invoice extends CI_Controller {
 			echo "Server error !";
 		}
 	}
+	
+	public function saveInvoiceFromQuotation()
+	{
+		$insert_id = $this->invoice->store_invoice_record();
+		if ($this->invoice->store_invoice_item_record($insert_id)) {
+			if($this->input->post('ref_quotation_id')){
+				$this->db->where('id', $this->input->post('ref_quotation_id'))->update('quotations', ['ref_invoice_id'=>$insert_id]);
+			}
+			$this->session->set_flashdata('feedback','Invoice generated');
+			redirect( base_url()."/invoice/proforma");
+		}
+		else {
+			$this->session->set_flashdata('error','Error occured');
+			redirect( base_url()."/invoice/proforma");
+		}
+	}
 
     public function editinvoice($id){
         if($this->session->userdata('user_login_access') != False) { 

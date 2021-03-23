@@ -142,7 +142,7 @@ class Quotation extends CI_Controller {
 			$data['inv_items'] = $this->quote->get_all_items_by_QuotJoin($id);
 			$data['clients'] = $this->crud->getInfo('clients');
 			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url().'invoice/saveInvoice/';
+			$data['path'] = base_url().'invoice/saveInvoiceFromQuotation/';
 			// var_dump('<pre>',$data);exit;
 			$this->load->view('backend/quotToInv', $data);
         }
