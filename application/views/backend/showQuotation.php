@@ -31,6 +31,9 @@
 									</span>
 									<a href="#" onclick="window.close();" class="float-right"><i class="fa fa-times"></i> close</a>
 								</h4>
+								<div class="mt-3">
+									<input type="checkbox" id="hideTotal" onclick='hideTotal()'><label class="mr-5" for="hideTotal">Hide total section</label>
+								</div>
 							</div>
 							<div class="card-body">
 							<section class="invoice">
@@ -131,16 +134,16 @@
 													<td class="text-right"><?= $settings->symbol . ' '; ?><?php echo $quotation->sub_total * (($quotation->gst) / 100); ?>/-</td>
 												</tr> -->
 												<?php if($quotation->discount!=0){?>
-												<tr>
+												<tr class="hideTogglable">
 													<th colspan="3" class="text-right">Sub Total:</th>
 													<td class="text-right"><strong><?= $settings->symbol . ' '; ?><?= $quotation->sub_total?>/-</strong></td>
 												</tr>
-												<tr>
+												<tr class="hideTogglable">
 													<th colspan="3" class="text-right">Discount:</th>
 													<td class="text-right"><strong>- <?= $settings->symbol . ' '; ?><?= $quotation->discount?>/-</strong></td>
 												</tr>
 												<?php }?>
-												<tr class="">
+												<tr class="hideTogglable">
 													<th colspan="3" class="text-right ">Estimated Amount:</th>
 													<td class="text-right h6"><?= $settings->symbol . ' '; ?><?= $quotation->total?>/-</td>
 												</tr>
@@ -197,7 +200,14 @@
 
 <?php $this->load->view('backend/footer'); ?>
 
-<script>
+<script>	 
+	function hideTotal()
+    {
+        if($('#hideTotal').is(":checked"))   
+            $(".hideTogglable").hide();
+        else
+            $(".hideTogglable").show();
+    }
 	function printDiv(divName) {
 		var printContents = document.getElementById(divName).innerHTML;
 		var originalContents = document.body.innerHTML;

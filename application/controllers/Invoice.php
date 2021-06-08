@@ -56,14 +56,49 @@ class Invoice extends CI_Controller {
 			$data=array();
 			$data['invoice'] = $this->crud->getInfoId('invoice','id',$insert_id);
 			$data['client'] = $this->crud->getInfoId('clients','id',$data['invoice']->client_id);
+			$data['all_invoice'] = $this->crud->getInfo('invoice',['client_id'=>$data['invoice']->client_id]);
+			$due=0;
+			foreach($data['all_invoice'] as $d){
+				if($d->inv_no!=$data['invoice']->inv_no){
+					$due+=$d->total_due;
+				}
+			}
+			$data['invoice']->prev_due=$due;
 			$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
 			$data['cat'] = $this->invoice->get_all_items_by_invoiceJoin_cat($data['invoice']->id);
 			$data['settings'] = $this->crud->getInfoId('settings','id',1);
 
 			$data['amtWords']=ucfirst($this->getWords($data['invoice']->total));
 
-			// var_dump('<pre>',$amtWords);exit;
 			$this->load->view('backend/showInvoice',$data);
+        }
+		else{
+			redirect(base_url() , 'refresh');
+		} 
+	}
+
+	public function sendWhatsAppProforma($insert_id)
+	{
+		if($this->session->userdata('user_login_access') != False) {
+
+			$data=array();
+			$data['invoice'] = $this->crud->getInfoId('invoice','id',$insert_id);
+			$data['client'] = $this->crud->getInfoId('clients','id',$data['invoice']->client_id);
+			$data['all_invoice'] = $this->crud->getInfo('invoice',['client_id'=>$data['invoice']->client_id]);
+			$due=0;
+			foreach($data['all_invoice'] as $d){
+				if($d->inv_no!=$data['invoice']->inv_no){
+					$due+=$d->total_due;
+				}
+			}
+			$data['invoice']->prev_due=$due;
+			$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
+			$data['cat'] = $this->invoice->get_all_items_by_invoiceJoin_cat($data['invoice']->id);
+			$data['settings'] = $this->crud->getInfoId('settings','id',1);
+
+			$data['amtWords']=ucfirst($this->getWords($data['invoice']->total));
+
+			$this->load->view('backend/sendWhatsAppProforma',$data);
         }
 		else{
 			redirect(base_url() , 'refresh');
@@ -290,7 +325,7 @@ class Invoice extends CI_Controller {
 	}
 
 
-	function getWords(float $number)
+	function getWords($number)
 	{
 		$decimal = round($number - ($no = floor($number)), 2) * 100;
 		$hundred = null;

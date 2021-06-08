@@ -31,6 +31,11 @@
 									</span>
 									<a href="#" onclick="window.close();" class="float-right"><i class="fa fa-times"></i> close</a>
 								</h4>
+								<div class="mt-3">
+									<input type="checkbox" id="hideStamp" onclick='hideStamp()'><label class="mr-5" for="hideStamp">Hide stamp</label>
+									<input type="checkbox" id="hideMnth" onclick='hideMnth()'><label class="mr-5" for="hideMnth">Hide invoice month</label>
+									<input type="checkbox" id="hideDues" onclick='hideDues()'><label for="hideDues">Hide previous dues</label>
+								</div>
 							</div>
 							<div class="card-body">
 							<section class="invoice">
@@ -46,11 +51,13 @@
 									</style>
 									<div class="row bg-light p-3 align-items-center">
 										<div class="col-sm-6">
-											<h1 class="page-header font-weight-bold" style="border:0px;">INVOICE</h1>
+											<h1 class="page-header font-weight-bold" style="border:0px;">INVOICE 
+												<span class="mnth" style="text-transform:uppercase" contentEditable ><?=date('M')?></span>
+											</h1>
 											<?php if(isset($_GET['final'])) { ?>
-											<span class=""><img src="<?=base_url('assets/images/paid.png')?>" alt="" height="30"></span>
+											<span class="stamp"><img src="<?=base_url('assets/images/paid.png')?>" alt="" height="30"></span>
 											<?php } else { ?>
-											<span class=""><img src="<?=base_url('assets/images/unpaid.png')?>" alt="" height="30"></span>
+											<span class="stamp"><img src="<?=base_url('assets/images/unpaid.png')?>" alt="" height="30"></span>
 											<?php } ?>
 										</div>
 										<div class="col-sm-6">
@@ -177,6 +184,11 @@
 														<th class="text-right py-1">Amount Due:</th>
 														<td class="text-right h6 py-1"><?= $settings->symbol . ' '; ?><?= $invoice->total_due; ?>/-</td>
 													</tr>
+													<tr class="prevDue">
+														<th colspan="2" class=" py-1"></th>
+														<th class="text-right py-1">Prev. Due:</th>
+														<td class="text-right h6 py-1"><?= $settings->symbol . ' '; ?><?= $invoice->prev_due; ?>/-</td>
+													</tr>
 												<?php } ?>
 												</tbody>
 											</table>
@@ -274,6 +286,28 @@
 <?php $this->load->view('backend/footer'); ?>
 
 <script>
+	 function hideStamp()
+    {
+        if($('#hideStamp').is(":checked"))   
+            $(".stamp").hide();
+        else
+            $(".stamp").show();
+    }
+	 function hideMnth()
+    {
+        if($('#hideMnth').is(":checked"))   
+            $(".mnth").hide();
+        else
+            $(".mnth").show();
+    }
+	 function hideDues()
+    {
+        if($('#hideDues').is(":checked"))   
+            $(".prevDue").hide();
+        else
+            $(".prevDue").show();
+    }
+
 	function printDiv(divName) {
 		var printContents = document.getElementById(divName).innerHTML;
 		var originalContents = document.body.innerHTML;
