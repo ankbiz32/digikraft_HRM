@@ -80,16 +80,17 @@
                                     </ul>
                                 </li>
 								<li><a href="<?php echo base_url(); ?>payment"> Payments</a></li>
+								<li><a href="<?php echo base_url(); ?>invoice/sales_report"> Sales report</a></li>
                             </ul>
 						</li>
 											
 						
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-credit-card"></i><span class="hide-menu">Payroll </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="<?php echo base_url(); ?>Payroll/Generate_salary"> Generate Payslip</a></li>
-                                <li><a href="<?php echo base_url(); ?>Payroll/Salary_List"> Payroll List </a></li>
+                                <li><a href="<?php echo base_url(); ?>Payroll/Generate_salary">+ Generate new Payslip</a></li>
+                                <li><a href="<?php echo base_url(); ?>Payroll/Salary_List"> Payslips List </a></li>
                                 <li><a href="<?php echo base_url(); ?>Payroll/Salary_Type"> Payroll Type </a></li>
-                                <li><a href="<?php echo base_url(); ?>Payroll/Payslip_Report"> Payslip Report</a></li>
+                                <!-- <li><a href="<?php echo base_url(); ?>Payroll/Payslip_Report"> Payslip Report</a></li> -->
                             </ul>
 						</li>
 						

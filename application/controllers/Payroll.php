@@ -14,6 +14,7 @@ class Payroll extends CI_Controller {
         $this->load->model('settings_model');    
         $this->load->model('organization_model');    
         $this->load->model('loan_model');    
+        $this->load->model('Crud_model','crud');
 	}
 	
     public function index()
@@ -55,6 +56,7 @@ class Payroll extends CI_Controller {
         if($this->session->userdata('user_login_access') != False) { 
             
         $data['salary_info'] = $this->payroll_model->getAllSalaryData();
+        $data['settings'] = $this->crud->getInfoId('settings','id',1);
 
         $this->load->view('backend/salary_list', $data);
 
@@ -873,6 +875,7 @@ class Payroll extends CI_Controller {
         $year = $this->input->post('year');
         $hours_worked = $this->input->post('hours_worked');
         $addition = $this->input->post('addition');
+        $bonus = $this->input->post('bonus');
         $diduction = $this->input->post('diduction');
         $loan_id = $this->input->post('loan_id');
         $loan = $this->input->post('loan');
@@ -880,6 +883,7 @@ class Payroll extends CI_Controller {
         $paydate = $this->input->post('paydate');
         $status = $this->input->post('status');
         $paid_type = $this->input->post('paid_type');
+        $total_paid += $bonus;
         
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters();
@@ -898,6 +902,7 @@ class Payroll extends CI_Controller {
                 'paid_date' => $paydate,
                 'total_days' => $hours_worked,
                 'basic' => $basic,
+                'bonus' => $bonus,
                 'loan' => $loan,
                 'total_pay' => $total_paid,
                 'addition' => $addition,

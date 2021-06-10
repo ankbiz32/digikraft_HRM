@@ -3,13 +3,13 @@
 <div class="page-wrapper">
 	<div class="row page-titles">
 		<div class="col-md-5 align-self-center">
-			<h3 class="text-themecolor"><i class="fa fa-list" aria-hidden="true"></i> Invoice #<?= $invoice->inv_no ?></h3>
+			<h3 class="text-themecolor"><i class="fa fa-list" aria-hidden="true"></i> Quotation #<?= $quotation->quote_no ?></h3>
 		</div>
 		<div class="col-md-7 align-self-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-				<li class="breadcrumb-item"><a href="<?= base_url('invoice') ?>">Invoice</a></li>
-				<li class="breadcrumb-item active">Invoice #<?= $invoice->inv_no ?></li>
+				<li class="breadcrumb-item"><a href="<?= base_url('quotation') ?>">Quotations</a></li>
+				<li class="breadcrumb-item active">Quotation #<?= $quotation->quote_no ?></li>
 			</ol>
 		</div>
 	</div>
@@ -51,16 +51,16 @@
 
 								<form action="">
 									<?php
-									$msg = "INVOICE *" . $invoice->inv_no . "*\r\n";
+									$msg = "QUOTATION *" . $quotation->quote_no . "*\r\n";
 									$msg .= "For *" . $client->name . "* (Mob - " . $client->contact_no . "), \r\n \r\n";
-									$msg .= "Here is your invoice for the amount of *Rs." . $invoice->total . "/-* for the below stated services. Please pay within 10 days upon receipt of the invoice. Please ignore this invoice if already paid.\r\n";
+									$msg .= "Here is your quotation for the estimated amount of *Rs." . $quotation->total . "/-* for the below stated services.\r\n";
 									$msg .= "Following are the services with respective pricing:\r\n \r\n";
 
 									$z = 1;
-									foreach ($inv_items as $item) {
+									foreach ($quotation_items as $item) {
 										$msg .= "--------------------------------\r\n";
-										$msg .= "*" . $item->cname . "*\r\n";
-										$msg .= "" . $item->name . "\r\n";
+										$msg .= "*" . $item->name . "*\r\n";
+										$msg .= "".$item->descr ."\r\n\r\n";
 										// if($item->descr!=''){
 										// $msg.="".$item->name."\r\n";
 										// $msg.="(".$item->descr.")\r\n";
@@ -70,21 +70,14 @@
 										// }
 										$msg .= $settings->symbol . $item->price . ' x ' . $item->qty . " = " . $settings->symbol . $item->price * $item->qty . "\r\n";
 									}
-									$msg .= "\r\n===================\r\n";
-									$msg .= "Total amount = Rs. " . $invoice->total . "/-\r\n";
-									$msg .= " Paid amount = Rs. " . $invoice->total_paid . "/-\r\n";
-									if($invoice->total_due!=0){
-										$msg .= "*Due amount = Rs. " . $invoice->total_due . "/-*\r\n";
-									}
-									else{
-										$msg .= "*PAID IN FULL*\r\n";
-									}
-									$msg .= "===================\r\n\r\n";
+									$msg .= "\r\n=======================\r\n";
+									$msg .= "*Estimated amount = Rs. " . $quotation->total . "/-*\r\n";
+									$msg .= "=======================\r\n\r\n";
 									$msg .= "Feel free to contact us for any queries.\r\n\r\n";
 									$msg .= "*" . $settings->company_name . "*\r\n";
 									$msg .= $settings->address . "\r\n" . $settings->address2 . "\r\n";
 									$msg .= $settings->contact . "\r\n\r\n";
-									$msg .= "_Note: This invoice is only for " . $client->name . "_";
+									$msg .= "_Note: This quotation is only for " . $client->name . " and is valid till ".date('d-m-Y', strtotime($quotation->valid_till))."_";
 
 									?>
 									<textarea name="" id="msg" cols="10" rows="20" class="form-control mb-3"><?= $msg ?></textarea>

@@ -116,6 +116,21 @@ class Invoice_model extends CI_Model
 		
 	}
 
+	public function get_all_invoice_report($lim=20, $conds=null)
+	{
+		
+		 $this->db->select('i.*, c.name, c.person')
+						->from('invoice i')
+						->join('clients c', 'c.id = i.client_id', 'LEFT');
+					if($conds){
+						$this->db->where($conds);
+					}
+					return	$this->db->where('is_deleted',0)
+						->order_by('id','desc')
+						->limit($lim)
+						->get()->result();
+	}
+
 	public function get_all_invoice()
 	{
 		

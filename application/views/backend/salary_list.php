@@ -35,6 +35,7 @@
                                                 <th>Employee </th>
                                                 <th>Month </th>
                                                 <th>Salary </th>
+                                                <th>Bonus </th>
                                                 <th>Total Paid</th>
                                                 <th>Pay Date</th>
                                                 <th>Status</th>
@@ -50,6 +51,7 @@
                                                 <td><?php echo $individual_info->first_name.' '.$individual_info->last_name; ?></td>
                                                 <td><?php echo $individual_info->month.' '.$individual_info->year; ?></td>
                                                 <td><?php echo $individual_info->basic; ?></td>
+                                                <td><?php echo $individual_info->bonus; ?></td>
                                                 <td><?php echo $individual_info->total_pay; ?></td>
                                                 <td><?php echo $individual_info->paid_date; ?></td>
                                                 <td><?php echo $individual_info->status; ?></td>
@@ -184,12 +186,12 @@
 											$(win.document.body)
 												.css( 'font-size', '50pt' )
 												.prepend(
-													'<img src="<?php echo base_url()?>assets/images/dRi_watermark.png" style="position:absolute;background-size:300px 300px; top:35%; left:27%;" />'
+													'<img height="500" src="<?php echo base_url()?>assets/images/<?=$settings->sitelogo?>" style="opacity:0.1; position:absolute;background-size:100px; top:35%; left:20%;" />'
 												);
 											$(win.document.body)
 												//.css( 'border', 'inherit' )
 												.prepend(
-													'<footer class="footer" style="border:inherit"><img src="<?php echo base_url();?>assets/images/signature_vice.png" style="position:absolute; top:0; left:0;" /><img src="<?php echo base_url();?>assets/images/signature_ceo.png" style="position:absolute; top:0; right:0;height:30px;" /></footer>'
+													'<footer class="footer" style="border:inherit"></footer>'
 												);
 											$(win.document.body).find( 'h1' )
 												.addClass( 'header' )
@@ -204,11 +206,11 @@
 												.css( 'background-position', 'left top' )
 												.css( 'height', '100px' )
 												.prepend(
-													'<img src="<?php echo base_url()?>assets/images/dri_Logo.png" style="position:absolute;background-size:30%; top:0; left:0;" />'
+													'<img src="<?php echo base_url()?>assets/images/<?=$settings->sitelogo?>" style="opacity:1;position:absolute;background-size:30%; top:0; left:0;" />'
 												);
 											$(win.document.body).find( 'div img' )
 												.addClass( 'header-img' )
-												.css( 'width', '180px' );
+												.css( 'width', '80px' );
 											$(win.document.body).find( 'h1' )
 												.addClass( 'header' )
 												.css( 'font-size', '25px' );

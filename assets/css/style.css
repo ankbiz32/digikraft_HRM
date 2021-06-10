@@ -10163,7 +10163,7 @@ color: #67757c!important
 }
 .payslip_print table {
     font-family: 'Lato';
-    font-weight: 200;
+    font-weight: 400;
     font-size: 14px;
 }
 .payslip_address p {
@@ -10183,6 +10183,9 @@ color: #67757c!important
 }
 .payslip_info td:nth-child(odd) {
     font-weight: bold;
+}
+.payslip_info td:nth-child(even) {
+    font-weight: 400;
 }
 .borderless td:nth-child(odd) {
     width: 20%;

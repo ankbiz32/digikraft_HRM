@@ -165,6 +165,21 @@ class Quotation extends CI_Controller {
 		echo json_encode($resp);
 	}
 
+	public function sendWhatsAppQuotation($insert_id)
+	{
+		if ($this->session->userdata('user_login_access') != False) {
+
+			$data = array();
+			
+			$data['quotation'] = $this->crud->getInfoId('quotations','id',$insert_id);
+			$data['client'] = $this->crud->getInfoId('clients','id',$data['quotation']->client_id);
+			$data['quotation_items'] = $this->quote->get_all_items_by_quotationJoin($data['quotation']->id);
+			$data['settings'] = $this->crud->getInfoId('settings','id',1);
+			$this->load->view('backend/sendWhatsappQuotation', $data);
+		} else {
+			redirect(base_url(), 'refresh');
+		}
+	}
 	
 	public function sendQuote($id)
 	{

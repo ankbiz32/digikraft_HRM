@@ -33,45 +33,45 @@ $this->load->view('backend/sidebar');
           </div>
           <div class="card-body">
             <!--Savd vdgff gdfg dfg dfgdfg df  gd gdd gfd-->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form method="post" action="" id="salaryform" class="form-material row">
-                  <div class="form-group col-md-4">
-                    <select class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1" id="depid" name="depid" style="margin-top: 21px;" required>
-                      <option value="" hidden>Department
-                      </option>
-                      <?php foreach ($department as $value): ?>
-                      <option value="<?php echo $value->id; ?>">
-                        <?php echo $value->dep_name; ?>
-                      </option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label>
-                    </label>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                          <input type='text' name="datetime" class="form-control mydatetimepicker" placeholder="Month" required />
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form method="post" action="" id="salaryform" class="form-material row">
+                      <div class="form-group col-md-4">
+                        <select class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1" id="depid" name="depid" style="margin-top: 21px;" required>
+                          <option value="" hidden>Department
+                          </option>
+                          <?php foreach ($department as $value) : ?>
+                            <option value="<?php echo $value->id; ?>">
+                              <?php echo $value->dep_name; ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
-                    </div>
-                  </div> 
-                    <div class="form-group col-md-3">
-                    <button style="float:left;margin-top:23px" type="submit" id="BtnSubmit" class="btn btn-success">Submit</button>          
-                     </div>
-                                </form>
-                            </div>
+                      <div class="form-group col-md-4">
+                        <label>
+                        </label>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <input type='text' name="datetime" class="form-control mydatetimepicker" placeholder="Month" required />
+                          </div>
                         </div>
-                    </div>
-                </div>            
+                      </div>
+                      <div class="form-group col-md-3">
+                        <button style="float:left;margin-top:23px" type="submit" id="BtnSubmit" class="btn btn-success">Submit</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!--Savd vdgff gdfg dfg dfgdfg df  gd gdd gfd-->
             <div class="table-responsive ">
               <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                   <tr>
-                    <th>PIN 
+                    <th>PIN
                     </th>
                     <th>Full name
                     </th>
@@ -83,7 +83,7 @@ $this->load->view('backend/sidebar');
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>PIN 
+                    <th>PIN
                     </th>
                     <th>Full name
                     </th>
@@ -96,7 +96,7 @@ $this->load->view('backend/sidebar');
                 <tbody class="payroll">
                 </tbody>
               </table>
-            </div>                                
+            </div>
           </div>
         </div>
       </div>
@@ -104,26 +104,26 @@ $this->load->view('backend/sidebar');
 
 
     <script>
-        // Populate the payroll table to generate the payroll for each individual
-      $("#BtnSubmit").on("click", function(event){
+      // Populate the payroll table to generate the payroll for each individual
+      $("#BtnSubmit").on("click", function(event) {
         event.preventDefault();
         var depid = $('#depid').val();
         var datetime = $('.mydatetimepicker').val();
-        if($('#salaryform').valid()){
-					$.ajax({
-						url: "load_employee_by_deptID_for_pay?date_time="+datetime+"&dep_id="+depid,
-						type:"GET",
-						dataType:'',
-						data:'data',          
-						success: function(response) {
-							// console.log(response);
-							$('.payroll').html(response);
-						},
-						error: function(response) {
-							
-						}
-					});
-				}
+        if ($('#salaryform').valid()) {
+          $.ajax({
+            url: "load_employee_by_deptID_for_pay?date_time=" + datetime + "&dep_id=" + depid,
+            type: "GET",
+            dataType: '',
+            data: 'data',
+            success: function(response) {
+              // console.log(response);
+              $('.payroll').html(response);
+            },
+            error: function(response) {
+
+            }
+          });
+        }
       });
     </script>
 
@@ -143,121 +143,128 @@ $this->load->view('backend/sidebar');
               <div class="form-group row">
                 <label class="control-label text-left col-md-3">Employee</label>
                 <div class="col-md-9">
-									<select class="form-control custom-select" data-placeholder="Choose a Category" id="emid" tabindex="1" name="emid" id="OnEmValue" required>
-										<option value="" hidden>Select Here
-										</option>
-										<?php foreach ($employee as $value): ?>
-										<option value="<?php echo $value->em_id; ?>">
-											<?php echo $value->first_name.' '.$value->last_name; ?>
-										</option>
-										<?php endforeach; ?>
-									</select>
+                  <select class="form-control custom-select" data-placeholder="Choose a Category" id="emid" tabindex="1" name="emid" id="OnEmValue" required>
+                    <option value="" hidden>Select Here
+                    </option>
+                    <?php foreach ($employee as $value) : ?>
+                      <option value="<?php echo $value->em_id; ?>">
+                        <?php echo $value->first_name . ' ' . $value->last_name; ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
-              </div>                                        
+              </div>
               <div class="form-group row">
                 <label class="control-label text-left col-md-3">Month
                 </label>
                 <div class="col-md-9">
-									<input type="hidden" name="year">
-									<select class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1" name="month" id="salaryMonth" required>
-										<option value="" hidden>Select Here
-										</option>
-										<option value="1">January
-										</option>
-										<option value="2">February
-										</option>
-										<option value="3">March
-										</option>
-										<option value="4">April
-										</option>
-										<option value="5">May
-										</option>
-										<option value="6">June
-										</option>
-										<option value="7">July
-										</option>
-										<option value="8">August
-										</option>
-										<option value="9">September
-										</option>
-										<option value="10">October
-										</option>
-										<option value="11">November
-										</option>
-										<option value="12">December
-										</option>
-									</select>
+                  <input type="hidden" name="year">
+                  <select class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1" name="month" id="salaryMonth" required>
+                    <option value="" hidden>Select Here
+                    </option>
+                    <option value="1">January
+                    </option>
+                    <option value="2">February
+                    </option>
+                    <option value="3">March
+                    </option>
+                    <option value="4">April
+                    </option>
+                    <option value="5">May
+                    </option>
+                    <option value="6">June
+                    </option>
+                    <option value="7">July
+                    </option>
+                    <option value="8">August
+                    </option>
+                    <option value="9">September
+                    </option>
+                    <option value="10">October
+                    </option>
+                    <option value="11">November
+                    </option>
+                    <option value="12">December
+                    </option>
+                  </select>
                 </div>
               </div>
-              <div class="row well"> 
-              <div class="col-md-12">                                    
-              <div class="form-group row">
-                <label class="control-label text-left col-md-3">Salary
-                </label>
-                <div class="col-md-9">
-                <input type="text" name="basic" class="form-control" id="" value="" readonly required>
-              </div> 
-              </div>                                     
-              <div class="form-group row" hidden>
-                <label class="control-label text-left col-md-5">Working hours
-                </label>
-                <div class="col-md-7">
-                    <input type="text" name="month_work_hours" class="form-control thour" value="" readonly>
+              <div class="row well">
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label class="control-label text-left col-md-3">Salary
+                    </label>
+                    <div class="col-md-9">
+                      <input type="text" name="basic" class="form-control" id="" value="" readonly required>
+                    </div>
+                  </div>
+                  <div class="form-group row" hidden>
+                    <label class="control-label text-left col-md-5">Working hours
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="month_work_hours" class="form-control thour" value="" readonly>
+                    </div>
+                  </div>
+                  <div class="form-group row" hidden>
+                    <label class="control-label text-left col-md-5">Hours worked
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="hours_worked" class="form-control hours_worked" id="" value="">
+                      <span>Work Without Pay:</span><span class="wpay"></span> <span>hrs</span>
+                    </div>
+                  </div>
+                  <div class="form-group row" style="display:none">
+                    <label class="control-label text-left col-md-5">
+                    </label>
+                    <div class="col-md-7">
+                      <input type="hidden" name="hrate" class="form-control hrate" id="hrate" value=''>
+                    </div>
+                  </div>
+                  <div class="form-group row" id="addition" hidden>
+                    <label class="control-label text-left col-md-5">Addition
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="addition" class="form-control" id="" value="">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="control-label text-left col-md-3">Bonus
+                    </label>
+                    <div class="col-md-9">
+                      <input type="number" name="bonus" class="form-control" id="" value="0" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="control-label text-left col-md-3">Payment Date
+                    </label>
+                    <div class="col-md-9">
+                      <input type="text" name="paydate" class="form-control mydatetimepickerFull" id="" value="<?= date('Y-m-d') ?>" required>
+                    </div>
+                  </div>
                 </div>
-              </div>                                       
-              <div class="form-group row" hidden>
-                <label class="control-label text-left col-md-5">Hours worked
-                </label>
-                <div class="col-md-7">
-                <input type="text" name="hours_worked" class="form-control hours_worked" id="" value="">
-                <span>Work Without Pay:</span><span class="wpay"></span> <span>hrs</span>
-                </div>
-              </div>                                       
-              <div class="form-group row" style="display:none">
-                <label class="control-label text-left col-md-5">
-                </label>
-                <div class="col-md-7">
-                <input type="hidden" name="hrate" class="form-control hrate" id="hrate" value=''>
-                </div>
-              </div>                                    
-              <div class="form-group row" id="addition" hidden>
-                <label class="control-label text-left col-md-5">Addition
-                </label>
-                <div class="col-md-7">
-                <input type="text" name="addition" class="form-control" id="" value="">
-              </div>
-              </div>
-              <div class="form-group row">
-                <label class="control-label text-left col-md-3">Payment Date
-                </label>
-                <div class="col-md-9">
-                  <input type="text" name="paydate" class="form-control mydatetimepickerFull" id="" value="<?=date('Y-m-d')?>" required>
-                </div>
-              </div>              
-              </div>
-              <div class="col-md-6">                                     
-              <div class="form-group row" id="diduction" hidden>
-                <label class="control-label text-left col-md-5">Deduction
-                </label>
-                <div class="col-md-7">
-                <input type="text" name="diduction" class="form-control diduction" id="" value="">
-              </div>                                      
-              </div>                                      
-              <div class="form-group row" id="loan" hidden>
-                <label class="control-label text-left col-md-5">Loan
-                </label>
-                <div class="col-md-7">
-                  <input type="text" name="loan" class="form-control loan" id="" value="">
-                </div>
-              </div>                                    
-              <div class="form-group row" hidden>
-                <label class="control-label text-left col-md-5">Final Salary
-                </label>
-                <div class="col-md-7">
-                   <input type="text" name="total_paid" class="form-control total_paid" id="" required>
-                </div>
-              </div>
-              <!--<div class="form-group row">
+                <div class="col-md-6">
+                  <div class="form-group row" id="diduction" hidden>
+                    <label class="control-label text-left col-md-5">Deduction
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="diduction" class="form-control diduction" id="" value="">
+                    </div>
+                  </div>
+                  <div class="form-group row" id="loan" hidden>
+                    <label class="control-label text-left col-md-5">Loan
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="loan" class="form-control loan" id="" value="">
+                    </div>
+                  </div>
+                  <div class="form-group row" hidden>
+                    <label class="control-label text-left col-md-5">Final Salary
+                    </label>
+                    <div class="col-md-7">
+                      <input type="text" name="total_paid" class="form-control total_paid" id="" required>
+                    </div>
+                  </div>
+                  <!--<div class="form-group row">
                 <label class="control-label text-left col-md-5">Status
                 </label>
                 <div class="col-md-7">
@@ -271,17 +278,17 @@ $this->load->view('backend/sidebar');
                 </select>    
               </div>     
               </div>-->
-                                <div class="form-group row" hidden>
-                                    <label class="control-label text-left col-md-5">Status</label><br>
-                                    <div class="col-md-7">
-                                    <input name="status" type="radio" id="radio_1" data-value="Paid" class="duration" value="Paid" checked="checked">
-                                    <label for="radio_1">Paid</label>
-                                    <!-- <input name="status" type="radio" id="radio_2" data-value="Process" class="type" value="Process">
+                  <div class="form-group row" hidden>
+                    <label class="control-label text-left col-md-5">Status</label><br>
+                    <div class="col-md-7">
+                      <input name="status" type="radio" id="radio_1" data-value="Paid" class="duration" value="Paid" checked="checked">
+                      <label for="radio_1">Paid</label>
+                      <!-- <input name="status" type="radio" id="radio_2" data-value="Process" class="type" value="Process">
                                     <label for="radio_2">Process</label> -->
-                                    </div>
-                                </div>                            
-              </div>              
-              </div>   
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!--<div class="form-group row" style="margin-top: 25px;">
                 <label class="control-label text-left col-md-3">Paid Type
                 </label>
@@ -296,19 +303,19 @@ $this->load->view('backend/sidebar');
                 </select>
                 </div>                 
               </div>-->
-                                <div class="form-group row" style="margin-top: 25px;">
-                                    <label class="control-label text-left col-md-3">Payment Type</label><br>
-                                    <div class="col-md-9">
-                                    <input name="paid_type" type="radio" id="radio_3" data-value="Hand Cash" class="" value="Hand Cash" checked="checked">
-                                    <label for="radio_3" style="margin-left: 30px">Cash</label>
-                                    <input name="paid_type" type="radio" id="radio_4" data-value="Bank" class="type" value="Bank">
-                                    <label for="radio_4" style="margin-left: 130px">Bank</label>
-                                    </div>
-                                </div>                             
+              <div class="form-group row" style="margin-top: 25px;">
+                <label class="control-label text-left col-md-3">Payment Type</label><br>
+                <div class="col-md-9">
+                  <input name="paid_type" type="radio" id="radio_3" data-value="Hand Cash" class="" value="Hand Cash" checked="checked">
+                  <label for="radio_3" style="margin-left: 30px">Cash</label>
+                  <input name="paid_type" type="radio" id="radio_4" data-value="Bank" class="type" value="Bank">
+                  <label for="radio_4" style="margin-left: 130px">Bank</label>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
-              <input type="hidden" name="action" value="add" class="form-control" id="formAction">              
-              <input type="hidden" name="loan_id" value="" class="form-control" id="loanID">                                      
+              <input type="hidden" name="action" value="add" class="form-control" id="formAction">
+              <input type="hidden" name="loan_id" value="" class="form-control" id="loanID">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close
               </button>
               <button type="submit" class="btn btn-success">Submit
@@ -319,43 +326,43 @@ $this->load->view('backend/sidebar');
       </div>
     </div>
     <script type="text/javascript">
-          $(document).ready(function () {
-          $(document).on('keyup','.hours_worked',function() {
-            var finalsalary = 0;  
-            //var total;  
-            var deduction = 0; 
-            var rows = this.closest('#generatePayrollForm div');
-             
-            var hrate = parseFloat($('.hrate').val()); 
-            var final =parseFloat($('.total_paid').val());
-            var loan = parseFloat($('.loan').val());  
-            var hwork =parseFloat($('.hours_worked').val());
-            var thour =parseFloat($('.thour').val());
-              
-              finalsalary = (hwork*hrate) - loan;
-              $(".total_paid").val(finalsalary.toFixed(2));
-              var total = thour - hwork;
-              var deduction = (total*hrate) + loan;
-              $(".diduction").val(deduction.toFixed(2));
-              $(".wpay").html(total.toFixed(2));
+      $(document).ready(function() {
+        $(document).on('keyup', '.hours_worked', function() {
+          var finalsalary = 0;
+          //var total;  
+          var deduction = 0;
+          var rows = this.closest('#generatePayrollForm div');
 
-           // var returnval;
-              //returnval = payval - payableval;
-/*            if(returnval<=0){
-                  $(".due").val(Math.abs(returnval).toFixed(2));
-              }else if(returnval > 0){
-                 $(".due").val(''); 
-              }
-              $(".return").val(returnval.toFixed(2));*/
+          var hrate = parseFloat($('.hrate').val());
+          var final = parseFloat($('.total_paid').val());
+          var loan = parseFloat($('.loan').val());
+          var hwork = parseFloat($('.hours_worked').val());
+          var thour = parseFloat($('.thour').val());
 
-          });
+          finalsalary = (hwork * hrate) - loan;
+          $(".total_paid").val(finalsalary.toFixed(2));
+          var total = thour - hwork;
+          var deduction = (total * hrate) + loan;
+          $(".diduction").val(deduction.toFixed(2));
+          $(".wpay").html(total.toFixed(2));
+
+          // var returnval;
+          //returnval = payval - payableval;
+          /*            if(returnval<=0){
+                            $(".due").val(Math.abs(returnval).toFixed(2));
+                        }else if(returnval > 0){
+                           $(".due").val(''); 
+                        }
+                        $(".return").val(returnval.toFixed(2));*/
+
         });
-          </script>
+      });
+    </script>
     <script type="text/javascript">
-    // Populate salary data on generate salary click
-      $(document).ready(function () {
+      // Populate salary data on generate salary click
+      $(document).ready(function() {
 
-        $(document).on('click', ".salaryGenerateModal", function (e) {
+        $(document).on('click', ".salaryGenerateModal", function(e) {
           e.preventDefault(e);
 
           $('#generatePayrollModal').modal('show');
@@ -369,25 +376,25 @@ $this->load->view('backend/sidebar');
           $('#generatePayrollForm').find('[name="month"]').val(Math.abs(month)).attr('readonly', true).end();
 
           $.ajax({
-            url: 'generate_payroll_for_each_employee?month='+month+'&year='+year+'&employeeID='+emid,
+            url: 'generate_payroll_for_each_employee?month=' + month + '&year=' + year + '&employeeID=' + emid,
             method: 'GET',
             data: '',
             dataType: 'json',
-          }).done(function (response) {
+          }).done(function(response) {
 
-            if(response.addition == 0) {
-                $('#generatePayrollForm').find('[id="addition"]').val('').hide().end();
+            if (response.addition == 0) {
+              $('#generatePayrollForm').find('[id="addition"]').val('').hide().end();
             }
-            if(response.diduction == 0) {
-                $('#generatePayrollForm').find('[id="diduction"]').val('').hide().end();
+            if (response.diduction == 0) {
+              $('#generatePayrollForm').find('[id="diduction"]').val('').hide().end();
             }
-            if(response.loan == 0) {
-                $('#generatePayrollForm').find('[id="loan"]').val('').hide().end();
+            if (response.loan == 0) {
+              $('#generatePayrollForm').find('[id="loan"]').val('').hide().end();
             }
 
             $('#generatePayrollForm').find('[name="basic"]').val(response.basic_salary).attr('readonly', true).end();
             $('#generatePayrollForm').find('[name="month_work_hours"]').val(response.total_work_hours).attr('readonly', true).end();
-            $('#generatePayrollForm').find('[name="hours_worked"]').val(response.employee_actually_worked)/*.attr('readonly', true)*/.end();
+            $('#generatePayrollForm').find('[name="hours_worked"]').val(response.employee_actually_worked) /*.attr('readonly', true)*/ .end();
             $('#generatePayrollForm').find('[name="addition"]').val(response.addition).end();
             $('#generatePayrollForm').find('[name="diduction"]').val(response.diduction).end();
             $('#generatePayrollForm').find('[class="wpay"]').html(response.wpay).end();
@@ -396,10 +403,10 @@ $this->load->view('backend/sidebar');
             $('#generatePayrollForm').find('[name="total_paid"]').val(response.final_salary).end();
             $('#generatePayrollForm').find('[name="year"]').val(year).end();
             $('#generatePayrollForm').find('[name="hrate"]').val(response.rate).end();
-      });
-});
+          });
         });
-    </script>                             
+      });
+    </script>
     <?php
-$this->load->view('backend/footer');
-?>
+    $this->load->view('backend/footer');
+    ?>

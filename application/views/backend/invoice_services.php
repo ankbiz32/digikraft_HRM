@@ -75,6 +75,9 @@
 													<a onclick="return confirm('Are you sure to delete this data?')"  href="<?php echo base_url();?>invoice/deleteInvoice/<?php echo $c->id;?>" title="Reject invoice" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-ban"></i></a>
 													
                                                     <a  href="<?php echo base_url();?>invoice/sendInvoice/<?php echo $c->id;?>/final" title="Send invoice by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
+
+                                                    
+                                                    <a target="_blank" href="<?php echo base_url("invoice/sendWhatsAppProforma/$c->id"); ?>" title="Send invoice by whatsapp" style="background:#41BF52" class="btn btn-sm btn-dark waves-effect waves-light"><i class="fa fa-whatsapp"></i></a>
                                                     
                                                     <?php if($c->ref_quotation_id){?>
                                                         <br>

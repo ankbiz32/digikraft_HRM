@@ -5,7 +5,7 @@
             <div class="message"></div>
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor"><i class="fa fa-university" aria-hidden="true"></i> Invoice</h3>
+                    <h3 class="text-themecolor"><i class="fa fa-university" aria-hidden="true"></i> Payslip</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
@@ -28,14 +28,14 @@
                     </div>
                 </div> 
 
-                <div class="row payslip_print mt-3" id="payslip_print">
+                <div class="row payslip_print mt-3" id="payslip_print" contenteditable="true">
                     <div class="col-md-12">
                         <div class="card card-body">
                             <div class="row">
                                 <div class="col-md-4 col-xs-6 col-sm-6">
-                                    <img src="<?php echo base_url();?>assets/images/dri_Logo.png" style=" width:180px; margin-right: 10px;" />
+                                    <img src="<?php echo base_url();?>assets/images/dri_Logo.png" style=" width:80px; margin-right: 10px;" />
                                 </div>
-                                <div class="col-md-8 col-xs-6 col-sm-6 text-left payslip_address">
+                                <div class="col-md-8 col-xs-6 col-sm-6 text-left payslip_address" style="font-weight:400">
                                     <p>
                                         <?php echo $settingsvalue->address; ?>
                                     </p>
@@ -118,44 +118,44 @@
                                 <div class="col-md-12">
                                     <table class="table table-condensed borderless" style="border-left: 1px solid #ececec;">
                                         <thead class="thead-light" style="border: 1px solid #ececec;">
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <th>Description</th>
                                                 <th class="text-right">Earnings</th>
                                                 <th class="text-right">Deductions</th>
                                             </tr>
                                         </thead>
                                         <tbody style="border: 1px solid #ececec;">
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Basic Salary</td>
                                                 <td class="text-right">₹ <?php echo $addition[0]->basic; ?> </td>
-                                                <td class="text-right">  </td>
+                                                <td class="text-right">₹0  </td>
                                             </tr>
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Madical Allowance</td>
                                                 <td class="text-right">₹ <?php echo $addition[0]->medical; ?> </td>
-                                                <td class="text-right">  </td>
+                                                <td class="text-right">₹0  </td>
                                             </tr>
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>House Rent</td>
                                                 <td class="text-right">₹ <?php echo $addition[0]->house_rent; ?> </td>
-                                                <td class="text-right">  </td>
+                                                <td class="text-right"> ₹0 </td>
                                             </tr>
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Conveyance Allowance</td>
                                                 <td class="text-right">₹ <?php echo $addition[0]->conveyance; ?> </td>
-                                                <td class="text-right">  </td>
+                                                <td class="text-right"> ₹0 </td>
                                             </tr>
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Bonus</td>
-                                                <td class="text-right"><?php echo $salary_info->bonus; ?></td>
-                                                <td class="text-right"></td>
+                                                <td class="text-right">₹<?= $salary_info->bonus?$salary_info->bonus:"0" ?></td>
+                                                <td class="text-right">₹0</td>
                                             </tr>
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Loan</td>
-                                                <td class="text-right"> </td>
+                                                <td class="text-right">₹0 </td>
                                                 <td class="text-right"><?php if(!empty($salary_info->loan)) {
                                                     echo "₹ ".$salary_info->loan . "";
-                                                } ?> </td>
+                                                } else{ echo "₹0";  } ?> </td>
                                             </tr>
                                             <!-- <tr>
                                                 <td>Working Hour (<?php echo $salary_info->total_days; ?> hrs)</td>
@@ -180,7 +180,7 @@
                                                     ?> </td>
                                                 
                                             </tr>-->
-                                            <tr>
+                                            <tr style="font-weight:400">
                                                 <td>Tax</td>
                                                 <td class="text-right"> </td>
                                                 <td class="text-right"> </td>

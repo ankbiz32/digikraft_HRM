@@ -78,6 +78,8 @@
 
                                                     <a  href="<?php echo base_url();?>quotation/sendQuote/<?php echo $c->id;?>" title="Send quotation by mail" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-envelope"></i></a>
                                                     
+                                                    <a target="_blank" href="<?php echo base_url("quotation/sendWhatsAppQuotation/$c->id"); ?>" title="Send quotation by whatsapp" style="background:#41BF52" class="btn btn-sm btn-dark waves-effect waves-light"><i class="fa fa-whatsapp"></i></a>
+                                                    
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
