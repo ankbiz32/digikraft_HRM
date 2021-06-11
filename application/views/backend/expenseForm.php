@@ -22,11 +22,13 @@
                             <div class="card-header">
                                 <h4 class="m-b-0 text-white"> <?=isset($expense)?'Edit':'+ Add new'?>  expense<span class="pull-right " ></span></h4>
                             </div>
-                            <?php echo validation_errors(); ?>
-                               <?php echo $this->upload->display_errors(); ?>
-                               
-                               <?php echo $this->session->flashdata('formdata'); ?>
                             <div class="card-body">
+
+                                <div class="row col text-danger">
+                                    <?php echo validation_errors(); ?>
+                                    <?php echo $this->upload->display_errors(); ?>
+                                    <?php echo $this->session->flashdata('formdata'); ?>
+                                </div>
 
                                 <form class="row" method="post" action="<?=$path?>" id="noScript" enctype="multipart/form-data">
 									<div class="form-group col-sm-3 m-t-20">

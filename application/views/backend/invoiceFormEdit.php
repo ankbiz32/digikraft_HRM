@@ -38,13 +38,13 @@
 									<?php }?>
 								</h4>
                             </div>
-                            <?php echo validation_errors(); ?>
-                               <?php echo $this->upload->display_errors(); ?>
-                               
-                               <?php echo $this->session->flashdata('formdata'); ?>
-                               <?php echo $this->session->flashdata('feedback'); ?>
                             <div class="card-body">
-								<form role="form" action="<?= $path ?>" method="post"
+							<div class="row col text-danger">
+                                    <?php echo validation_errors(); ?>
+                                    <?php echo $this->session->flashdata('formdata'); ?>
+                               <?php echo $this->session->flashdata('feedback'); ?>
+                                </div>
+								<form role="form" action="<?= $path ?>" id="noScript" method="post"
 									enctype="multipart/form-data">
 
 										<div class="row">
@@ -164,7 +164,11 @@
 													<?php if(isset($_GET['final'])) { ?>
 														<tr class="text-right">
 															<td colspan="4">Status:</td>
-															<td>PAID</td>
+															<td>PAID
+															<br>
+															<input style="width: 80px" type="text" class="form-control" name="paid"
+																	id="paid" value="<?= $invoice->total_paid ?>" hidden required readonly>
+															</td>
 														</tr>
 													<?php } else { ?>
 														<tr class="text-right">

@@ -73,9 +73,12 @@ class Quotation extends CI_Controller {
 		if($this->quote->store_quotation_item_record($insert_id)){
 			$this->session->set_flashdata('feedback','Quotation created');
 			echo "Quotation created";
+			$this->session->set_flashdata('feedback', 'Quotation created');
+			redirect('quotation');
 		}
 		else{
-			echo "Server error !";
+			$this->session->set_flashdata('formdata', 'Server Error!');
+			redirect('quotation');
 		}
 	}
 
@@ -105,7 +108,8 @@ class Quotation extends CI_Controller {
 			$this->form_validation->set_rules('quote_no','Quotation No.','trim|required|xss_clean');
 
 			if ($this->form_validation->run() == FALSE) {
-				echo validation_errors();
+				$this->session->set_flashdata('formdata', validation_errors());
+				redirect('quotation/editQuotation/'.$id);
 			}
 			else{
 				$data=$this->input->post();
@@ -113,6 +117,8 @@ class Quotation extends CI_Controller {
 				$success = $this->quote->update_quotation_record($id);
 				$this->session->set_flashdata('feedback','Successfully updated');
 				echo "Successfully Updated";
+				$this->session->set_flashdata('feedback', 'Quotation updated');
+				redirect('quotation');
 			}
 			
         }

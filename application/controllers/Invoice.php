@@ -117,8 +117,6 @@ class Invoice extends CI_Controller
 			redirect(base_url(), 'refresh');
 		}
 	}
-
-
 	public function saveInvoice()
 	{
 		$insert_id = $this->invoice->store_invoice_record();
@@ -130,8 +128,11 @@ class Invoice extends CI_Controller
 			}
 			$this->session->set_flashdata('feedback', 'Invoice generated');
 			echo "Invoice generated";
+			redirect(base_url() . "/invoice/proforma");
 		} else {
-			echo "Server error !";
+			$data['path'] = base_url() . 'invoice/saveInvoice/';
+			$this->load->view('backend/invoiceForm', $data);
+			$this->session->set_flashdata('formdata', 'Server Error!');
 		}
 	}
 
@@ -158,7 +159,12 @@ class Invoice extends CI_Controller
 			$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
 			$data['clients'] = $this->crud->getInfo('clients');
 			$data['items'] = $this->crud->getInfo('services');
-			$data['path'] = base_url() . 'invoice/updateInvoice/' . $id;
+			if(isset($_GET['final'])){
+				$data['path'] = base_url() . 'invoice/updateInvoice/' . $id.'?final=1';
+			}
+			else{
+				$data['path'] = base_url() . 'invoice/updateInvoice/' . $id;
+			}
 			// var_dump('<pre>',$data);exit;
 			$this->load->view('backend/invoiceFormEdit', $data);
 		} else {
@@ -168,7 +174,7 @@ class Invoice extends CI_Controller
 
 	public function updateinvoice($id)
 	{
-		// var_dump('<pre>',$_POST);exit;
+		// var_dump('<pre>',$_GET);exit;
 		if ($this->session->userdata('user_login_access') != False) {
 
 			$this->load->library('form_validation');
@@ -177,13 +183,25 @@ class Invoice extends CI_Controller
 			$this->form_validation->set_rules('invoice_no', 'Invoice No.', 'trim|required|xss_clean');
 
 			if ($this->form_validation->run() == FALSE) {
-				echo validation_errors();
+				$data = array();
+				$data['invoice'] = $this->crud->getInfoId('invoice', 'id', $id);
+				$data['inv_items'] = $this->invoice->get_all_items_by_invoiceJoin($data['invoice']->id);
+				$data['clients'] = $this->crud->getInfo('clients');
+				$data['items'] = $this->crud->getInfo('services');
+				$data['path'] = base_url() . 'invoice/updateInvoice/' . $id;
+				$this->load->view('backend/invoiceFormEdit', $data);
 			} else {
 				$data = $this->input->post();
 				$data['updated_at'] = date('Y-m-d H:i:s');
 				$success = $this->invoice->update_invoice_record($id);
 				$this->session->set_flashdata('feedback', 'Successfully updated');
 				echo "Successfully Updated";
+				if(isset($_GET['final'])){
+					redirect(base_url() . "/invoice");
+				}
+				else{
+					redirect(base_url() . "/invoice/proforma");
+				}
 			}
 		} else {
 			redirect(base_url(), 'refresh');

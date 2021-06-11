@@ -31,13 +31,13 @@
                             <div class="card-header">
                                 <h4 class="m-b-0 text-white"> <?=$invoice!=''?'Edit':'Generate new'?> Proforma Invoice<span class="pull-right " ></span></h4>
                             </div>
-                            <?php echo validation_errors(); ?>
-                               <?php echo $this->upload->display_errors(); ?>
-                               
-                               <?php echo $this->session->flashdata('formdata'); ?>
-                               <?php echo $this->session->flashdata('feedback'); ?>
                             <div class="card-body">
-								<form role="form" action="<?= $path ?>" method="post"
+							<div class="row col text-danger">
+                                    <?php echo validation_errors(); ?>
+                                    <?php echo $this->session->flashdata('formdata'); ?>
+                               <?php echo $this->session->flashdata('feedback'); ?>
+                                </div>
+								<form role="form" action="<?= $path ?>" id="noScript" method="post"
 									enctype="multipart/form-data">
 
 										<div class="row">
